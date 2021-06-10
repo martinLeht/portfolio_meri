@@ -1,38 +1,122 @@
-.App {
-  text-align: center;
+:root {
+  --off-white: #fbf7f5;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Global */
+
+* {
+  font-family: Montserrat !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+body
+{
+  font-family: 'Raleway';
+}
+
+li {
+  list-style-type: none;
+}
+
+/* Header */
+.header {
+  /* The image used */
+  background-image: url("./images/header_half_small_label.png");
+
+  min-height: 540px;
+
+  /* Center and scale the image nicely */
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: 1920px 540px;
+
+  /* Needed to position the navbar */
+  position: relative;
+}
+
+.header h2 {
+  font-weight: bold;
+}
+
+.header p {
+  font-weight: bold;
+  max-width: 600px;
+}
+
+.header-card {
+  margin-top: 120px;
+  margin-left: 150px;
+}
+
+@media only screen and (max-width: 779px) {
+  .header-card {
+    margin-left: 35px;
+    margin-right: 35px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Navigation */
+.header-nav {
+  margin-top: -58px;
+  /*opacity: 1;*/
 }
 
-.App-link {
-  color: #61dafb;
+/* Main Content */
+.main-content {
+  padding: 0 !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Sections */
+
+/* Themes */
+.themes {
+  padding-top: 50px;
+}
+
+.theme-card-content {
+  min-width: 400px;
+  padding-top: 10px;
+  margin-bottom: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: rgba(255, 229, 158, 0.801);
+  border-radius: 20px;
+}
+
+
+/* About */
+.about {
+  min-width: 400px;
+  padding-top: 10px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 20px;
+}
+
+@media only screen and (max-width: 575px) {
+  .about img {
+    margin-bottom: 20px;
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+
+.about p{
+  max-width: 600px;
+}
+
+/* Contact */
+.contact {
+  background-color: #212121;
+  padding-top: 20px;
+  margin-bottom: -25px;
+}
+
+.contact-link {
+  margin-top: 15px;
+}
+
+.contact img {
+  margin-bottom: 20px;
+  min-width: 300px;
+  border-radius: 10px
 }
