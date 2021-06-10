@@ -16,7 +16,7 @@ class Themes extends Component {
     render() {
         return (
             <div class="themes" id={ this.state.sectionId }>
-                <MDBRow className="d-flex justify-content-center">
+                <MDBRow className="d-inline justify-content-center">
                     <MDBCol>
                         <div class="text-center">
                             <h1><b>Vaaliteemat</b></h1>
@@ -24,22 +24,22 @@ class Themes extends Component {
                         </div>
                     </MDBCol>
                 </MDBRow>
-                <MDBRow className="d-flex justify-content-center">
-                    <MDBCol className="theme-card-content">
+                <MDBRow className="justify-content-center theme-content-row">
+                    <MDBCol>
                         <ThemeCard 
                             title="Yhdenvertaisuus" 
                             icon={ faBalanceScale } 
                             color="#e91e63" 
                             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
                     </MDBCol>
-                    <MDBCol className="theme-card-content">
+                    <MDBCol>
                         <ThemeCard 
                             title="Mielenterveyspalvelut" 
                             icon={ faNotesMedical }
                             color="#4caf50" 
                             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
                     </MDBCol>
-                    <MDBCol className="theme-card-content">
+                    <MDBCol>
                         <ThemeCard 
                             title="Taide ja kulttuuri" 
                             icon={ faPalette }

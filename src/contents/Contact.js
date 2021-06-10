@@ -36,7 +36,7 @@ class Social extends Component {
     render() {
         return (
             <div className="contact" id={ this.state.sectionId }>
-                <MDBRow className="justify-content-center" >
+                <MDBRow className="justify-content-center contact-row" >
                     <MDBCol className="d-flex justify-content-center text-center flex-column" middle={true} size="10"  md="5">
                         <h2 className="white-text"><b>Ota Yhteyttä</b></h2>
                         <div className="contact-link">
@@ -56,7 +56,7 @@ class Social extends Component {
                             </a>
                         </div>
                     </MDBCol>
-                    <MDBCol className={"d-flex justify-content-" + (this.state.isImageCentered ? 'center' : 'start')} middle={true} size="6" md="4"> 
+                    <MDBCol className={"d-flex justify-content-" + (this.state.isImageCentered ? 'center' : 'start')} middle={true} size="5" sm="3" md="4"> 
                         <img
                             className="img-fluid z-depth-1"
                             src={ process.env.PUBLIC_URL + "/images/meri_kuva.PNG" }

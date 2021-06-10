@@ -17,10 +17,10 @@ class ThemeCard extends Component {
 
     render() {
         return (
-            <div>
-                <MDBRow className="justify-content-center" >
-                    <MDBCol className="d-flex justify-content-end" middle={true} size="3" sm="2" lg="3"> 
-                        <FontAwesomeIcon icon={ this.props.icon }  color={ this.props.color } size="4x"/>
+            <div class="theme-card-content">
+                <MDBRow className="d-flex justify-content-center theme-content-row " >
+                    <MDBCol className="d-flex justify-content-end" middle={true} size="2" sm="1" lg="3"> 
+                        <FontAwesomeIcon icon={ this.props.icon }  color={ this.props.color } size="3x"/>
                     </MDBCol>
                     <MDBCol className="d-flex justify-content-center flex-column" middle={true} size="8"  md="6" lg="8">
                         <h5><b>{ this.props.title }</b></h5>

@@ -72,12 +72,15 @@ li {
   padding-top: 50px;
 }
 
+.theme-content-row {
+  margin-right: 0px !important;
+}
+
 .theme-card-content {
-  min-width: 250px;
+  min-width: 330px;
   padding-top: 10px;
   margin-bottom: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 12px;
   background-color: rgba(255, 229, 158, 0.801);
   border-radius: 20px;
 }
@@ -85,7 +88,7 @@ li {
 
 /* About */
 .about {
-  min-width: 250px;
+  min-width: 300px;
   padding-top: 10px;
   margin-top: 50px;
   margin-bottom: 30px;
@@ -109,6 +112,11 @@ li {
   background-color: #212121;
   padding-top: 20px;
   margin-bottom: -25px;
+  margin-right: 0px;
+}
+
+.contact-row {
+  margin-right: 0px !important;
 }
 
 .contact-link {
@@ -117,6 +125,6 @@ li {
 
 .contact img {
   margin-bottom: 20px;
-  min-width: 250px;
+  min-width: 300px;
   border-radius: 10px
 }
