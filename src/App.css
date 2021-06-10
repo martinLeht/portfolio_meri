@@ -73,7 +73,7 @@ li {
 }
 
 .theme-card-content {
-  min-width: 300px;
+  min-width: 250px;
   padding-top: 10px;
   margin-bottom: 30px;
   margin-left: 20px;
@@ -85,7 +85,7 @@ li {
 
 /* About */
 .about {
-  min-width: 300px;
+  min-width: 250px;
   padding-top: 10px;
   margin-top: 50px;
   margin-bottom: 30px;
