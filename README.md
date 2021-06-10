@@ -1,3 +1,6 @@
+# Live deployment
+This project is deployed through Netifly, available on: [https://merijohanna.com](https://merijohanna.com/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
