@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Themes from '../contents/Themes';
 import About from '../contents/About';
 import ImageGallery from '../contents/ImageGallery';
@@ -10,12 +11,22 @@ class MainContent extends Component {
 
     render() {
         return (
-            <MDBContainer fluid className="main-content">
-                <Themes id="section-themes" />
-                <ImageGallery />
-                <About id="section-about" />
-                <Contact id="section-contact" />
-            </MDBContainer>
+            <Router>
+                <MDBContainer fluid className="main-content">
+                    <Route exact path="/">
+                        <div>
+                            <h1>Main Page here.</h1>
+                        </div>
+                    </Route>
+                    <Route exact path="/kuntavaalit">
+                        <Themes id="section-themes" />
+                        <ImageGallery />
+                        <About id="section-about" />
+                        <Contact id="section-contact" />
+                    </Route>
+                    
+                </MDBContainer>
+            </Router>
         )
     }
 

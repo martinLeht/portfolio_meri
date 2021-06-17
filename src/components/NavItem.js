@@ -8,6 +8,7 @@ class NavItem extends Component {
         
         this.state = {
             itemName: props.item,
+            toPath: props.toPath,
             navId: props.navId
         }
     }
@@ -18,7 +19,8 @@ class NavItem extends Component {
                 <Link
                     className="nav-link"
                     activeClass="active"
-                    to={ this.state.navId }
+                    to={ this.state.toPath? this.state.toPath : "/"}
+                    containerId={ this.state.toPath ? this.state.navId : ""}
                     spy={true}
                     smooth={true}
                     offset={-70}
