@@ -41,7 +41,7 @@ const Experience = (props) => {
                         iconStyle={{ background: TimelineColors.WORK_ICON_BG, color: '#fff' }}
                         icon={<FontAwesomeIcon icon={faBriefcase} size="lg" />}
                     >
-                        <h3 className="vertical-timeline-element-title">Kuntavaalit</h3>
+                        <h3 className="vertical-timeline-element-title">Kuntavaaliehdokas 427</h3>
                         <h4 className="vertical-timeline-element-subtitle">Vihreät, Turku</h4>
                         <p>
                         Jos haluu kirjottaa jotain niin siitä vaaan tähän hei.
