@@ -1,57 +1,17 @@
 import React, { Component } from 'react';
 import NavItem from './NavItem'
+import { NavLink } from "react-router-dom";
 
 import {
-    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBContainer,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
-    } from "mdbreact";
+    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBContainer
+} from "mdbreact";
 
 class NavBar extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isTransparent: true,
-            isNavCollapsed: false,
             isOpen: false
-        }
-    }
-
-    componentDidMount() {
-        window.addEventListener('scroll', this.removeTransparencyOnScroll);
-        window.addEventListener('resize', this.removeTransparencyOnResize);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.removeTransparencyOnScroll);
-        window.addEventListener('resize', this.removeTransparencyOnResize);
-    }
-
-    removeTransparencyOnScroll = () => {
-        if (window.scrollY > 480) {
-            this.setState({ isTransparent: false});
-        } else {
-            if (this.state.isNavCollapsed) {
-                this.setState({ isTransparent: false});
-            } else {
-                this.setState({ isTransparent: true});
-            }
-            
-        }
-    }
-
-    removeTransparencyOnResize = () => {
-        if (window.outerWidth <= 779) {
-            this.setState({ isNavCollapsed: true});
-            this.setState({ isTransparent: false});
-        } else {
-            this.setState({ isNavCollapsed: false});
-            if (window.scrollY > 480) {
-                this.setState({ isTransparent: false});
-            } else {
-                this.setState({ isTransparent: true});
-            }
-            
         }
     }
 
@@ -60,20 +20,27 @@ class NavBar extends Component {
     }
 
     render() {
+        const { isOpen } = this.state;
+
         return (
-            <MDBNavbar className={"sticky-top header-nav"} 
-                      color={(this.state.isTransparent ? '': 'white')} light expand="md" >
+            <MDBNavbar fixed="top" scrolling transparent
+                    color={'elegant-color-dark'} 
+                    dark expand="md" >
                 <MDBContainer fluid>
                     <MDBNavbarBrand>
-                        <a className="text-dark" href="#">Meri Niemi</a>
+                        <a className="text-white" href="#">Meri Niemi</a>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
-                    <MDBCollapse className="justify-content-end" id="navigation" isOpen={this.state.isOpen} navbar>
+                    <MDBCollapse className="justify-content-center" id="navigation" isOpen={ isOpen } navbar>
                         <MDBNavbarNav right>
-                            <NavItem item="Meri" navId="section-themes" />
-                            <NavItem item="Ura" navId="section-about" />
-                            <NavItem item="Instagram" navId="section-instagram" />
+                            <NavItem item="Meri" navId="section-about" />
+                            <NavItem item="Kokemus" navId="section-experience" />
+                            <NavItem item="Galleria" navId="section-gallery" />
                             <NavItem item="Ota Yhteyttä" navId="section-contact" />
+                        </MDBNavbarNav>
+                        <MDBNavbarNav right>
+                            <NavLink className="nav-link" to="/blog">Blogi</NavLink>
+                            <NavLink className="nav-link" to="/insta">Instagram</NavLink>
                         </MDBNavbarNav>
                     </MDBCollapse>
                 </MDBContainer>

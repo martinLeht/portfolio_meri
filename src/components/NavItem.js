@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Link } from 'react-scroll';
 
-class NavItem extends Component {
 
-    constructor(props) {
-        super(props);
-        
-        this.state = {
-            itemName: props.item,
-            toPath: props.toPath,
-            navId: props.navId
+const NavItem = (props) => {
+    let history = useHistory();
+    const changeRoute = () => {
+        const routePath = window.location.pathname;
+        if (routePath !== "/") {
+            console.log("DIFFERENT URL: " + routePath);
+            history.push("/");
         }
+        console.log("URL now: " + routePath);
     }
 
-    render() {
-        return (
-            <li className="nav-item">
-                <Link
-                    className="nav-link"
-                    activeClass="active"
-                    to={ this.state.toPath? this.state.toPath : "/"}
-                    containerId={ this.state.toPath ? this.state.navId : ""}
-                    spy={true}
-                    smooth={true}
-                    offset={-70}
-                    duration={500}
-                >
-                    { this.state.itemName }
-                </Link>
-            </li>
-        )
-    }
+    const { item } = props;
+
+    return (
+        <li className="nav-item">
+            <Link
+                className="nav-link"
+                activeClass={ 'selected' }
+                to={ props.navId }
+                spy={true}
+                offset={-60}
+                duration={300}
+                onClick={ changeRoute }
+            >
+                { item }
+            </Link>
+        </li>
+    )
 }
 
 export default NavItem;
