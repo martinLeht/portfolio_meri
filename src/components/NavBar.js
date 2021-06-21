@@ -40,7 +40,7 @@ class NavBar extends Component {
                         </MDBNavbarNav>
                         <MDBNavbarNav right>
                             <NavLink className="nav-link" to="/blog">Blogi</NavLink>
-                            <NavLink className="nav-link" to="/insta">Instagram</NavLink>
+                            <NavLink className="nav-link" to="/insta">Insta feed</NavLink>
                         </MDBNavbarNav>
                     </MDBCollapse>
                 </MDBContainer>
