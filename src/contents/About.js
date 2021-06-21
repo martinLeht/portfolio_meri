@@ -8,15 +8,15 @@ const About = (props) => {
     const { navId } = props;
     return (
         <div className="about" id={ navId }>
-            <MDBRow className="justify-content-center" >
-                <MDBCol className="d-flex justify-content-right" middle={ true } size="10" lg="5">
+            <MDBRow className="justify-content-center">
+                <MDBCol className="d-flex justify-content-right" middle size="10" lg="5">
                     <img
-                        className="d-block w-100"
+                        className="img-fluid z-depth-1"
                         src={process.env.PUBLIC_URL + "/images/meri_about.jpg"}
                         alt="Meri minusta"
                     />
                 </MDBCol>
-                <MDBCol className="pt-3" middle={ true } size="8" sm="5" lg="6">
+                <MDBCol className="pt-3" middle size="8" sm="5" lg="6">
                     <h2><b>Kuka Meri?</b></h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <AboutCard 
