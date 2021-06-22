@@ -9,7 +9,7 @@ const About = (props) => {
     return (
         <div className="about" id={ navId }>
             <MDBRow className="justify-content-center">
-                <MDBCol className="d-flex justify-content-right" middle size="10" lg="5">
+                <MDBCol className="d-flex align-items-start" middle size="10" lg="5">
                     <img
                         className="img-fluid z-depth-1"
                         src={process.env.PUBLIC_URL + "/images/meri_about.jpg"}
