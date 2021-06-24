@@ -34,17 +34,17 @@ class MainContent extends Component {
     onScrollBackgroundColorHandler (sectionBackgroundsMap, sectionBreakCheckCallback) {
         let mainContent = document.getElementsByClassName('main-content')[0];
         if(window.location.pathname === '/') {
-            let color;
+            let color = SectionBgColors.DEFAULT_BG;
             sectionBackgroundsMap.forEach((bgColor, sectionId) => {
                 if (sectionBreakCheckCallback(sectionId)) {
                     color = bgColor;
                 }
             });
             /* If page is scrolled to bottom, use white background */
-            if (window.innerHeight + window.pageYOffset > document.body.clientHeight) {
+            if (window.innerHeight + window.pageYOffset >= document.body.clientHeight) {
                 color = SectionBgColors.DEFAULT_BG;
             }
-            mainContent.style.background = color
+            mainContent.style.background = color;
         } else {
             mainContent.style.background = SectionBgColors.DEFAULT_BG;
         }
