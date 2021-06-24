@@ -6,7 +6,7 @@ const ImageGallery = (props) => {
     const { navId } = props;
 
     return (
-        <div  className="gallery" id={ navId }>
+        <div className="gallery" id={ navId }>
             <MDBContainer>
                 <MDBRow>
                     <MDBCol md="12" className="mb-3">

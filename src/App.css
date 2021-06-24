@@ -72,7 +72,8 @@ li {
 
 /* Experience */
 .experience {
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 12px;
   padding-top: 120px;
 }
 
@@ -86,6 +87,8 @@ li {
 .contact {
   padding-top: 120px;
   margin-bottom: -25px;
+  padding-left: 10px;
+  padding-right: 12px;
 }
 
 .contact-row {
@@ -102,38 +105,10 @@ li {
 
 .contact img {
   margin-bottom: 20px;
-  min-width: 300px;
+  min-width: 350px;
   border-radius: 10px
 }
 
 #email {
   cursor: pointer;
-}
-
-/* Temeline */
-.bar {
-  list-style: none;
-}
-.bar >li {
-  position: relative;
-}
-.bar>li:before {
-  content: '\25CF';
-  margin-right: 10px;
-  font-size: 20px;
-}
-.bar>li:after {
-  position: absolute;
-  left: 0;
-  top: 0;
-  content: '';
-  border-left: 2px solid black;
-  margin-left: 5px;
-  height: 100%;
-}
-.bar >li:first-of-type:after {
-  top: 50%;
-}
-.bar >li:last-of-type:after {
-  top: -50%;
 }

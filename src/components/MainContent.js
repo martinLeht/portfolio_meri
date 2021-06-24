@@ -13,44 +13,55 @@ class MainContent extends Component {
 
     constructor(props) {
         super(props);
+
+        this.sectionBackgroundsMap = new Map([
+            ['section-about', SectionBgColors.ABOUT_BG],
+            ['section-experience', SectionBgColors.CAREER_BG],
+            ['section-gallery', SectionBgColors.GALLERY_BG],
+            ['section-contact', SectionBgColors.CONTACT_BG]
+        ]);
     }
 
     componentDidMount() {
-        window.addEventListener("scroll", this.onScrollBackgroundColorHandler);
+        window.addEventListener("scroll", () => this.onScrollBackgroundColorHandler(this.sectionBackgroundsMap, this.sectionBreakCheckCallback));
     }
 
     componentWillUnmount() {
-        window.removeEventListener("scroll", this.onScrollBackgroundColorHandler);
+        window.removeEventListener("scroll", () => this.onScrollBackgroundColorHandler(this.sectionBackgroundsMap, this.sectionBreakCheckCallback));
     }
 
-    onScrollBackgroundColorHandler () {
+    /* Scroll handler to change backround color for sections */
+    onScrollBackgroundColorHandler (sectionBackgroundsMap, sectionBreakCheckCallback) {
         let mainContent = document.getElementsByClassName('main-content')[0];
         if(window.location.pathname === '/') {
-            const aboutSection = document.getElementById("section-about");
-            const gallerySection = document.getElementById("section-gallery");
-            const experienceSection = document.getElementById("section-experience");
-            const contactSection = document.getElementById("section-contact");
-            const navHeight = document.getElementsByTagName("nav")[0].offsetHeight + 200;
-            const clientOffsetTop = window.pageYOffset + navHeight;
-            let bgColor = SectionBgColors.DEFAULT_BG;
-            if (clientOffsetTop >= aboutSection.offsetTop) {
-                bgColor = SectionBgColors.ABOUT_BG;
+            let color;
+            sectionBackgroundsMap.forEach((bgColor, sectionId) => {
+                if (sectionBreakCheckCallback(sectionId)) {
+                    color = bgColor;
+                }
+            });
+            /* If page is scrolled to bottom, use white background */
+            if (window.innerHeight + window.pageYOffset > document.body.clientHeight) {
+                color = SectionBgColors.DEFAULT_BG;
             }
-            if (clientOffsetTop >= experienceSection.offsetTop) {
-                bgColor = SectionBgColors.CAREER_BG;
-            }
-            if (clientOffsetTop >= gallerySection.offsetTop) {
-                bgColor = SectionBgColors.GALLERY_BG;
-            }
-            if (clientOffsetTop >= contactSection.offsetTop) {
-                bgColor = SectionBgColors.CONTACT_BG;
-            }
-            mainContent.style.background = bgColor;
+            mainContent.style.background = color
         } else {
             mainContent.style.background = SectionBgColors.DEFAULT_BG;
         }
+
         
     }
+
+    /* Section break check (relative to navbar height + extra 180 pixels) */
+    sectionBreakCheckCallback = (sectionId) => {
+        const section = document.getElementById(sectionId)
+        const navHeight = document.getElementsByTagName("nav")[0].offsetHeight + 180;
+        const clientOffsetTop = window.pageYOffset + navHeight;
+        if (clientOffsetTop >= section.offsetTop) {
+            return true;
+        }
+        return false;
+    }    
 
     render() {
         return (
