@@ -30,7 +30,7 @@ class MainContent extends Component {
             const gallerySection = document.getElementById("section-gallery");
             const experienceSection = document.getElementById("section-experience");
             const contactSection = document.getElementById("section-contact");
-            const navHeight = document.getElementsByTagName("nav")[0].offsetHeight + 140;
+            const navHeight = document.getElementsByTagName("nav")[0].offsetHeight + 180;
             const clientOffsetTop = window.pageYOffset + navHeight;
             let bgColor = SectionBgColors.DEFAULT_BG;
             if (clientOffsetTop >= aboutSection.offsetTop) {
