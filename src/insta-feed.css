@@ -1,0 +1,7 @@
+.ig-posts img {
+    object-fit: contain;
+}
+
+.ig-post {
+    max-height: 400px;
+}

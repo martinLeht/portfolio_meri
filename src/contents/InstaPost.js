@@ -11,12 +11,11 @@ class InstaPost extends Component {
     render() {
         const { id, imgSrc, instaLink, caption, openAction } = this.props;
         return (
-                <MDBView hover className="m-1">
+                <MDBView hover className="m-1 ig-post">
                     <img
                         src={ imgSrc }
                         className="img-fluid"
                         alt=""
-                        width='100%' height='auto'
                     />
                     <MDBMask 
                         className="flex-center p-2" 

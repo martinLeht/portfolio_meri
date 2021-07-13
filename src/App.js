@@ -1,4 +1,5 @@
 import './App.css';
+import './insta-feed.css';
 import './insta-lightbox.css';
 import { BrowserRouter as Router } from "react-router-dom";
 import NavBar from './components/NavBar';
