@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBView, MDBMask } from 'mdbreact';
 import Lightbox from "react-image-lightbox";
-import InstaCard from './InstaPost';
+import InstaPost from './InstaPost';
 import InstagramService from '../services/InstagramService';
 
 const images = [
@@ -42,10 +42,9 @@ class InstaFeed extends Component {
         }; 
     }
 
-    /*
     async componentDidMount() {
         this.setState({ isLoading: true });
-        this.instagramService.getInstaPosts(21).then(posts => {
+        this.instagramService.fetchInstaPosts(21).then(posts => {
             console.log(posts);
             this.setState({
                 posts: posts,
@@ -54,7 +53,6 @@ class InstaFeed extends Component {
         });
         
     }
-    */
 
     openAction = (i) => {
         this.setState({ photoIndex: i, isOpen: true });
@@ -66,13 +64,13 @@ class InstaFeed extends Component {
 
     movePrevAction = (i) => {
         this.setState({
-            photoIndex: (i + images.length - 1) % images.length
+            photoIndex: (i + this.state.posts.length - 1) % this.state.posts.length
         });
     }
 
     moveNextAction = (i) => {
         this.setState({
-            photoIndex: (i + 1) % images.length
+            photoIndex: (i + 1) % this.state.posts.length
         });
     }
 
@@ -81,34 +79,29 @@ class InstaFeed extends Component {
         return (
             <div className="mt-5">
                 <MDBContainer>
-                    <div className="mdb-lightbox no-margin">
+                    <div className="mdb-lightbox no-margin posts">
                         <MDBRow>
                             {
-                                /*
                                 posts != undefined && posts.length > 0 
                                 && (
                                     posts.map(({
                                         id,
                                         caption,
-                                        src,
-                                        width,
-                                        height,
-                                        url,
-                                        likes}, i) => {
+                                        media_url,
+                                        permalink}, i) => {
                                         return (
                                             <MDBCol md="4">
                                                 <InstaPost
                                                     id={ id } 
-                                                    imgSrc={ src } 
-                                                    instaLink={ url }
+                                                    imgSrc={ media_url } 
+                                                    instaLink={ permalink }
                                                     caption={ caption }
-                                                    likes={ likes }
                                                     openAction={ () => this.openAction(i) }
                                                 />
                                             </MDBCol>
                                         );
-                                    })
-                                    */
+                                    }))
+                                /*
                                 smallImages.map((src, i) => {
                                     return (
                                         <MDBCol md="4">
@@ -130,15 +123,126 @@ class InstaFeed extends Component {
                                         </MDBCol>
                                     );
                                 })
+                                */
                             }
                         </MDBRow>
+          <MDBRow>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[0]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 0, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[1]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 1, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[2]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 2, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[3]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 3, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[4]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 4, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[5]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 5, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[6]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 6, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[7]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 7, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+            <MDBCol md="4">
+              <figure>
+                <img
+                  src={smallImages[8]}
+                  alt="Gallery"
+                  className="img-fluid"
+                  onClick={() =>
+                    this.setState({ photoIndex: 8, isOpen: true })
+                  }
+                />
+              </figure>
+            </MDBCol>
+          </MDBRow>
                     </div>
                     { !isLoading && isOpen && (
                         <Lightbox
-                            mainSrc={images[photoIndex]}
-                            nextSrc={images[(photoIndex + 1) % images.length]}
-                            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-                            imageTitle={photoIndex + 1 + "/" + images.length}
+                            mainSrc={posts[photoIndex].media_url}
+                            nextSrc={posts[(photoIndex + 1) % posts.length].media_url}
+                            prevSrc={posts[(photoIndex + posts.length - 1) % posts.length].media_url}
+                            imageTitle={photoIndex + 1 + "/" + posts.length}
                             onCloseRequest={ this.closeAction }
                             onMovePrevRequest={ () => this.movePrevAction(photoIndex) }
                             onMoveNextRequest={ () => this.moveNextAction(photoIndex) }

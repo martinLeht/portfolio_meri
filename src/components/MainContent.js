@@ -20,6 +20,7 @@ class MainContent extends Component {
             ['section-gallery', SectionBgColors.GALLERY_BG],
             ['section-contact', SectionBgColors.CONTACT_BG]
         ]);
+        require('dotenv').config();
     }
 
     componentDidMount() {

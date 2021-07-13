@@ -1,32 +1,39 @@
+import axios from 'axios';
+
 class InstagramService {
-
-    #INSTAGRAM_ID = "1112682650";
-    #THUMBNAIL_WIDTH = 640;
-    #ALL_POSTS = 491;
-
     
-    async getInstaPosts(amount) {
-        if (amount === -1) {
-            amount = this.#ALL_POSTS;
+    async fetchInstaPosts(amount) {
+        let fetchAll = false;
+        if (amount === undefined || amount === -1) {
+            fetchAll = true;
         }
-        const insta_api = `https://www.instagram.com/graphql/query?query_id=17888483320059182&variables={"id":"${this.#INSTAGRAM_ID}","first":${amount},"after":null}`;
+        let insta_api = 'https://graph.instagram.com/me/media?fields=id,media_type,media_url,caption,permalink';
+        if (fetchAll) {
+            insta_api += `&access_token=${process.env.REACT_APP_ACCESS_TOKEN}`;
+        } else {
+            insta_api += `&limit=${amount}&access_token=${process.env.REACT_APP_ACCESS_TOKEN}`;
+        }
+        
         try {
-            const res = await fetch(insta_api);
-            const posts = await this.getPostsFromResponse(res);
+            const res = await axios.get(insta_api);
+            console.log(res);
+            //const posts = await this.getPostsFromResponse(res);
+            const posts = res.data.data;
             return posts;
           } catch (err) {
             console.error(err);
-          }
+        }
     }
 
+    /*
     async getPostsFromResponse(res) {
-        const { data } = await res.json()
-        const posts = data.user.edge_owner_to_timeline_media.edges.map(
-            ({ node }) => this.instaNodeToPostData(node))
+        const data = res.data.data;
+        const posts = data.map((post) => this.instaNodeToPostData(node))
         return posts;
     }
 
-    instaNodeToPostData(instaNode) {
+    instaNodeToPostData(response) {
+        const data = res.data.data;
         const { id } = instaNode;
         const likes = instaNode.edge_media_preview_like.count;
         const caption = instaNode.edge_media_to_caption.edges[0].node.text;
@@ -45,6 +52,7 @@ class InstagramService {
             likes
         };
     }
+    */
 
 
 }

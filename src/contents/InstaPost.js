@@ -9,24 +9,22 @@ class InstaPost extends Component {
     }
 
     render() {
-        const { id, imgSrc, instaLink, caption, likes, openAction } = this.props;
+        const { id, imgSrc, instaLink, caption, openAction } = this.props;
         return (
-            <div>
-                <MDBView hover>
+                <MDBView hover className="m-1">
                     <img
                         src={ imgSrc }
                         className="img-fluid"
                         alt=""
+                        width='100%' height='auto'
                     />
                     <MDBMask 
-                        className="flex-center" 
+                        className="flex-center p-2" 
                         overlay="red-light" 
                         onClick={ openAction }>
-                        <a className="white-text" href={ instaLink } key={id}>Meri linkki ig</a>
-                        <p className="white-text">({likes} likes) { caption }</p>
+                        <a className="white-text" href={ instaLink } key={id}>{caption}</a>
                     </MDBMask>
                 </MDBView>
-            </div>
         )
     }
 }
