@@ -5,3 +5,7 @@
 .ig-post {
     max-height: 400px;
 }
+
+.ig-post i {
+    cursor: pointer;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBCard, MDBView, MDBMask, MDBCardBody, MDBCardText, MDBIcon } from 'mdbreact';
+import { MDBCard, MDBView, MDBMask, MDBCardBody, MDBCardText, MDBIcon, MDBTooltip } from 'mdbreact';
   
 
 class InstaPost extends Component {
@@ -36,15 +36,44 @@ class InstaPost extends Component {
                     />
                     <MDBMask 
                         className="flex-center p-2" 
-                        overlay="red-light" 
-                        onClick={ openAction }>
+                        overlay="red-light">
                         <a className="white-text" href={ instaLink } key={id}>{ (this.isCaptionTooLong(caption) ? caption.slice(0, 80) + ' ...' : caption) }</a>
-                        {
-                            this.isCaptionTooLong(caption) &&
-                            <h4 className='white-text'>
-                                <MDBIcon icon='angle-double-down' className='ml-2' onClick={ () => this.toggleOpenCaption() } />
-                            </h4>
-                        }
+                        
+                        <h4 className='white-text text-center'>
+                        <MDBTooltip
+                            domElement
+                            tag="span"
+                            material
+                            placement="left"
+                        >
+                            <span><MDBIcon icon='book-open' className='m-1' onClick={ openAction } /></span>
+                            <span>Selaa kuvia / Browse images</span>
+                        </MDBTooltip>
+                            {
+                                this.isCaptionTooLong(caption) && isCaptionHidden ? (
+                                    <MDBTooltip
+                                        domElement
+                                        tag="span"
+                                        material
+                                        placement="left"
+                                    >
+                                        <span><MDBIcon icon='angle-double-down' className='m-1' onClick={ () => this.toggleOpenCaption() } /></span>
+                                        <span>Laajenna kuvateksti / Open caption</span>
+                                    </MDBTooltip>
+                                ) : (
+                                    <MDBTooltip
+                                        domElement
+                                        tag="span"
+                                        material
+                                        placement="left"
+                                    >
+                                        <span><MDBIcon icon='angle-double-up' className='m-1' onClick={ () => this.toggleOpenCaption() } /></span>
+                                        <span>Pienennä kuvateksti / Minimize caption</span>
+                                    </MDBTooltip>
+                                )
+                            }
+                        </h4>
+                       
                     </MDBMask>
                 </MDBView>
                 {
@@ -53,11 +82,6 @@ class InstaPost extends Component {
                         <MDBCardText>
                             {caption}
                         </MDBCardText>
-                        <a href='#!' className='black-text d-flex justify-content-end'>
-                            <h5 className='black-text'>
-                                <MDBIcon icon='angle-double-up' className='ml-2' onClick={ () => this.toggleOpenCaption() } />
-                            </h5>
-                        </a>
                     </MDBCardBody>
                 }
                 
