@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Switch } from "react-router-dom";
 import SectionBgColors from '../resources/SectionBgColors';
-import Experience from '../contents/Experience';
-import About from '../contents/About';
-import Blog from '../contents/Blog';
-import InstaFeed from '../contents/InstaFeed';
-import ImageGallery from '../contents/ImageGallery';
-import Contact from '../contents/Contact';
+import Experience from '../contents/front-page/Experience';
+import About from '../contents/front-page/About';
+import Blog from '../contents/blog/Blog';
+import InstaFeed from '../contents/insta/InstaFeed';
+import ImageGallery from '../contents/front-page/ImageGallery';
+import Contact from '../contents/front-page/Contact';
 import { MDBContainer } from 'mdbreact';
 
 class MainContent extends Component {

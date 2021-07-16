@@ -1,30 +1,20 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBView, MDBMask } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import Lightbox from "react-image-lightbox";
 import InstaPost from './InstaPost';
-import InstagramService from '../services/InstagramService';
-  
-  const smallImages = [
-    "https://mdbootstrap.com/img/Others/documentation/img%20(145)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(150)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(152)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(42)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(40)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(148)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(147)-mini.jpg",
-    "https://mdbootstrap.com/img/Others/documentation/img%20(149)-mini.jpg"
-  ];
-  
+import InstagramService from '../../services/InstagramService';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 class InstaFeed extends Component {
 
     constructor(props) {
         super(props);
         this.instagramService = new InstagramService();
+        this.loader = React.createRef();
         this.state = {
             posts: [],
             isLoading: false, 
+            page: 1,
             photoIndex: 0,
             isOpen: false
         }; 
@@ -32,13 +22,12 @@ class InstaFeed extends Component {
 
     async componentDidMount() {
         this.setState({ isLoading: true });
-        this.instagramService.fetchInstaPosts(21).then(posts => {
+        this.instagramService.fetchInstaPosts().then(posts => {
             this.setState({
                 posts: posts,
                 isLoading: false
             });
         });
-        
     }
 
     openAction = (i) => {
@@ -63,11 +52,14 @@ class InstaFeed extends Component {
 
     render() {
         const { photoIndex, isLoading, posts, isOpen, } = this.state;
+
         return (
             <div className="mt-5">
                 <MDBContainer>
-                    <div className="mdb-lightbox no-margin ig-posts">
-                        <MDBRow>
+                    <div className="mdb-lightbox  no-margin ig-posts">
+                        
+                        <MDBRow center>
+                        { isLoading && <LoadingSpinner/> }
                             {
                                 posts != undefined && posts.length > 0 
                                 && (
@@ -91,6 +83,7 @@ class InstaFeed extends Component {
                             }
                         </MDBRow>
                     </div>
+
                     { !isLoading && isOpen && (
                         <Lightbox
                             mainSrc={posts[photoIndex].media_url}

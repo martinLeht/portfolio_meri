@@ -3,7 +3,7 @@ import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timel
 import { MDBRow, MDBCol } from 'mdbreact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faCheck, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
-import TimelineColors from '../resources/TimelineColors';
+import TimelineColors from '../../resources/TimelineColors';
 
 const Experience = (props) => {
 

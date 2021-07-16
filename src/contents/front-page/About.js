@@ -1,4 +1,4 @@
-import React, { useRef, useEffect }  from 'react';
+import React  from 'react';
 import { MDBRow, MDBCol } from 'mdbreact';
 import { faBalanceScale } from '@fortawesome/free-solid-svg-icons';
 import AboutCard from './AboutCard';

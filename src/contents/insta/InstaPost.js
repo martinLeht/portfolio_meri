@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { MDBCard, MDBView, MDBMask, MDBCardBody, MDBCardText, MDBIcon, MDBTooltip } from 'mdbreact';
+import IconButton from '../../components/IconButton';
   
 
 class InstaPost extends Component {
@@ -40,36 +41,12 @@ class InstaPost extends Component {
                         <a className="white-text" href={ instaLink } key={id}>{ (this.isCaptionTooLong(caption) ? caption.slice(0, 80) + ' ...' : caption) }</a>
                         
                         <h4 className='white-text text-center'>
-                        <MDBTooltip
-                            domElement
-                            tag="span"
-                            material
-                            placement="left"
-                        >
-                            <span><MDBIcon icon='book-open' className='m-1' onClick={ openAction } /></span>
-                            <span>Selaa kuvia / Browse images</span>
-                        </MDBTooltip>
+                            <IconButton icon='book-open' tooltip='Selaa kuvia / Browse images' action={ openAction }/>
                             {
-                                this.isCaptionTooLong(caption) && isCaptionHidden ? (
-                                    <MDBTooltip
-                                        domElement
-                                        tag="span"
-                                        material
-                                        placement="left"
-                                    >
-                                        <span><MDBIcon icon='angle-double-down' className='m-1' onClick={ () => this.toggleOpenCaption() } /></span>
-                                        <span>Laajenna kuvateksti / Open caption</span>
-                                    </MDBTooltip>
-                                ) : (
-                                    <MDBTooltip
-                                        domElement
-                                        tag="span"
-                                        material
-                                        placement="left"
-                                    >
-                                        <span><MDBIcon icon='angle-double-up' className='m-1' onClick={ () => this.toggleOpenCaption() } /></span>
-                                        <span>Pienennä kuvateksti / Minimize caption</span>
-                                    </MDBTooltip>
+                                this.isCaptionTooLong(caption) && (
+                                    isCaptionHidden 
+                                    ? <IconButton icon='angle-double-down' tooltip='Laajenna kuvateksti / Open caption' action={ this.toggleOpenCaption }/>
+                                    : <IconButton icon='angle-double-up' tooltip='Pienennä kuvateksti / Minimize caption' action={ this.toggleOpenCaption }/>
                                 )
                             }
                         </h4>
