@@ -1,4 +1,3 @@
-import { MDBIcon } from 'mdbreact';
 import React from 'react';
 import { Route } from "react-router-dom";
 import ImageCarouselHeader from '../contents/front-page/ImageCarouselHeader';

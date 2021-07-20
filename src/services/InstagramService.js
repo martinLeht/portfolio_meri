@@ -16,11 +16,9 @@ class InstagramService {
         
         try {
             const res = await axios.get(insta_api);
-            console.log(res);
-            //const posts = await this.getPostsFromResponse(res);
             const posts = res.data.data;
             return posts;
-          } catch (err) {
+        } catch (err) {
             console.error(err);
         }
     }

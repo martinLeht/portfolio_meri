@@ -17,7 +17,7 @@ const HeaderMedium = (props) => {
                 <h1 className='mb-3'>
                     { heading }
                     <a href='https://www.instagram.com/meriniemi_/?hl=fi'>
-                        <MDBIcon icon='instagram' className='m-1 text-white' />
+                        <MDBIcon fab icon='instagram' className='m-1 text-white' />
                     </a>
                 </h1>
                 

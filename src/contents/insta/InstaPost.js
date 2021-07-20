@@ -28,7 +28,7 @@ class InstaPost extends Component {
         const { id, imgSrc, instaLink, caption, openAction } = this.props;
         const { isCaptionHidden } = this.state;
         return (
-            <MDBCard>
+            <MDBCard className="m-2">
                 <MDBView hover className="m-1 ig-post">
                     <img
                         src={ imgSrc }

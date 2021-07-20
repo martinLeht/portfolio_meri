@@ -13,7 +13,7 @@ const Contact = (props) => {
     }
 
     return (
-        <div className="contact" id={ navId }>
+        <div className="contact pb-3" id={ navId }>
             <MDBRow center>
                 <MDBCol className="flex-column" size="10" md="7">
                     <h1><b>Ota Yhteyttä.</b></h1>

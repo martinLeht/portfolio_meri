@@ -16,7 +16,8 @@ class InstaFeed extends Component {
             isLoading: false, 
             page: 1,
             photoIndex: 0,
-            isOpen: false
+            isOpen: false,
+            pageOffsetY: 0
         }; 
     }
 
@@ -52,50 +53,50 @@ class InstaFeed extends Component {
 
     render() {
         const { photoIndex, isLoading, posts, isOpen, } = this.state;
+        /*<InstaPost
+                                                id={ id } 
+                                                imgSrc={ media_url } 
+                                                instaLink={ permalink }
+                                                caption={ caption }
+                                                openAction={ () => this.openAction(i) }
+                                            />*/
 
         return (
-            <div className="mt-5">
-                <MDBContainer>
-                    <div className="mdb-lightbox  no-margin ig-posts">
-                        
-                        <MDBRow center>
-                        { isLoading && <LoadingSpinner/> }
-                            {
-                                posts != undefined && posts.length > 0 
-                                && (
-                                    posts.map(({
-                                        id,
-                                        caption,
-                                        media_url,
-                                        permalink}, i) => {
-                                        return (
-                                            <MDBCol md="4">
-                                                <InstaPost
-                                                    id={ id } 
-                                                    imgSrc={ media_url } 
-                                                    instaLink={ permalink }
-                                                    caption={ caption }
-                                                    openAction={ () => this.openAction(i) }
-                                                />
-                                            </MDBCol>
-                                        );
-                                    }))
-                            }
-                        </MDBRow>
-                    </div>
+            <div className="d-flex align-items-center justify-content-center ig-container">
+                <div className="mdb-lightbox no-margin ig-posts">
+                    <MDBRow center>
+                        { isOpen && isLoading && <LoadingSpinner/> }
+                        {
+                            posts != undefined && posts.length > 0 
+                            && (
+                                posts.map(({
+                                    id,
+                                    caption,
+                                    media_url,
+                                    permalink}, i) => {
+                                    return (
+                                        <MDBCol md="3">
+                                            <div className="w-100 p-5" >
+                                                Teksti
+                                            </div>
+                                        </MDBCol>
+                                    );
+                                }))
+                        }
+                    </MDBRow>
+                </div>
 
-                    { !isLoading && isOpen && (
-                        <Lightbox
-                            mainSrc={posts[photoIndex].media_url}
-                            nextSrc={posts[(photoIndex + 1) % posts.length].media_url}
-                            prevSrc={posts[(photoIndex + posts.length - 1) % posts.length].media_url}
-                            imageTitle={photoIndex + 1 + "/" + posts.length}
-                            onCloseRequest={ this.closeAction }
-                            onMovePrevRequest={ () => this.movePrevAction(photoIndex) }
-                            onMoveNextRequest={ () => this.moveNextAction(photoIndex) }
-                        />
-                    )}
-                </MDBContainer>
+                { !isLoading && isOpen && (
+                    <Lightbox
+                        mainSrc={posts[photoIndex].media_url}
+                        nextSrc={posts[(photoIndex + 1) % posts.length].media_url}
+                        prevSrc={posts[(photoIndex + posts.length - 1) % posts.length].media_url}
+                        imageTitle={photoIndex + 1 + "/" + posts.length}
+                        onCloseRequest={ this.closeAction }
+                        onMovePrevRequest={ () => this.movePrevAction(photoIndex) }
+                        onMoveNextRequest={ () => this.moveNextAction(photoIndex) }
+                    />
+                )}
             </div>
         )
     }
