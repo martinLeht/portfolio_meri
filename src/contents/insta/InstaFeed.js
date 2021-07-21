@@ -53,13 +53,6 @@ class InstaFeed extends Component {
 
     render() {
         const { photoIndex, isLoading, posts, isOpen, } = this.state;
-        /*<InstaPost
-                                                id={ id } 
-                                                imgSrc={ media_url } 
-                                                instaLink={ permalink }
-                                                caption={ caption }
-                                                openAction={ () => this.openAction(i) }
-                                            />*/
 
         return (
             <div className="d-flex align-items-center justify-content-center ig-container">
@@ -71,14 +64,20 @@ class InstaFeed extends Component {
                             && (
                                 posts.map(({
                                     id,
+                                    media_type,
                                     caption,
                                     media_url,
                                     permalink}, i) => {
                                     return (
-                                        <MDBCol md="3">
-                                            <div className="w-100 p-5" >
-                                                Teksti
-                                            </div>
+                                        <MDBCol md="4">
+                                            <InstaPost
+                                                id={ id } 
+                                                src={ media_url } 
+                                                instaLink={ permalink }
+                                                caption={ caption }
+                                                mediaType={ media_type }
+                                                openAction={ () => this.openAction(i) }
+                                            />
                                         </MDBCol>
                                     );
                                 }))

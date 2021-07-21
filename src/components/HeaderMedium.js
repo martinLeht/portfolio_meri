@@ -3,7 +3,7 @@ import { MDBIcon } from 'mdbreact';
 
 const HeaderMedium = (props) => {
 
-    const { heading, img } = props;
+    const { heading, img, icon } = props;
     const headingPath = process.env.PUBLIC_URL + heading;
     const styleImgUrl = `url('../images/mertsa_ig_header.jpg')`;
     return (
@@ -16,9 +16,14 @@ const HeaderMedium = (props) => {
                 <div className='text-white'>
                 <h1 className='mb-3'>
                     { heading }
-                    <a href='https://www.instagram.com/meriniemi_/?hl=fi'>
-                        <MDBIcon fab icon='instagram' className='m-1 text-white' />
-                    </a>
+                    {
+                        icon && (
+                            <a href='https://www.instagram.com/meriniemi_/?hl=fi'>
+                               {icon}
+                            </a>
+                        )
+                    }
+                    
                 </h1>
                 
                 </div>

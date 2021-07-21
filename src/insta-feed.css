@@ -1,10 +1,5 @@
 .ig-container {
-    background-image: url(images/single-mountain-l.png) , url(images/single-cloud.png) , url(images/single-moon.png);
-    background-size: 145%, 70% , 60%;
-    background-color:#F0F8FF;
-    background-position: center center, right , left;
-    background-repeat: no-repeat , no-repeat, no-repeat;
-    background-attachment: fixed;
+    background-color: #DAD1C5;
 }
 
 .ig-posts {

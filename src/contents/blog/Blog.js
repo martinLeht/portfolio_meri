@@ -5,7 +5,7 @@ class Blog extends Component {
 
     render() {
         return (
-            <div>
+            <div className="blog-container">
                 <MDBRow className="d-flex justify-content-center" >
                     <MDBCol className="d-flex justify-content-center flex-column" middle={true} size="8"  md="6" lg="8">
                         <h5><b>Blogi</b></h5>

@@ -24,17 +24,35 @@ class InstaPost extends Component {
         });
     }
 
+    resolveMediaType = (mediaType, src) => {
+        if (mediaType === "VIDEO") {
+            return (
+                <video autoplay muted loop playsinline>
+                    <source src={src} type="video/mp4" />
+                </video>
+            );
+        } else if (mediaType === "IMAGE" || mediaType === "CAROUSEL_ALBUM") {
+            return (
+                <img
+                    src={ src }
+                    className="img-fluid"
+                    alt=""
+                />
+            );
+        }
+        return undefined;
+    }
+
     render() {
-        const { id, imgSrc, instaLink, caption, openAction } = this.props;
+        const { id, src, instaLink, caption, mediaType, openAction } = this.props;
         const { isCaptionHidden } = this.state;
+
+        const mediaContent = this.resolveMediaType(mediaType, src);
+
         return (
             <MDBCard className="m-2">
                 <MDBView hover className="m-1 ig-post">
-                    <img
-                        src={ imgSrc }
-                        className="img-fluid"
-                        alt=""
-                    />
+                    {mediaContent}
                     <MDBMask 
                         className="flex-center p-2" 
                         overlay="red-light">
