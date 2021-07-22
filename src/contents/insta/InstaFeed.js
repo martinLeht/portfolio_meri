@@ -56,9 +56,9 @@ class InstaFeed extends Component {
 
         return (
             <div className="d-flex align-items-center justify-content-center ig-container">
-                <div className="mdb-lightbox no-margin ig-posts">
+                <div className="mdb-lightbox no-margin p-1 ig-posts">
                     <MDBRow center>
-                        { isOpen && isLoading && <LoadingSpinner/> }
+                        { isLoading && <LoadingSpinner/> }
                         {
                             posts != undefined && posts.length > 0 
                             && (
