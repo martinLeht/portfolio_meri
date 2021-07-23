@@ -1,54 +1,46 @@
-import { MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBView } from 'mdbreact';
+import { MDBCard, MDBCardTitle, MDBIcon } from 'mdbreact';
 
 
 
 const BlogCard = (props) => {
 
+    const { img } = props;
+
+    const imgPath = "url('" + img + "')";
+
     const date = new Date().toLocaleString();
 
     return(
-        <MDBCard wide cascade>
-            <MDBView cascade>
-                <MDBCardImage
-                    hover
-                    overlay='red-light'
-                    className='card-img-top'
-                    src={ process.env.PUBLIC_URL + "/images/gandalf-ak.jpg" }
-                    alt='Card cap'
-                />
-            </MDBView>
-
-            <MDBCardBody cascade className='text-center'>
-                <MDBCardTitle className='card-title'>
-                    <strong>Blogi Otsikko</strong>
-                </MDBCardTitle>
-
-                    <p className='font-weight-bold blue-text'>
+        <MDBCard
+          className='card-image justify-content-end m-0 blog-card'
+          style={{
+            backgroundImage: imgPath
+          }}
+        >
+            <div className='text-white text-left d-flex align-items-bottom pt-5'>
+                <div className="blog-card-content px-4">
+                    <MDBCardTitle tag='h4' className='pt-2'>
+                        <strong>Blogi Otsikko</strong>
+                    </MDBCardTitle>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Repellat fugiat, laboriosam, voluptatem sit...
+                    </p>
+                    <p className='d-inline font-weight-bold orange-text'>
                         <MDBIcon far icon="clock" /> 
                         { date }
                     </p>
-
-                <MDBCardText>
-                Sed ut perspiciatis unde omnis iste natus sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam.{' '}
-                </MDBCardText>
-
-                <MDBCol md='12' className='d-flex justify-content-center'>
                     <a
                         href='!#'
                         className='orange-text mt-1 d-flex justify-content-end align-items-center'
                     >
-                        <h5 className=''>
+                        <h6>
                             Lue lisää{' '}
-                            <MDBIcon
-                            icon='chevron-right'
-                            className='ml-2'
-                            size='sm'
-                            ></MDBIcon>
-                        </h5>
-                    </a>
-                </MDBCol>
-            </MDBCardBody>
+                            <MDBIcon icon='chevron-right' size='sm'/>
+                        </h6>
+                    </a>                    
+                </div>
+            </div>
         </MDBCard>
     );
 
