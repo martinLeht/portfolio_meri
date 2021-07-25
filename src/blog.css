@@ -1,5 +1,9 @@
 .blog-container {
-    background: linear-gradient(90deg,#613B44 50%, #DAD1C5 50%);
+    background-color: #DAD1C5;
+}
+
+.blog-latest {
+    min-width: 470px;
 }
 
 .blog-card {

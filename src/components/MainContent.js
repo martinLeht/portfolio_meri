@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import SectionBgColors from '../resources/SectionBgColors';
 import Experience from '../contents/front-page/Experience';
 import About from '../contents/front-page/About';
-import Blog from '../contents/blog/Blog';
+import BlogFeed from '../contents/blog/BlogFeed';
 import InstaFeed from '../contents/insta/InstaFeed';
 import ImageGallery from '../contents/front-page/ImageGallery';
 import Contact from '../contents/front-page/Contact';
@@ -75,7 +75,7 @@ class MainContent extends Component {
                         <Contact navId="section-contact" email="joku.sposti@gmail.com" />
                     </Route>
                     <Route exact path="/blog">
-                        <Blog />
+                        <BlogFeed />
                     </Route>
                     <Route exact path="/insta">
                         <InstaFeed />
