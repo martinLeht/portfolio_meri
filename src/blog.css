@@ -2,11 +2,21 @@
     background-color: #DAD1C5;
 }
 
-.blog-side-bar {
-}
-
 .blog-latest {
     /*min-width: 430px;*/
+}
+
+.blog-search-bar {
+}
+
+.blog-search {
+    z-index: 10; 
+    position: absolute;
+    width: 97%;
+}
+
+.blog-search.hidden {
+    visibility: hidden;
 }
 
 .blog-card {

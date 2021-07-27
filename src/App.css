@@ -7,6 +7,12 @@ li {
   list-style-type: none;
 }
 
+/* Fields, etc... */
+.search {
+  min-width: 250px;
+}
+
+
 .header h2 {
   font-weight: bold;
 }

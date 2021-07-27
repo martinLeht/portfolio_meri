@@ -4,55 +4,51 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import SideBar from './SideBar';
+import SortSelect from "../../components/SortSelect";
+import SearchField from "../../components/SearchField";
 
 
 const BlogBar = (props) => {
-    
+
+    const { title } = props;
+    const [isHidden, setHidden] = useState(true);
     const { height, width } = useWindowDimensions();
+    const collapse = width < 785;
+    
 
-    const hidden = width < 785;
+    const toggleHideSearch = () => {
+        setHidden(!isHidden);
+    }
 
-    const { title, searchBar } = props;
 
-    return(        
-        <MDBRow between className="rounded-4 text-white bg-dark p-1 mb-2">
+    return (        
+        <MDBRow between className="rounded-4 text-white bg-dark p-1 mb-2 blog-search-bar">
             <MDBCol middle size="4" lg="6">
                 <h3>{ title }</h3>
             </MDBCol>
 
-            <MDBCol middle className="d-flex justify-content-end" size="7" lg="6">
+            <MDBCol middle className="d-flex justify-content-end flex-column" size="7" lg="6">
                 {
-                    hidden
+                    collapse
                     ? (
                         <div>
-                            <MDBIcon icon="angle-down" />
-                            <MDBIcon className="ml-1" icon="bars" />
+                            <div className="d-flex justify-content-end" onClick={ toggleHideSearch }>
+                                <MDBIcon icon={"angle-" + (isHidden ? "down" : "up")}/>
+                                <MDBIcon className="ml-1" icon="bars" />
+                            </div>
+                            <div className={"rounded-4 p-2 bg-dark blog-search" + (isHidden ? " hidden" : "")}>
+                                <SortSelect />
+                                <SearchField />
+                            </div>
                         </div>
                     )
                     : (
                         <MDBRow middle>
                             <MDBCol>
-                                <div>
-                                    <label htmlFor="sortOptions">
-                                        Lajittele
-                                        <MDBIcon className="ml-2" icon="sort-alpha-down" />
-                                    </label>
-                                    <select className="browser-default custom-select" id="sortOptions">
-                                        <option disabled value="1">Uusin ensimmäisenä</option>
-                                        <option value="1">Uusin ensimmäisenä</option>
-                                        <option value="2">Vanhin ensimmäisenä</option>
-                                        <option value="3">Otsikon mukaan (A-Z)</option>
-                                        <option value="4">Otsikon mukaan (Z-A) </option>
-                                    </select>
-                                </div>
+                                <SortSelect />
                             </MDBCol>
                             <MDBCol>
-                                <MDBFormInline className="md-form my-0">
-                                    <MDBInput className="m-0" label="Etsi / Search" />
-                                    <MDBBtn outline color="white" size="sm" type="submit" className="border-0 my-0">
-                                        <MDBIcon icon="search" size="2x" />
-                                    </MDBBtn>
-                                </MDBFormInline>
+                                <SearchField />
                             </MDBCol>
                         </MDBRow>
                     )
