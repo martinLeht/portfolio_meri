@@ -11,7 +11,7 @@ const BlogTopSection = () => {
 
     return (
         <MDBRow className="p-3" center middle>
-            <MDBCol className="m-4" size="7" md="3" lg="4">
+            <MDBCol className="m-4" size="10" md="3" lg="4">
                 <MDBRow center middle>
                     <MDBCol>
                         <h2>
@@ -35,7 +35,7 @@ const BlogTopSection = () => {
                     </MDBCol>
                 </MDBRow>
             </MDBCol>
-            <MDBCol className="d-flex justify-content-end p-0 blog-latest" size="7" md="6" lg="7">
+            <MDBCol className="d-flex justify-content-end p-0 blog-latest" size="12" md="6" lg="7">
                 <BlogCard img="https://mdbootstrap.com/img/Others/documentation/img(117)-mini.jpg" />
             </MDBCol>
         </MDBRow>
