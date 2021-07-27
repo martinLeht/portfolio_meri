@@ -2,8 +2,11 @@
     background-color: #DAD1C5;
 }
 
+.blog-side-bar {
+}
+
 .blog-latest {
-    min-width: 470px;
+    min-width: 430px;
 }
 
 .blog-card {
@@ -19,5 +22,16 @@
     background-color: rgba(33, 33, 33, 0.7);
     width: 100%;
 }
+
+.blog-post-add-link {
+    border-width: 5px;  
+    border-style: dashed;
+    border-color: white;
+}
+
+.blog-post-add-link link : :hover {
+    color: rgba(33, 33, 33, 0.7);
+}
+
 
 
