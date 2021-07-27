@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import NavItem from './NavItem'
 import { NavLink } from "react-router-dom";
-
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBContainer
 } from "mdbreact";
@@ -39,7 +38,7 @@ class NavBar extends Component {
                             <NavItem item="Ota Yhteyttä" navId="section-contact" />
                         </MDBNavbarNav>
                         <MDBNavbarNav right>
-                            <NavLink className="nav-link" to="/blog/feed">Blogi</NavLink>
+                            <NavLink className="nav-link" to="/blog">Blogi</NavLink>
                             <NavLink className="nav-link" to="/insta">Insta feed</NavLink>
                         </MDBNavbarNav>
                     </MDBCollapse>

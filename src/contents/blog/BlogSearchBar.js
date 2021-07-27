@@ -1,4 +1,5 @@
 import { MDBRow, MDBCol, MDBInput, MDBBtn, MDBFormInline, MDBIcon } from "mdbreact";
+import useWindowDimensions from '../../hooks/window-dimensions';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -6,9 +7,12 @@ import SideBar from './SideBar';
 
 
 const BlogBar = (props) => {
-
     
-    const { title, searchBar  } = props;
+    const { height, width } = useWindowDimensions();
+
+    const hidden = width < 785;
+
+    const { title, searchBar } = props;
 
     return(        
         <MDBRow between className="rounded-4 text-white bg-dark p-1 mb-2">
@@ -18,7 +22,7 @@ const BlogBar = (props) => {
 
             <MDBCol middle className="d-flex justify-content-end" size="7" lg="6">
                 {
-                    searchBar 
+                    hidden
                     ? (
                         <div>
                             <MDBIcon icon="angle-down" />
@@ -29,7 +33,7 @@ const BlogBar = (props) => {
                         <MDBRow middle>
                             <MDBCol>
                                 <div>
-                                    <label htmlFor="sortOptions"> 
+                                    <label htmlFor="sortOptions">
                                         Lajittele
                                         <MDBIcon className="ml-2" icon="sort-alpha-down" />
                                     </label>
@@ -37,14 +41,14 @@ const BlogBar = (props) => {
                                         <option disabled value="1">Uusin ensimmäisenä</option>
                                         <option value="1">Uusin ensimmäisenä</option>
                                         <option value="2">Vanhin ensimmäisenä</option>
-                                        <option value="3">Otsikko (A-Z)</option>
-                                        <option value="4">Otsikko (Z-A) </option>
+                                        <option value="3">Otsikon mukaan (A-Z)</option>
+                                        <option value="4">Otsikon mukaan (Z-A) </option>
                                     </select>
                                 </div>
                             </MDBCol>
                             <MDBCol>
                                 <MDBFormInline className="md-form my-0">
-                                <MDBInput className="m-0" label="Etsi / Search" />
+                                    <MDBInput className="m-0" label="Etsi / Search" />
                                     <MDBBtn outline color="white" size="sm" type="submit" className="border-0 my-0">
                                         <MDBIcon icon="search" size="2x" />
                                     </MDBBtn>
@@ -87,7 +91,7 @@ BlogBar.propTypes = {
 }
 
 BlogBar.defaultProps = {
-    searchBar: false
+    searchBar: true
 }
 
 export default BlogBar;

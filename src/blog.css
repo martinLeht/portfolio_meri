@@ -29,8 +29,8 @@
     border-color: white;
 }
 
-.blog-post-add-link link : :hover {
-    color: rgba(33, 33, 33, 0.7);
+.blog-post-add-link:hover {
+    background-color: #d0bba1;
 }
 
 
