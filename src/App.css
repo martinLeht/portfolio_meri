@@ -12,6 +12,9 @@ li {
   min-width: 250px;
 }
 
+.sort {
+  max-width: 230px;
+}
 
 .header h2 {
   font-weight: bold;

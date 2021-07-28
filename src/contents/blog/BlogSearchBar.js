@@ -22,7 +22,7 @@ const BlogBar = (props) => {
 
 
     return (        
-        <MDBRow between className="rounded-4 text-white bg-dark p-1 mb-2 blog-search-bar">
+        <MDBRow between className="rounded-4 text-white bg-dark p-1 mb-2">
             <MDBCol middle size="4" lg="6">
                 <h3>{ title }</h3>
             </MDBCol>
@@ -31,12 +31,12 @@ const BlogBar = (props) => {
                 {
                     collapse
                     ? (
-                        <div>
-                            <div className="d-flex justify-content-end" onClick={ toggleHideSearch }>
+                        <div className="d-flex justify-content-end flex-row">
+                            <div onClick={ toggleHideSearch }>
                                 <MDBIcon icon={"angle-" + (isHidden ? "down" : "up")}/>
                                 <MDBIcon className="ml-1" icon="bars" />
                             </div>
-                            <div className={"rounded-4 p-2 bg-dark blog-search" + (isHidden ? " hidden" : "")}>
+                            <div className={"border-right border-4 rounded-start pl-3 bg-dark blog-search" + (isHidden ? " hidden" : "")}>
                                 <SortSelect />
                                 <SearchField />
                             </div>

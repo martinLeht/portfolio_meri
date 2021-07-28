@@ -6,13 +6,10 @@
     /*min-width: 430px;*/
 }
 
-.blog-search-bar {
-}
-
 .blog-search {
     z-index: 10; 
     position: absolute;
-    width: 97%;
+    margin-top: 30px;
 }
 
 .blog-search.hidden {
