@@ -36,7 +36,7 @@ const BlogBar = (props) => {
                                 <MDBIcon icon={"angle-" + (isHidden ? "down" : "up")}/>
                                 <MDBIcon className="ml-1" icon="bars" />
                             </div>
-                            <div className={"border-right border-4 rounded-start pl-3 bg-dark blog-search" + (isHidden ? " hidden" : "")}>
+                            <div className={"border-right border-4 rounded-bottom pl-3 bg-dark blog-search" + (isHidden ? " hidden" : "")}>
                                 <SortSelect />
                                 <SearchField />
                             </div>
