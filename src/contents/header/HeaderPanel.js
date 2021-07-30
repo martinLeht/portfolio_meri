@@ -4,8 +4,7 @@ import { MDBIcon } from 'mdbreact';
 const HeaderMedium = (props) => {
 
     const { heading, img, icon } = props;
-    const headingPath = process.env.PUBLIC_URL + heading;
-    const styleImgUrl = `url('../images/mertsa_ig_header.jpg')`;
+    const styleImgUrl = `url('${img}')`;
     return (
         <div
             className='p-5 text-center bg-image header-medium'
@@ -19,7 +18,7 @@ const HeaderMedium = (props) => {
                     {
                         icon && (
                             <a href='https://www.instagram.com/meriniemi_/?hl=fi'>
-                               {icon}
+                               <i className={ icon + ' m-1 text-white'}></i>
                             </a>
                         )
                     }

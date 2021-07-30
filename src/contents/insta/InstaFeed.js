@@ -3,7 +3,7 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import Lightbox from "react-image-lightbox";
 import InstaPost from './InstaPost';
 import InstagramService from '../../services/InstagramService';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../../components/general/LoadingSpinner';
 
 class InstaFeed extends Component {
 
@@ -52,7 +52,7 @@ class InstaFeed extends Component {
     }
 
     render() {
-        const { photoIndex, isLoading, posts, isOpen, } = this.state;
+        const { photoIndex, isLoading, posts, isOpen } = this.state;
 
         return (
             <div className="d-flex align-items-center justify-content-center ig-container">

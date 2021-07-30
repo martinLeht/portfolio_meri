@@ -12,10 +12,6 @@
     margin-top: 48px;
 }
 
-.collapse-border {
-
-}
-
 .blog-search.hidden {
     visibility: hidden;
 }
@@ -42,6 +38,26 @@
 
 .blog-post-add-link:hover {
     background-color: #d0bba1;
+}
+
+.toolbar-button {
+    cursor: pointer;
+    color: #ccc;
+}
+
+.toolbar-button.active {
+    cursor: pointer;
+    color: black;
+}
+
+.toolbar-button.color-rev {
+    cursor: pointer;
+    color: #aaa;
+}
+
+.toolbar-button.color-rev.active {
+    cursor: pointer;
+    color: white;
 }
 
 

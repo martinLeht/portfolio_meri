@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import NavItem from './NavItem'
 import { NavLink } from "react-router-dom";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBContainer
 } from "mdbreact";
+import NavItem from './general/NavItem'
 
 class NavBar extends Component {
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MDBCard, MDBView, MDBMask, MDBCardBody, MDBCardText, MDBIcon, MDBTooltip } from 'mdbreact';
-import IconButton from '../../components/IconButton';
+import IconButton from '../../components/general/IconButton';
   
 
 class InstaPost extends Component {

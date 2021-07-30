@@ -10,7 +10,7 @@ import {
 
 const ImageCarouselHeader = () => {
 
-    return(
+    return (
         <MDBCarousel
             activeItem={1}
             length={3}
@@ -36,7 +36,7 @@ const ImageCarouselHeader = () => {
                 </MDBCarouselItem>
             </MDBCarouselInner>
         </MDBCarousel>
-    )
+    );
 }
 
 export default ImageCarouselHeader;
