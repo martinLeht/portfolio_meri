@@ -40,24 +40,21 @@
     background-color: #d0bba1;
 }
 
-.toolbar-button {
-    cursor: pointer;
-    color: #ccc;
+.editor {
+    min-width: 200px;
 }
 
-.toolbar-button.active {
+.toolbar-button {
     cursor: pointer;
     color: black;
 }
 
-.toolbar-button.color-rev {
-    cursor: pointer;
-    color: #aaa;
-}
-
-.toolbar-button.color-rev.active {
-    cursor: pointer;
-    color: white;
+.toolbar-menu {
+    position: relative;
+    padding: 1px 18px 17px;
+    margin: 0 -20px;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
 }
 
 
