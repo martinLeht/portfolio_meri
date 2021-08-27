@@ -1,13 +1,29 @@
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
     Link
-  } from "react-router-dom";
+} from "react-router-dom";
 import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
 import BlogCard from './BlogCard';
 
-const BlogTopSection = () => {
+const BlogTopSection = (props) => {
+
+    const { latestPostTag } = props;
+
+    const renderLatestPost = () => {
+
+        if (latestPostTag !== undefined) {
+            return (
+                <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="7">
+                    <BlogCard img="https://mdbootstrap.com/img/Others/documentation/img(117)-mini.jpg"
+                            title={ latestPostTag.postTitle }
+                            postIntro={ latestPostTag.postIntro } 
+                            createdAt={ latestPostTag.createdAt } 
+                            id={ latestPostTag.id } />
+                </MDBCol>
+            );
+        } else {
+            return undefined;
+        }
+    }
 
     return (
         <MDBRow className="p-3" center middle>
@@ -35,9 +51,8 @@ const BlogTopSection = () => {
                     </MDBCol>
                 </MDBRow>
             </MDBCol>
-            <MDBCol className="d-flex justify-content-end p-0 blog-latest" size="12" md="6" lg="7">
-                <BlogCard img="https://mdbootstrap.com/img/Others/documentation/img(117)-mini.jpg" />
-            </MDBCol>
+            { renderLatestPost() }                    
+            
         </MDBRow>
     );
 }

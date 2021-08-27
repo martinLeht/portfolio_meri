@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, forwardRef } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
 import { createEditor } from 'slate';
 
@@ -9,19 +9,37 @@ import MarkButton from './MarkButton';
 import BlockButton from './BlockButton';
 
 
-const BlogEditor = () => {
+const BlogEditor = (props) => {
+
+    const { editorContent } = props;
+
+    let initialContentValue;
+    if (editorContent !== undefined && editorContent !== null) {
+        initialContentValue = editorContent;
+    } else {
+        initialContentValue = [{
+            type: "paragraph",
+            children: [{ text: 'Sisältö...' }]
+        }];
+    }
+    const [content, setContent] = useState(initialContentValue);
 
     const editor = useMemo(() =>  withReact(createEditor()), []);
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
-    const [value, setValue] = useState([
-        {
-            children: [{ text: 'Testing' }],
-        },
-    ]);
+
+
+    const handleContentChange = (value) => {
+        console.log(value);
+        setContent(value);
+        // Save the value to Local Storage.
+        const content = JSON.stringify(value);
+        localStorage.setItem('content', content);
+    }
+    
 
     return (
-        <Slate editor={ editor } value={ value } onChange={ value => setValue(value)}>
+        <Slate editor={ editor } value={ content } onChange={ handleContentChange } >
             <Toolbar>
                 <MarkButton format="bold" icon="bold" tooltip="Bold text" />
                 <MarkButton format="italic" icon="italic" tooltip="Italic text" />
@@ -36,7 +54,6 @@ const BlogEditor = () => {
                 className="bg-white rounded-3 p-2" 
                 renderElement={ renderElement }
                 renderLeaf={ renderLeaf }
-                placeholder="Kirjoita tänne…"
                 spellCheck
                 autoFocus
             />

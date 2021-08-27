@@ -8,10 +8,8 @@ const NavItem = (props) => {
     const changeRoute = () => {
         const routePath = window.location.pathname;
         if (routePath !== "/") {
-            console.log("DIFFERENT URL: " + routePath);
             history.push("/");
         }
-        console.log("URL now: " + routePath);
     }
 
     const { item } = props;

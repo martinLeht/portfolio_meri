@@ -17,6 +17,7 @@ blockquote {
 }
 
 .sort {
+  min-width: 230px;
   max-width: 230px;
 }
 
@@ -114,11 +115,23 @@ blockquote {
 }
 
 /* Contact */
+/*
+@keyframes contact-animation {
+  0%   { opacity: 0; top:100px; }
+  100% { opacity: 1; top:0px; }
+}
+*/
+
 .contact {
   padding-top: 120px;
   margin-bottom: -25px;
   padding-left: 10px;
   padding-right: 12px;
+  /*
+  animation-name: contact-animation;
+  animation-duration: 2s;
+  position: relative;
+  */
 }
 
 .contact-row {

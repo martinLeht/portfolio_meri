@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBRow, MDBCol } from 'mdbreact';
 import Lightbox from "react-image-lightbox";
 import InstaPost from './InstaPost';
 import InstagramService from '../../services/InstagramService';
@@ -69,7 +69,7 @@ class InstaFeed extends Component {
                                     media_url,
                                     permalink}, i) => {
                                     return (
-                                        <MDBCol md="4">
+                                        <MDBCol md="4" key={ i }>
                                             <InstaPost
                                                 id={ id } 
                                                 src={ media_url } 
@@ -80,7 +80,8 @@ class InstaFeed extends Component {
                                             />
                                         </MDBCol>
                                     );
-                                }))
+                                })
+                            )
                         }
                     </MDBRow>
                 </div>

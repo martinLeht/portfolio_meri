@@ -1,44 +1,42 @@
-import { MDBCard, MDBCardTitle, MDBIcon } from 'mdbreact';
+import { MDBRow, MDBCol, MDBCard, MDBCardTitle, MDBIcon, MDBView, MDBMask  } from 'mdbreact';
+import { NavLink } from "react-router-dom";
 
 
 
 const BlogCard = (props) => {
 
-    const { img } = props;
+    const { img, title, postIntro, createdAt, id } = props;
 
     const imgPath = "url('" + img + "')";
 
-    const date = new Date().toLocaleString();
-
     return(
         <MDBCard
-          className='card-image d-flex justify-content-end m-0 blog-card'
-          style={{
-            backgroundImage: imgPath
-          }}
+            className='card-image justify-content-end mb-1 blog-card'
+            style={{
+                backgroundImage: imgPath
+            }}
         >
-            <div className='text-white text-left pt-5'>
+            <div className='d-flex justify-content-end align-items-bottom text-white text-left pt-5' >
                 <div className="blog-card-content px-4">
-                    <MDBCardTitle tag='h4' className='pt-2'>
-                        <strong>Blogi Otsikko</strong>
-                    </MDBCardTitle>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Repellat fugiat, laboriosam, voluptatem sit...
-                    </p>
-                    <p className='d-inline font-weight-bold text-gray-50'>
-                        <MDBIcon far icon="clock" /> 
-                        { date }
-                    </p>
-                    <a
-                        href='!#'
-                        className='text-white mt-1 d-flex justify-content-end align-items-center'
+                    <div>
+                        <MDBCardTitle tag='h4' className='pt-2'>
+                            <strong>{ title }</strong>
+                        </MDBCardTitle>
+                        <p> { postIntro } </p>
+                        <p className='d-inline font-weight-bold'>
+                            <MDBIcon far icon="clock" /> { createdAt }
+                        </p>
+                    </div>
+
+                    <NavLink
+                        className="text-white mt-1 d-flex justify-content-end align-items-center nav-link"
+                        to={ `/blog/post/${id}` }
                     >
                         <h6>
                             Lue lisää{' '}
                             <MDBIcon icon='chevron-right' size='sm'/>
                         </h6>
-                    </a>                    
+                    </NavLink>                  
                 </div>
             </div>
         </MDBCard>

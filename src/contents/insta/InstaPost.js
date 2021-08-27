@@ -51,7 +51,7 @@ class InstaPost extends Component {
 
         return (
             <MDBCard className="m-2">
-                <MDBView hover className="m-1 ig-post">
+                <MDBView hover className="ig-post">
                     {mediaContent}
                     <MDBMask 
                         className="flex-center p-2" 

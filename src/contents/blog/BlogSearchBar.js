@@ -1,69 +1,66 @@
 import { MDBRow, MDBCol, MDBIcon } from "mdbreact";
-import useWindowDimensions from '../../hooks/window-dimensions';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import SortSelect from "../../components/general/SortSelect";
 import SearchField from "../../components/general/SearchField";
 
 
-const BlogBar = (props) => {
+const BlogSearchBar = (props) => {
 
-    const { title } = props;
+    const { collapsed } = props;
     const [isHidden, setHidden] = useState(true);
-    const { height, width } = useWindowDimensions();
-    const collapse = width < 785;
-    
 
     const toggleHideSearch = () => {
         setHidden(!isHidden);
     }
 
-
-    return (        
-        <MDBRow between className="rounded-4 text-white bg-dark p-1 mb-2">
-            <MDBCol middle size="4" lg="6">
-                <h3>{ title }</h3>
-            </MDBCol>
-
-            <MDBCol middle className="d-flex justify-content-end flex-column" size="7" lg="6">
-                {
-                    collapse
-                    ? (
-                        <div className="d-flex justify-content-end flex-row">
-                            <div onClick={ toggleHideSearch }>
-                                <MDBIcon icon={"angle-" + (isHidden ? "down" : "up")}/>
-                                <MDBIcon className="ml-1" icon="bars" />
-                            </div>
-                            <div className={"border-right border-4 rounded-bottom pl-3 bg-dark blog-search" + (isHidden ? " hidden" : "")}>
-                                <SortSelect />
-                                <SearchField />
-                            </div>
-                        </div>
-                    )
-                    : (
-                        <MDBRow middle>
-                            <MDBCol>
+    const renderSearchBar = () => {
+        let searchBarComponent;
+        if (collapsed) {
+            searchBarComponent = (
+                <>   
+                    <MDBCol size="4" lg="4" className={"p-2 border-right border-white border-4 search-col"  + (isHidden ? " hidden" : "") }>
+                        <MDBRow center className="d-flex justify-content-center text-white">
+                            <MDBCol className="d-flex justify-content-center">
                                 <SortSelect />
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol className="d-flex justify-content-center">
                                 <SearchField />
                             </MDBCol>
                         </MDBRow>
-                    )
-                }
-                
-            </MDBCol>
+                    </MDBCol>
+                    <MDBCol top className="d-flex rounded-4 mb-2" size="2" lg="2">
+                        <div onClick={ toggleHideSearch }>
+                            <MDBIcon icon={ isHidden ? "search" : "times" } size="2x" />
+                        </div>
+                    </MDBCol>
+                </>
+            );
+        } else {
+            searchBarComponent = (
+                <MDBCol size="6" lg="6" className="p-2 border-bottom border-white border-4 search-col">
+                    <MDBRow className="text-white">
+                        <MDBCol className="d-flex justify-content-center">
+                            <SortSelect />
+                        </MDBCol>
+                        <MDBCol className="d-flex justify-content-center">
+                            <SearchField />
+                        </MDBCol>
+                    </MDBRow>
+                </MDBCol> 
+            );
+        }
+        return searchBarComponent;
+    }
 
+    return (        
+        <MDBRow center className="p-3 text-white">
+            { renderSearchBar() }
         </MDBRow>
     );
 }
 
-BlogBar.propTypes = {
-    searchBar: PropTypes.bool
+BlogSearchBar.defaultProps = {
+    collapsed: false
 }
 
-BlogBar.defaultProps = {
-    searchBar: true
-}
-
-export default BlogBar;
+export default BlogSearchBar;

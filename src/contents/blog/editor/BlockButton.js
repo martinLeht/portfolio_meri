@@ -5,6 +5,7 @@ import IconButton from '../../../components/general/IconButton';
 
 const BlockButton = (props) => {
     const { format, icon, tooltip, size } = props;
+
     const editor = useSlate();
     const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
@@ -27,7 +28,7 @@ const BlockButton = (props) => {
         Transforms.setNodes(editor, newProperties)
       
         if (!isActive && isList) {
-            const block = { type: format, children: [] }
+            const block = { type: format, children: [], /*alignment: 'center'*/ }
             Transforms.wrapNodes(editor, block)
         }
     }
