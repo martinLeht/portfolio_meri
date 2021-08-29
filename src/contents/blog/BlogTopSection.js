@@ -39,15 +39,13 @@ const BlogTopSection = (props) => {
                     </MDBCol>
                 </MDBRow>
                 <MDBRow center middle>
-                    <MDBCol className="p-3 blog-post-add-link" middle>
-                        <div>
-                            <Link to="/blog/add" className="text-white">
-                                <h3 className="d-flex justify-content-center align-items-center flex-column">
-                                    <b>Lisää Julkaisu</b>
-                                    <MDBIcon icon="plus" />
-                                </h3>
-                            </Link>
-                        </div>
+                    <MDBCol className="p-3 blog-post-add-link dashed-border-5">
+                        <Link to="/blog/add" className="text-white">
+                            <h3 className="d-flex justify-content-center align-items-center flex-column">
+                                <b>Lisää Julkaisu</b>
+                                <MDBIcon icon="plus" />
+                            </h3>
+                        </Link>
                     </MDBCol>
                 </MDBRow>
             </MDBCol>

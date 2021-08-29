@@ -11,6 +11,44 @@ blockquote {
   font-style: italic;
 }
 
+/* General Styling */
+.bg-dark-beige {
+  background-color: #d0bba1;
+}
+
+.dashed-border {
+  border-width: 1px;  
+  border-style: dashed;
+  border-color: white;
+}
+
+.dashed-border-2 {
+  border-width: 2px;  
+  border-style: dashed;
+  border-color: white;
+}
+
+.dashed-border-3 {
+  border-width: 3px;  
+  border-style: dashed;
+  border-color: white;
+}
+
+.dashed-border-4 {
+  border-width: 4px;  
+  border-style: dashed;
+  border-color: white;
+}
+
+.dashed-border-5 {
+  border-width: 5px;  
+  border-style: dashed;
+  border-color: white;
+}
+
+
+
+
 /* Fields, Buttons, etc... */
 .search {
   min-width: 260px;

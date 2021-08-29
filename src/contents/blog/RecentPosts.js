@@ -1,20 +1,15 @@
-import { Suspense } from 'react';
-import { MDBRow, MDBCol } from 'mdbreact';
-import useWindowDimensions from '../../hooks/window-dimensions';
-import BlogCard from './BlogCard';
-import BlogSearchBar from './BlogSearchBar';
+import { Suspense, useContext } from "react";
+import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
+import { NavLink } from "react-router-dom";
 import LoadingSpinner from '../../components/general/LoadingSpinner';
+import BlogCard from './BlogCard';
+import { PostsProvider } from './context/PostsContext';
 
+const RecentPosts = () => {
+    
+    const postTags = useContext(PostsProvider);
 
-const BlogFeed = (props) => {
-
-    const { postTags } = props;
-    const { height, width } = useWindowDimensions();
-    const isSearchBarCollapsed = width < 785;
-
-    console.log(postTags);
-
-    const renderFeed = () => {
+    const renderPosts = () => {
 
         let content;
         const hasPosts = (postTags !== undefined && postTags.length > 0);
@@ -47,17 +42,30 @@ const BlogFeed = (props) => {
             </MDBRow>
         );
     }
-    
-    return (
+
+    return(
         <>
-            <MDBRow center className="text-white">
-                <BlogSearchBar collapsed={ isSearchBarCollapsed } />
+            <MDBRow between className="text-white">
+                    <MDBCol>
+                        <h4>Viimeisimmät julkaisut</h4>
+                    </MDBCol>
+                    <MDBCol>
+                        <NavLink
+                            className="text-white mt-1 d-flex justify-content-end align-items-center nav-link"
+                            to={ `/blog` }
+                        >
+                            <h6>
+                                Katso kaikki{' '}
+                                <MDBIcon icon='chevron-right' size='sm'/>
+                            </h6>
+                        </NavLink>
+                    </MDBCol>
             </MDBRow>
             <Suspense fallback={ <LoadingSpinner /> } >
-                { renderFeed() }
+                { renderPosts() }
             </Suspense>
-        </>  
+        </>
     );
 }
 
-export default BlogFeed;
+export default RecentPosts;

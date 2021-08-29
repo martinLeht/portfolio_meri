@@ -2,9 +2,9 @@ import { Suspense, useState, useEffect } from "react";
 import {
     useParams
 } from "react-router-dom";
-import SectionSeparator from "./SectionSeparator";
 import BlogPostService from '../../services/BlogPostService';
 import { MDBRow, MDBCol } from "mdbreact";
+import RecentPosts from "./RecentPosts";
 
 const BlogPost = (props) => {
 
@@ -107,9 +107,7 @@ const BlogPost = (props) => {
                         </div>
                     </MDBCol>
                     <MDBCol size="2" lg="2"className="d-flex justify-content-center border border-white border-4 recent-posts">
-                        <div className=" ">
-                            <h1>Tähän viimesimmät julkaisut</h1>
-                        </div>
+                        <RecentPosts />
                     </MDBCol>
                 </MDBRow>
             </MDBRow>

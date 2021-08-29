@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import BlogTopSection from './BlogTopSection';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
+import { PostsProvider } from './context/PostsContext';
 
 
 const BlogFeed = lazy(() => import('./BlogFeed'));
@@ -16,7 +17,19 @@ class Blog extends Component {
         super();
         this.blogPostService = new BlogPostService();
         this.state = {
-            postTags: []
+            //postTags: []
+            postTags: [
+                {
+                    postTitle: "Lorem Ipsum",
+                    postIntro: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text...",
+                    createdAt: new Date().toLocaleTimeString()
+                },
+                {
+                    postTitle: "Lorem Ipsum SECOND",
+                    postIntro: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...",
+                    createdAt: new Date().toLocaleTimeString()
+                }
+            ]
         }; 
     }
     
@@ -67,7 +80,9 @@ class Blog extends Component {
                             <WriteBlogPost />
                         </Route>
                         <Route exact path="/blog/post/:postId">
-                            <BlogPost />
+                            <PostsProvider postTags={ postTags }>
+                                <BlogPost />
+                            </PostsProvider>
                         </Route>                             
                     </Switch>
                 </Suspense>
