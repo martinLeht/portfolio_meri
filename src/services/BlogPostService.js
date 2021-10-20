@@ -4,7 +4,7 @@ class BlogPostService {
 
     constructor() {
         this.client = axios.create({
-            baseURL: process.env.REACT_APP_BLOG_API_URL,
+            baseURL: process.env.REACT_APP_API_GATEWAY_URL + process.env.REACT_APP_BLOG_API_ENDPOINT,
             timeout: 31000,
             headers: {'Access-Control-Allow-Origin': '*'}
         });
@@ -12,7 +12,7 @@ class BlogPostService {
 
     async getPosts() {
         try {
-            const res = await this.client.get('/blog');
+            const res = await this.client.get('/');
             return res.data;
         } catch(err) {
             console.error(err);
@@ -21,7 +21,7 @@ class BlogPostService {
 
     async getPostById(id) {
         try {
-            const res = await this.client.get(`/blog/${id}`);
+            const res = await this.client.get(`/${id}`);
             return res.data;
         } catch(err) {
             console.error(err);
@@ -30,7 +30,16 @@ class BlogPostService {
 
     async getTags() {
         try {
-            const res = await this.client.get('/blog/tag');
+            const res = await this.client.get('/tag');
+            return res.data;
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
+    async getLatestTags() {
+        try {
+            const res = await this.client.get('/tag/latest');
             return res.data;
         } catch(err) {
             console.error(err);
@@ -39,7 +48,7 @@ class BlogPostService {
 
     async getTagById(id) {
         try {
-            const res = await this.client.get(`/blog/${id}/tag`);
+            const res = await this.client.get(`/${id}/tag`);
             return res.data;
         } catch(err) {
             console.error(err);
@@ -48,7 +57,7 @@ class BlogPostService {
 
     async createPost(post) {
         try {
-            const res = await this.client.post('/blog/', post);
+            const res = await this.client.post('/', post);
             return res.data;
         } catch(err) {
             console.error(err);
@@ -57,7 +66,7 @@ class BlogPostService {
 
     async updatePost(id, postData) {
         try {
-            const res = await this.client.put(`/blog/${id}`, postData);
+            const res = await this.client.put(`/${id}`, postData);
             return res.data;
         } catch(err) {
             console.error(err);
@@ -66,7 +75,7 @@ class BlogPostService {
 
     async deletePostById(id) {
         try {
-            const res = await this.client.delete(`/blog/${id}`);
+            const res = await this.client.delete(`/${id}`);
             return res.data;
         } catch(err) {
             console.error(err);

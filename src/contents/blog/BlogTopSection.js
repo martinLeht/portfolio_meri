@@ -1,19 +1,20 @@
-import {
-    Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
 import BlogCard from './BlogCard';
+import LoadingSpinner from '../../components/general/LoadingSpinner';
 
 const BlogTopSection = (props) => {
 
-    const { latestPostTag } = props;
+    const { isLoading, latestPostTag } = props;
 
     const renderLatestPost = () => {
 
-        if (latestPostTag !== undefined) {
+        if (isLoading) {
+            return <LoadingSpinner />;
+        } else if (latestPostTag !== undefined) {
             return (
                 <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="7">
-                    <BlogCard img="https://mdbootstrap.com/img/Others/documentation/img(117)-mini.jpg"
+                    <BlogCard img={ latestPostTag.thumbnail }
                             title={ latestPostTag.postTitle }
                             postIntro={ latestPostTag.postIntro } 
                             createdAt={ latestPostTag.createdAt } 
@@ -40,7 +41,7 @@ const BlogTopSection = (props) => {
                 </MDBRow>
                 <MDBRow center middle>
                     <MDBCol className="p-3 blog-post-add-link dashed-border-5">
-                        <Link to="/blog/add" className="text-white">
+                        <Link to="/blog/write" className="text-white">
                             <h3 className="d-flex justify-content-center align-items-center flex-column">
                                 <b>Lisää Julkaisu</b>
                                 <MDBIcon icon="plus" />
@@ -53,6 +54,10 @@ const BlogTopSection = (props) => {
             
         </MDBRow>
     );
+}
+
+BlogTopSection.defaltProps = {
+    isLoading: false
 }
 
 export default BlogTopSection;

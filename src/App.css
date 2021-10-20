@@ -16,6 +16,10 @@ blockquote {
   background-color: #d0bba1;
 }
 
+.min-width-300 {
+ min-width: 300px;
+}
+
 .dashed-border {
   border-width: 1px;  
   border-style: dashed;
@@ -47,9 +51,11 @@ blockquote {
 }
 
 
-
-
 /* Fields, Buttons, etc... */
+.image-upload-input {
+    display: none;
+}
+
 .search {
   min-width: 260px;
 }

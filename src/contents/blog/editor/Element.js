@@ -1,38 +1,27 @@
+import Image from './Image';
+
 const Element = (props) => {
     const { attributes, children, element } = props;
     
-    /*
-    const resolveAlignment = (alignment) => {
-        let className = "";
-        if (alignment !== undefined) {
-            switch (alignment) {
-                case 'center':
-                    className = "align-self-center";
-                case 'left':
-                    className = "align-self-start";
-                case 'right':
-                    className = "align-self-end";
-            }
-        }
-        return className;
-    };
-    */
-
     switch (element.type) {
         case 'block-quote':
-            return <blockquote {...attributes} /*className={ resolveAlignment(element.alignment) } */>{children}</blockquote>
+            return <blockquote {...attributes} >{children}</blockquote>
         case 'bulleted-list':
-            return <ul {...attributes} /*className={ resolveAlignment(element.alignment) } */>{children}</ul>
+            return <ul {...attributes} >{children}</ul>
+        case 'link':
+            return <a href={children.text} {...attributes} >{children}</a>
         case 'heading-one':
-            return <h1 {...attributes} /*className={ resolveAlignment(element.alignment) } */>{children}</h1>
+            return <h1 {...attributes} >{children}</h1>
         case 'heading-two':
-            return <h2 {...attributes} /*className={ resolveAlignment(element.alignment) } */>{children}</h2>
+            return <h2 {...attributes} >{children}</h2>
         case 'list-item':
-            return <li {...attributes} /*className={ resolveAlignment(element.alignment) } */>{children}</li>
+            return <li {...attributes} >{children}</li>
         case 'numbered-list':
-            return <ol {...attributes} /*className={ resolveAlignment(element.alignment) } */>{children}</ol>
+            return <ol {...attributes} >{children}</ol>
+        case 'image':
+            return <Image {...props} />;
         default:
-            return <p {...attributes} /*className={ resolveAlignment(element.alignment) } */>{children}</p>
+            return <p {...attributes} >{children}</p>
     }
 }
 

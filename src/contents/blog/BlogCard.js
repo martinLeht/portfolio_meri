@@ -1,17 +1,17 @@
-import { MDBRow, MDBCol, MDBCard, MDBCardTitle, MDBIcon, MDBView, MDBMask  } from 'mdbreact';
+import { MDBCard, MDBCardTitle, MDBIcon } from 'mdbreact';
 import { NavLink } from "react-router-dom";
 
 
 
 const BlogCard = (props) => {
 
-    const { img, title, postIntro, createdAt, id } = props;
+    const { className, img, title, postIntro, createdAt, id } = props;
 
     const imgPath = "url('" + img + "')";
 
     return(
         <MDBCard
-            className='card-image justify-content-end mb-1 blog-card'
+            className={className + ' card-image justify-content-end mb-1 blog-card'}
             style={{
                 backgroundImage: imgPath
             }}

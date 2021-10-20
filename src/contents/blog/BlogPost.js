@@ -1,21 +1,21 @@
-import { Suspense, useState, useEffect } from "react";
-import {
-    useParams
-} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import BlogPostService from '../../services/BlogPostService';
-import { MDBRow, MDBCol } from "mdbreact";
+import { MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import { NavLink } from "react-router-dom";
 import RecentPosts from "./RecentPosts";
 
 const BlogPost = (props) => {
 
     const [post, setPost] = useState({});
     const { postId } = useParams();
+    const { deletePostHandler } = props;
+    const history = useHistory();
 
     const blogPostService = new BlogPostService();
     
     useEffect(() => {
         blogPostService.getPostById(postId).then(post => {
-            console.log("GOT the post!!!");
             console.log(post);
             setPost(post);
         });
@@ -28,9 +28,9 @@ const BlogPost = (props) => {
                 return resolveContentBlock(block);
             });
             return (
-                <div className="blog-post-content">
+                <MDBRow className="blog-post-content">
                     { contentBlocks }
-                </div>
+                </MDBRow>
             );
         }
 
@@ -57,6 +57,16 @@ const BlogPost = (props) => {
                 break;
             case "bulleted-list":
                 contentBlock = <ul>{ convertListItemsToListElement(block.blockItems) }</ul>;
+                break;
+            case "image":
+                contentBlock = (
+                    <MDBRow middle center>
+                        <img className="post-img" src={ block.blockItems[0].urlLink } />
+                    </MDBRow>
+                );
+                break;
+            case "link":
+                contentBlock = <a href={ block.blockItems[0].urlLink }>{ convertTextFragmentsToTextElement(block.blockItems[0].textFragments) }</a>;
                 break;
             default:
                 break;
@@ -89,27 +99,51 @@ const BlogPost = (props) => {
         return listContent;
     }
 
+    const handleDeletePost = () => {
+        // Todo DELETE POST
+        console.log("DELETING POST!");
+        deletePostHandler(parseInt(postId));
+    }
+
     return (
         <>
             <MDBRow center>
-                <MDBRow center className="p-2 mb-2 border-bottom border-white border-4 blog-post-title">
-                    <MDBCol className="d-inline text-center text-white">
+                <MDBRow center className="d-inline p-2 mb-2 border-bottom border-white border-4 blog-post-title">
+                    <MDBCol className="text-center text-white">
                         <h1>{ post.title }</h1>
                         <p>{ post.createdAt }</p>
                     </MDBCol>
+                    <MDBCol className="d-flex justify-content-center">
+                        <NavLink
+                            className="text-white nav-link"
+                            to={ `/blog/write/${postId}` }
+                        >
+                            <h6>
+                                Muokkaa{' '}
+                                <MDBIcon icon='edit' size='sm'/>
+                            </h6>
+                        </NavLink>
+                        <NavLink
+                            className="text-white nav-link"
+                            onClick={ handleDeletePost }
+                            to={ `/blog` }
+                        >
+                            <h6>
+                                Poista{' '}
+                                <MDBIcon icon='trash-alt' size='sm'/>
+                            </h6>
+                        </NavLink> 
+                        </MDBCol>
                 </MDBRow>
                 <MDBRow center>
-                    <MDBCol size="10" lg="8" className="d-flex justify-content-center">
+                    <MDBCol size="10" lg="8" className="d-flex pt-2 justify-content-center">
                         <div className="blog-post">
-                            <div className="blog-post-content">
-                                { renderContent() }
-                            </div>
+                            { renderContent() }
                         </div>
                     </MDBCol>
-                    <MDBCol size="2" lg="2"className="d-flex justify-content-center border border-white border-4 recent-posts">
-                        <RecentPosts />
-                    </MDBCol>
                 </MDBRow>
+                
+                <RecentPosts />
             </MDBRow>
         </>
     );

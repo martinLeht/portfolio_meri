@@ -4,6 +4,7 @@ import Lightbox from "react-image-lightbox";
 import InstaPost from './InstaPost';
 import InstagramService from '../../services/InstagramService';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
+import SectionSeparator from '../../components/general/SectionSeparator';
 
 class InstaFeed extends Component {
 
@@ -55,48 +56,52 @@ class InstaFeed extends Component {
         const { photoIndex, isLoading, posts, isOpen } = this.state;
 
         return (
-            <div className="d-flex align-items-center justify-content-center ig-container">
-                <div className="mdb-lightbox no-margin p-1 ig-posts">
-                    <MDBRow center>
-                        { isLoading && <LoadingSpinner/> }
-                        {
-                            posts != undefined && posts.length > 0 
-                            && (
-                                posts.map(({
-                                    id,
-                                    media_type,
-                                    caption,
-                                    media_url,
-                                    permalink}, i) => {
-                                    return (
-                                        <MDBCol md="4" key={ i }>
-                                            <InstaPost
-                                                id={ id } 
-                                                src={ media_url } 
-                                                instaLink={ permalink }
-                                                caption={ caption }
-                                                mediaType={ media_type }
-                                                openAction={ () => this.openAction(i) }
-                                            />
-                                        </MDBCol>
-                                    );
-                                })
-                            )
-                        }
-                    </MDBRow>
-                </div>
+            <div className="p-4">
+                <SectionSeparator title="Instagram Julkaisut" />
+                <div className="d-flex align-items-center justify-content-center ig-container">
+                    
+                    <div className="mdb-lightbox no-margin p-1 ig-posts">
+                        <MDBRow center>
+                            { isLoading && <LoadingSpinner/> }
+                            {
+                                posts != undefined && posts.length > 0 
+                                && (
+                                    posts.map(({
+                                        id,
+                                        media_type,
+                                        caption,
+                                        media_url,
+                                        permalink}, i) => {
+                                        return (
+                                            <MDBCol md="4" key={ i }>
+                                                <InstaPost
+                                                    id={ id } 
+                                                    src={ media_url } 
+                                                    instaLink={ permalink }
+                                                    caption={ caption }
+                                                    mediaType={ media_type }
+                                                    openAction={ () => this.openAction(i) }
+                                                />
+                                            </MDBCol>
+                                        );
+                                    })
+                                )
+                            }
+                        </MDBRow>
+                    </div>
 
-                { !isLoading && isOpen && (
-                    <Lightbox
-                        mainSrc={posts[photoIndex].media_url}
-                        nextSrc={posts[(photoIndex + 1) % posts.length].media_url}
-                        prevSrc={posts[(photoIndex + posts.length - 1) % posts.length].media_url}
-                        imageTitle={photoIndex + 1 + "/" + posts.length}
-                        onCloseRequest={ this.closeAction }
-                        onMovePrevRequest={ () => this.movePrevAction(photoIndex) }
-                        onMoveNextRequest={ () => this.moveNextAction(photoIndex) }
-                    />
-                )}
+                    { !isLoading && isOpen && (
+                        <Lightbox
+                            mainSrc={posts[photoIndex].media_url}
+                            nextSrc={posts[(photoIndex + 1) % posts.length].media_url}
+                            prevSrc={posts[(photoIndex + posts.length - 1) % posts.length].media_url}
+                            imageTitle={photoIndex + 1 + "/" + posts.length}
+                            onCloseRequest={ this.closeAction }
+                            onMovePrevRequest={ () => this.movePrevAction(photoIndex) }
+                            onMoveNextRequest={ () => this.moveNextAction(photoIndex) }
+                        />
+                    )}
+                </div>
             </div>
         )
     }

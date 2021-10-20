@@ -2,7 +2,7 @@ import { MDBIcon, MDBTooltip } from 'mdbreact';
 
 const IconButton = (props) => {
 
-    const { icon, tooltip, tooltipPlacement, action, active, size } = props;
+    const { children, icon, tooltip, tooltipPlacement, action, active, size } = props;
 
     return (
         <MDBTooltip
@@ -18,6 +18,7 @@ const IconButton = (props) => {
                     onClick={ action } 
                     size={ size } 
                 />
+                { children }
             </span>
             <span>{ tooltip }</span>
         </MDBTooltip>

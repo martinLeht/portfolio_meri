@@ -1,30 +1,39 @@
-import { Suspense, useContext } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
 import { NavLink } from "react-router-dom";
 import LoadingSpinner from '../../components/general/LoadingSpinner';
+import BlogPostService from '../../services/BlogPostService';
 import BlogCard from './BlogCard';
-import { PostsProvider } from './context/PostsContext';
 
 const RecentPosts = () => {
-    
-    const postTags = useContext(PostsProvider);
+
+    const [latestPosts, setLatestPosts] = useState([]);
+    const blogPostService = new BlogPostService();
+
+    useEffect(() => {
+        blogPostService.getLatestTags().then(postTags => {
+            setLatestPosts(postTags.slice(0, 3));
+        }).catch(e => console.error(e.message));
+    }, []);
 
     const renderPosts = () => {
 
         let content;
-        const hasPosts = (postTags !== undefined && postTags.length > 0);
+        const hasPosts = (latestPosts !== undefined && latestPosts.length > 0);
         if (hasPosts) {
-            content = postTags.map((tag) => {
+            content = latestPosts.map((tag) => {
                 return (
-                    <MDBCol md="3" key={ tag.id } className="blog-feed-col">                
+                    <MDBCol className="d-flex justify-content-center" md="4" >           
                         <BlogCard 
-                            img="https://mdbootstrap.com/img/Photos/Slides/img%20(137).jpg"
+                            className="recent-posts"
+                            img={ tag.thumbnail }
                             title={ tag.postTitle }
                             postIntro={ tag.postIntro }
                             createdAt={ tag.createdAt }
                             id={ tag.id }
+                            key={ tag.id }
                         />
-                    </MDBCol>
+                    </MDBCol>   
                 );
             })
         } else {
@@ -37,7 +46,7 @@ const RecentPosts = () => {
         
 
         return (
-            <MDBRow center className={ hasPosts ? "d-flex" : "dashed-border-3"}>
+            <MDBRow center className={ hasPosts ? "" : "dashed-border-3"}>
                 { content }
             </MDBRow>
         );
@@ -45,25 +54,26 @@ const RecentPosts = () => {
 
     return(
         <>
-            <MDBRow between className="text-white">
-                    <MDBCol>
-                        <h4>Viimeisimmät julkaisut</h4>
-                    </MDBCol>
-                    <MDBCol>
-                        <NavLink
-                            className="text-white mt-1 d-flex justify-content-end align-items-center nav-link"
-                            to={ `/blog` }
-                        >
-                            <h6>
-                                Katso kaikki{' '}
-                                <MDBIcon icon='chevron-right' size='sm'/>
-                            </h6>
-                        </NavLink>
-                    </MDBCol>
+            <MDBRow between className="border border-white p-3 bg-dark-beige">
+                <MDBCol size="5">
+                    <h5>Viimeisimmät julkaisut</h5>
+                </MDBCol>
+                <MDBCol size="5">
+                    <NavLink
+                        className="d-flex justify-content-end text-white mt-1 align-items-center nav-link"
+                        to={ `/blog` }
+                    >
+                        <h6>
+                            Katso kaikki{' '}
+                            <MDBIcon icon='chevron-right' size='sm'/>
+                        </h6>
+                    </NavLink>
+                </MDBCol>
+                <Suspense fallback={ <LoadingSpinner /> } >
+                    { renderPosts() }
+                </Suspense>
             </MDBRow>
-            <Suspense fallback={ <LoadingSpinner /> } >
-                { renderPosts() }
-            </Suspense>
+            
         </>
     );
 }

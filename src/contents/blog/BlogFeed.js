@@ -8,22 +8,22 @@ import LoadingSpinner from '../../components/general/LoadingSpinner';
 
 const BlogFeed = (props) => {
 
-    const { postTags } = props;
+    const { isLoading, postTags } = props;
     const { height, width } = useWindowDimensions();
     const isSearchBarCollapsed = width < 785;
-
-    console.log(postTags);
 
     const renderFeed = () => {
 
         let content;
         const hasPosts = (postTags !== undefined && postTags.length > 0);
-        if (hasPosts) {
+        if (isLoading) {
+            content = <LoadingSpinner />;
+        } else if (hasPosts) {
             content = postTags.map((tag) => {
                 return (
                     <MDBCol md="3" key={ tag.id } className="blog-feed-col">                
                         <BlogCard 
-                            img="https://mdbootstrap.com/img/Photos/Slides/img%20(137).jpg"
+                            img={tag.thumbnail}
                             title={ tag.postTitle }
                             postIntro={ tag.postIntro }
                             createdAt={ tag.createdAt }
@@ -42,7 +42,7 @@ const BlogFeed = (props) => {
         
 
         return (
-            <MDBRow center className={ hasPosts ? "d-flex" : "dashed-border-3"}>
+            <MDBRow center middle className={ hasPosts ? "d-flex" : "dashed-border-3"}>
                 { content }
             </MDBRow>
         );
@@ -53,11 +53,13 @@ const BlogFeed = (props) => {
             <MDBRow center className="text-white">
                 <BlogSearchBar collapsed={ isSearchBarCollapsed } />
             </MDBRow>
-            <Suspense fallback={ <LoadingSpinner /> } >
-                { renderFeed() }
-            </Suspense>
+            { renderFeed() }
         </>  
     );
+}
+
+BlogFeed.defaultProps = {
+    isLoading: false
 }
 
 export default BlogFeed;

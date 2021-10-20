@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams, useHistory } from "react-router-dom";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import BlogEditor from "./editor/BlogEditor";
 import BlogPostService from '../../services/BlogPostService';
@@ -6,9 +7,23 @@ import { convertBlogDataToDto, convertDtoToBlogData } from '../../utils/BlogMapp
 
 const WriteBlogPost = (props) => {
 
-    const { isEditMode, postToEdit } = props; 
+    const { newPostHandler } = props;
     const [title, setTitle] = useState('');
+    const [post, setPost] = useState();
+    const { postId } = useParams();
+    const history = useHistory();
+
     const blogPostService = new BlogPostService();
+
+    useEffect(() => {
+        if (postId !== undefined) {
+            blogPostService.getPostById(postId).then(post => {
+                console.log(post);
+                setTitle(post.title);
+                setPost(post);
+            }).catch(e => console.error(e.message));;
+        }
+    }, []);
 
     const printContent = () => {
         console.log(localStorage.getItem('content'));
@@ -18,45 +33,68 @@ const WriteBlogPost = (props) => {
         setTitle(event.target.value);
     }
 
+    const isInEditMode = () => {
+        return postId !== undefined && post !== undefined;
+    }
+
     const initTitle = () => {
-        if (isEditMode) {
-            setTitle(postToEdit.title);
-            return postToEdit.title;
+        if (isInEditMode() || title !== undefined) {
+            return title;
         } else {
             return "";
         }
     }
 
     const renderTimestamps = () => {
-        if (isEditMode && postToEdit !== undefined) {
+        if (isInEditMode()) {
             return (
                 <p>
-                    Julkaistu: { postToEdit.createdAt }
+                    <b>Julkaistu:</b> { post.createdAt }
                     <br/>
-                    Viimeksi muokattu: { postToEdit.updatedAt }
+                    <b>Viimeksi muokattu:</b> { post.updatedAt }
                 </p>
             )
         }
     }
 
+    const renderBlogEditor = () => {
+        if (postId !== undefined) {
+            if (post !== undefined) {
+                return <BlogEditor editorContent={ convertDtoToBlogData(post) } />
+            }
+        } else {
+            return <BlogEditor />
+        }
+    }
+
     const savePost = () => {
         const postContent = JSON.parse(localStorage.getItem('content'));
-        const postDto = convertBlogDataToDto(title, postContent);
+        
+        if (isInEditMode()) {
+            const postDto = convertBlogDataToDto(post.id, title, postContent);
+            console.log(postDto);
+            console.log(JSON.stringify(postDto));
 
-        console.log(postDto);
-        console.log(JSON.stringify(postDto));
-        if (isEditMode) {
-            blogPostService.updatePost(postDto).then(post => {
+            blogPostService.updatePost(Number(postDto.id), postDto).then(newPost => {
                 console.log("Updated POST:");
-                console.log(JSON.stringify(post));
+                console.log(JSON.stringify(newPost));
+                history.push(`/blog/${newPost.id}`);
             });
         } else {
-            blogPostService.createPost(postDto).then(post => {
+            const postDto = convertBlogDataToDto(undefined, title, postContent);
+            console.log(postDto);
+            console.log(JSON.stringify(postDto));
+
+            blogPostService.createPost(postDto).then(newPost => {
                 console.log("Created POST:");
-                console.log(JSON.stringify(post));
+                console.log(JSON.stringify(newPost));
+                
+                history.push("/blog");
+                newPostHandler(newPost.tag);
             });
         }
     }
+    
 
     return (
         <>
@@ -75,7 +113,7 @@ const WriteBlogPost = (props) => {
                     </div>
                 </MDBCol>
                 <MDBCol middle className="d-flex flex-column m-1 editor" size="10" lg="7">
-                    <BlogEditor editorContent={ (isEditMode && postToEdit !== undefined) ? postToEdit.content : undefined } />
+                    { renderBlogEditor() }
                 </MDBCol>
             </MDBRow>
         </>

@@ -3,7 +3,6 @@
 }
 
 .blog-latest {
-    /*min-width: 430px;*/
     animation-name: latest-post;
     animation-duration: 1.5s;
 }
@@ -31,7 +30,6 @@
 }
 
 .blog-card {
-    height: 400px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -40,7 +38,7 @@
 .blog-card-content {
     background-color: rgba(33, 33, 33, 0.7);
     width: 100%;
-    max-height: 400px;
+    /*max-height: 400px;*/
     min-height: 170px;
 }
 
@@ -55,13 +53,6 @@
     background-size: cover;
 }
 
-.card-overlay {
-    height: 200px;
-}
-
-.blog-post-add-link {
-}
-
 .blog-post-add-link:hover {
     background-color: #d0bba1;
 }
@@ -72,6 +63,10 @@
 
 .editor-action-panel {
     background-color: #613B44;
+}
+
+.editor-image-attachment {
+    max-width: 800px;
 }
 
 .toolbar-button {
@@ -99,8 +94,7 @@
 }
 
 .blog-post {
-    max-width: 800px;
-    
+    max-width: 750px;
 }
 
 .blog-post-title {
@@ -127,8 +121,16 @@
       
 }
 
+.blog-post-content .post-img {
+    max-width: 750px;
+    max-width: 100%;
+    height: auto;
+}
+
 .recent-posts {
     min-width: 300px;
+    max-width: 350px;
+    max-height: 300px;
 }
 
 

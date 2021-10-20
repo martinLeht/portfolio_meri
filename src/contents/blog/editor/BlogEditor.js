@@ -1,6 +1,9 @@
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
 import { createEditor } from 'slate';
+
+import useSelection from '../../../hooks/useSelection';
+import withEntryNormalization from '../plugins/with-entry-normalization';
 
 import Element from './Element';
 import Leaf from './Leaf';
@@ -14,7 +17,7 @@ const BlogEditor = (props) => {
     const { editorContent } = props;
 
     let initialContentValue;
-    if (editorContent !== undefined && editorContent !== null) {
+    if (editorContent !== undefined) {
         initialContentValue = editorContent;
     } else {
         initialContentValue = [{
@@ -24,18 +27,23 @@ const BlogEditor = (props) => {
     }
     const [content, setContent] = useState(initialContentValue);
 
-    const editor = useMemo(() =>  withReact(createEditor()), []);
-    const renderElement = useCallback(props => <Element {...props} />, [])
-    const renderLeaf = useCallback(props => <Leaf {...props} />, [])
+    console.log("CONTENT HERE");
+    console.log(content);
 
+    const editor = useMemo(() =>  withReact(withEntryNormalization(createEditor())), []);
+    const renderElement = useCallback(props => <Element {...props} />, []);
+    const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
-    const handleContentChange = (value) => {
-        console.log(value);
-        setContent(value);
-        // Save the value to Local Storage.
-        const content = JSON.stringify(value);
-        localStorage.setItem('content', content);
-    }
+    const [previousSelection, selection, setSelection] = useSelection(editor);
+    const handleContentChange = useCallback((content) => {
+        // Save the content to Local Storage.
+        console.log("Callback change");
+        console.log(content);
+        localStorage.setItem('content', JSON.stringify(content));
+
+        setContent(content);
+        setSelection(editor.selection);
+    }, [editor.selection, setContent, setSelection]);
     
 
     return (
@@ -47,8 +55,10 @@ const BlogEditor = (props) => {
                 <BlockButton format="heading-two" icon="heading" tooltip="Medium heading" />
                 <BlockButton format="heading-one" icon="heading" size="2x" tooltip="Large heaging" />
                 <BlockButton format="block-quote" icon="quote-right" tooltip="Quote block" />
-                <BlockButton format="numbered-list" icon="list-ol" tooltip="Numbered list" />
+                <BlockButton format="numbered-list" icon="list-ol" tooltip="Numbered list" />d
                 <BlockButton format="bulleted-list" icon="list-ul" tooltip="Bulleted list" />
+                <BlockButton format="link" icon="link" tooltip="Link" />
+                <BlockButton format="image" icon="image" tooltip="Attach Image" />
             </Toolbar>
             <Editable 
                 className="bg-white rounded-3 p-2" 
