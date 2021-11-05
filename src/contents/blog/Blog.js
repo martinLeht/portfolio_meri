@@ -4,6 +4,7 @@ import BlogTopSection from './BlogTopSection';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
 import { PostsProvider } from './context/PostsContext';
+import { useAuthentication } from './../../hooks/useAuthentication';
 
 
 const BlogFeed = lazy(() => import('./BlogFeed'));
@@ -36,7 +37,7 @@ class Blog extends Component {
             this.setState({
                 isLoading: false
             });
-            console.error(e.message)
+            console.error(e.message);
         });
     }
 

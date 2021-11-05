@@ -1,4 +1,7 @@
 import axios from 'axios';
+import UserCachingService from './UserCachingService';
+import AuthenticationService from './AuthenticationService';
+import { jwtAuthRequestInterceptor, jwtAuthResponseErrorInterceptor } from './interceptors/JwtAuthInterceptor';
 
 class BlogPostService {
 
@@ -8,6 +11,12 @@ class BlogPostService {
             timeout: 31000,
             headers: {'Access-Control-Allow-Origin': '*'}
         });
+        this.userCachingService = new UserCachingService();
+        this.authenticationService = new AuthenticationService();
+        this.client.interceptors.request.use(jwtAuthRequestInterceptor, (err) => {
+            Promise.reject(err);
+        }, { synchronous: true });
+        this.client.interceptors.response.use(response => response, jwtAuthResponseErrorInterceptor);
     }
 
     async getPosts() {

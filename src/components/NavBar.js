@@ -1,51 +1,57 @@
-import React, { Component } from 'react';
-import { NavLink } from "react-router-dom";
+import React, { useState } from 'react';
+import { NavLink, useHistory } from "react-router-dom";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBContainer
 } from "mdbreact";
 import NavItem from './general/NavItem'
+import { useAuthentication } from './../hooks/useAuthentication';
 
-class NavBar extends Component {
+const NavBar = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isOpen: false
-        }
+    const [isOpen, setOpen] = useState(false);
+    const { authenticated, logout } = useAuthentication();
+    let history = useHistory();
+
+    const toggleCollapse = () => {
+        setOpen(!isOpen );
     }
 
-    toggleCollapse = () => {
-        this.setState({ isOpen: !this.state.isOpen });
-    }
+    const handleLogout = () => {
+        logout().then(() => {
+            history.push("/");
+        });
+      };
 
-    render() {
-        const { isOpen } = this.state;
-
-        return (
-            <MDBNavbar fixed="top" scrolling transparent
-                    color={'elegant-color-dark'} 
-                    dark expand="md" >
-                <MDBContainer fluid>
-                    <MDBNavbarBrand>
-                        <a className="text-white" href="#">Meri Niemi</a>
-                    </MDBNavbarBrand>
-                    <MDBNavbarToggler onClick={this.toggleCollapse} />
-                    <MDBCollapse className="justify-content-center" id="navigation" isOpen={ isOpen } navbar>
-                        <MDBNavbarNav right>
-                            <NavItem item="Meri" navId="section-about" />
-                            <NavItem item="Kokemus" navId="section-experience" />
-                            <NavItem item="Galleria" navId="section-gallery" />
-                            <NavItem item="Ota Yhteyttä" navId="section-contact" />
-                        </MDBNavbarNav>
-                        <MDBNavbarNav right>
-                            <NavLink className="nav-link" to="/blog">Blogi</NavLink>
-                            <NavLink className="nav-link" to="/insta">Insta feed</NavLink>
-                        </MDBNavbarNav>
-                    </MDBCollapse>
-                </MDBContainer>
-            </MDBNavbar>
-        )
-    }
+    return (
+        <MDBNavbar fixed="top" scrolling transparent
+                color={'elegant-color-dark'} 
+                dark expand="md" >
+            <MDBContainer fluid>
+                <MDBNavbarBrand>
+                    <a className="text-white" href="#">Meri Niemi</a>
+                </MDBNavbarBrand>
+                <MDBNavbarToggler onClick={toggleCollapse} />
+                <MDBCollapse className="justify-content-center" id="navigation" isOpen={ isOpen } navbar>
+                    <MDBNavbarNav right>
+                        <NavItem item="Meri" navId="section-about" />
+                        <NavItem item="Kokemus" navId="section-experience" />
+                        <NavItem item="Galleria" navId="section-gallery" />
+                        <NavItem item="Ota Yhteyttä" navId="section-contact" />
+                    </MDBNavbarNav>
+                    <MDBNavbarNav right>
+                        <NavLink className="nav-link" to="/blog">Blogi</NavLink>
+                        <NavLink className="nav-link" to="/insta">Insta feed</NavLink>
+                        {authenticated && (
+                            <button onClick={handleLogout}>
+                                Logout
+                            </button>
+                        )}
+                    </MDBNavbarNav>
+                </MDBCollapse>
+            </MDBContainer>
+        </MDBNavbar>
+    )
+        
 }
 
 export default NavBar;
