@@ -1,10 +1,9 @@
-import React, { Component, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy, useEffect } from 'react';
 import { Route, Switch } from "react-router-dom";
 import BlogTopSection from './BlogTopSection';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
 import { PostsProvider } from './context/PostsContext';
-import { useAuthentication } from './../../hooks/useAuthentication';
 
 
 const BlogFeed = lazy(() => import('./BlogFeed'));
@@ -12,8 +11,65 @@ const SectionSeparator = lazy(() => import('../../components/general/SectionSepa
 const WriteBlogPost = lazy(() => import('./WriteBlogPost'));
 const BlogPost = lazy(() => import('./BlogPost'));
 
-class Blog extends Component {
+const Blog = () => {
 
+    const [postTags, setPostTags] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+
+    const blogPostService = new BlogPostService();
+
+    useEffect(() => {
+        setLoading(true);
+        blogPostService.getTags().then(postTags => {
+            setPostTags(postTags);
+            setLoading(false);
+        }).catch(e => {
+            console.error(e.message);
+            setLoading(false);
+        });
+    }, []);
+
+
+    const newPostHandler = (postTag) => {
+        if (postTags === undefined) {
+            setPostTags([]);
+        }
+        postTags.push(postTag);
+        setPostTags(postTags);
+    }
+
+    const deletePostHandler = (postId) => {
+        if (postTags === undefined) {
+            setPostTags([]);
+            setLoading(false);
+        } else {
+            setLoading(true);
+
+            blogPostService.deletePostById(postId).then(data => {
+                console.log(data);
+                console.log("Post delete handler");
+                console.log(postId);
+                const postTagsCleaned = this.state.postTags.filter(tag => tag.id !== postId);
+                console.log(postTagsCleaned);
+                setPostTags(postTagsCleaned);
+                setLoading(false);
+            });
+        }
+    }
+
+    const renderTopSection = () => {
+        if (postTags !== undefined && postTags.length > 0) {
+            return (
+                <BlogTopSection isLoading={ isLoading } latestPostTag={ postTags[0] } />
+            );
+        } else {
+            return (
+                <BlogTopSection />
+            ); 
+        }
+    }
+
+ /*
     constructor() {
         super();
         this.blogPostService = new BlogPostService();
@@ -96,42 +152,38 @@ class Blog extends Component {
             ); 
         }
     }
+    */
 
+    return (
+        <div className="blog-container p-4">
 
-    render() {
-        const { isLoading, postTags } = this.state;
-        return (
-            <div className="blog-container p-4">
-
-                <Route exact path={["/blog", "/blog/write"]}>
-                    { this.renderTopSection() }
-                </Route>
-                <Suspense fallback={ <LoadingSpinner /> }>
-                    <Switch>
-                        <Route exact path="/blog" >
-                            <SectionSeparator title="Kaikki julkaisut" />
-                            <BlogFeed isLoading={ isLoading } postTags={ postTags } />
-                        </Route>
-                        <Route exact path="/blog/write">
-                            <SectionSeparator title="Kirjoita Julkaisu" />
-                            <WriteBlogPost newPostHandler={ this.newPostHandler }/>
-                        </Route>
-                        <Route exact path="/blog/write/:postId">
-                            <SectionSeparator title="Muokkaa Julkaisua" />
-                            <WriteBlogPost />
-                        </Route>
-                        <Route exact path="/blog/post/:postId">
-                            <PostsProvider value={ postTags }>
-                                <BlogPost deletePostHandler={ this.deletePostHandler } />
-                            </PostsProvider>
-                        </Route>                             
-                    </Switch>
-                </Suspense>
-                
-            </div>
-        )
-    }
-    
+            <Route exact path={["/blog", "/blog/write"]}>
+                { renderTopSection() }
+            </Route>
+            <Suspense fallback={ <LoadingSpinner /> }>
+                <Switch>
+                    <Route exact path="/blog" >
+                        <SectionSeparator title="Kaikki julkaisut" />
+                        <BlogFeed isLoading={ isLoading } postTags={ postTags } />
+                    </Route>
+                    <Route exact path="/blog/write">
+                        <SectionSeparator title="Kirjoita Julkaisu" />
+                        <WriteBlogPost newPostHandler={ newPostHandler }/>
+                    </Route>
+                    <Route exact path="/blog/write/:postId">
+                        <SectionSeparator title="Muokkaa Julkaisua" />
+                        <WriteBlogPost />
+                    </Route>
+                    <Route exact path="/blog/post/:postId">
+                        <PostsProvider value={ postTags }>
+                            <BlogPost deletePostHandler={ deletePostHandler } />
+                        </PostsProvider>
+                    </Route>                             
+                </Switch>
+            </Suspense>
+            
+        </div>
+    )    
 }
 
 export default Blog;

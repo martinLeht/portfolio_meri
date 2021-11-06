@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
 import BlogCard from './BlogCard';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
+import { useAuthentication } from './../../hooks/useAuthentication';
 
 const BlogTopSection = (props) => {
 
     const { isLoading, latestPostTag } = props;
+    const { authenticated } = useAuthentication();
 
     const renderLatestPost = () => {
 
@@ -39,16 +41,21 @@ const BlogTopSection = (props) => {
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor </p>
                     </MDBCol>
                 </MDBRow>
-                <MDBRow center middle>
-                    <MDBCol className="p-3 blog-post-add-link dashed-border-5">
-                        <Link to="/blog/write" className="text-white">
-                            <h3 className="d-flex justify-content-center align-items-center flex-column">
-                                <b>Lisää Julkaisu</b>
-                                <MDBIcon icon="plus" />
-                            </h3>
-                        </Link>
-                    </MDBCol>
-                </MDBRow>
+                {
+                    authenticated && (
+                        <MDBRow center middle>
+                            <MDBCol className="p-3 blog-post-add-link dashed-border-5">
+                                <Link to="/blog/write" className="text-white">
+                                    <h3 className="d-flex justify-content-center align-items-center flex-column">
+                                        <b>Lisää Julkaisu</b>
+                                        <MDBIcon icon="plus" />
+                                    </h3>
+                                </Link>
+                            </MDBCol>
+                        </MDBRow>
+                    )
+                }
+                
             </MDBCol>
             { renderLatestPost() }                    
             
