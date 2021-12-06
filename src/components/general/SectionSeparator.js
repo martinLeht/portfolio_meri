@@ -1,13 +1,23 @@
-import { MDBBreadcrumb, MDBBreadcrumbItem } from 'mdbreact';
+import { MDBBreadcrumb, MDBBreadcrumbItem, MDBRow, MDBCol } from 'mdbreact';
+import { Children } from 'react';
 
 const SectionSeparator = (props) => {
 
-    const { title } = props;
+    const { children, title } = props;
 
     return (
-        <div className="d-flex justify-content-center rounded-4 text-white bg-dark p-3 mb-3">
-             <h3>{ title } </h3>
-        </div>
+        <MDBRow center>
+            <MDBCol size="10" className="my-4 border-bottom border-dark border-4">
+                <MDBRow between>
+                    <MDBCol bottom size="auto">
+                        <h2>{ title }</h2>
+                    </MDBCol>
+                    <MDBCol bottom size="auto">
+                        { children }
+                    </MDBCol>
+                </MDBRow>
+            </MDBCol>
+        </MDBRow>
     )
 
 }

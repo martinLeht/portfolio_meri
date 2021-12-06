@@ -7,44 +7,21 @@ import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 const Footer = () => {
 
     return (
-        <MDBFooter color="elegant-color" className="font-small pt-4 footer-content">
-            <MDBContainer className="text-left text-md-left">
-                <MDBRow>
-                <MDBCol md="6">
-                    <h5 className="title">Hyödyllistä</h5>
-                    <ul>
-                        <li className="list-unstyled">
-                            <a href="https://www.turku.fi/kuntavaalien-aanestyspaikat-2021">Turun kuntavaalien äänestyspaikat</a>
-                        </li>
-                        <li className="list-unstyled">
-                            <a href="https://www.turunvihreatnuoret.fi/files/2021/02/kuntavaaliohjelma2021.pdf">Turun vihreät nuoret kuntavaaliohjelma 2021</a>
-                        </li>
-                        <li className="list-unstyled">
-                            <a href="https://www.turunvihreatnuoret.fi/files/2021/03/Municipal-Election-Programme-2021.pdf">Municipal Election Programme 2021</a>
-                        </li>
-                        <li className="list-unstyled">
-                            <a href="https://www.turunvihreat.fi/kuntavaalit/vaaliohjelma2021/">Turun vihreiden kuntavaaliohjelma 2021</a>
-                        </li>
-                    </ul>
-                </MDBCol>
-                <MDBCol md="6">
-                    <h5 className="title">Ota Yhteyttä</h5>
-                    <ul>
-                        <li className="list-unstyled">
-                            <a href="https://www.instagram.com/meriniemi_/?hl=fi"><FontAwesomeIcon icon={faInstagram} /> Instagram</a>
-                        </li>
-                        <li className="list-unstyled">
-                            <a href="https://www.turunvihreat.fi/kuntavaalit/ehdokkaat2021/?kieli=fi&vaali=o_5&sukupuoli=nainen&ehdokas=niemi-meri-1075"><FontAwesomeIcon icon={faVoteYea} /> Vihreät | 427</a>
-                        </li>
-                    </ul>
-                </MDBCol>
-                </MDBRow>                    
-            </MDBContainer>
-            <div className="footer-copyright text-center py-3">
-                <MDBContainer fluid>
-                    <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+        <MDBFooter className="font-small">
+                <MDBContainer fluid className="text-center py-3">
+                    <MDBRow center>
+                        <MDBCol md="2">
+                            <h5>
+                                <a href="https://www.instagram.com/meriniemi_/?hl=fi"><FontAwesomeIcon icon={faInstagram} /> Instagram</a>
+                            </h5>
+                        </MDBCol>
+                        <MDBCol md="2">
+                            <h5>
+                                <a href="https://www.turunvihreat.fi/kuntavaalit/ehdokkaat2021/?kieli=fi&vaali=o_5&sukupuoli=nainen&ehdokas=niemi-meri-1075"><FontAwesomeIcon icon={faVoteYea} /> Vihreät | 427</a>
+                            </h5>
+                        </MDBCol>
+                    </MDBRow>         
                 </MDBContainer>
-            </div>
         </MDBFooter>
     )
 }

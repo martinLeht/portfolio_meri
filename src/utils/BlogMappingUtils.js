@@ -12,7 +12,12 @@ const formatPostContent = (postContent) => {
         
         let blockItems;
         if (block.type === 'numbered-list' || block.type === 'bulleted-list') {
-            blockItems = block.children.map((listItem, i) => handleListItemForDto(listItem, i));
+            blockItems = block.children.map((listItem, i) => {
+                if (listItem.children) {
+                    return handleListItemForDto(listItem, i);
+                }
+                return;
+            });
         } else {
             const textFragments = block.children.map((child, i) => constructTextFragmentFromChild(child, i));
             if (block.type === 'image') {

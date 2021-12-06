@@ -18,8 +18,8 @@ const BlogSearchBar = (props) => {
         if (collapsed) {
             searchBarComponent = (
                 <>   
-                    <MDBCol size="4" lg="4" className={"p-2 border-right border-white border-4 search-col"  + (isHidden ? " hidden" : "") }>
-                        <MDBRow center className="d-flex justify-content-center text-white">
+                    <MDBCol size="4" lg="4" className={"p-2 border-right border-dark border-4 search-col"  + (isHidden ? " hidden" : "") }>
+                        <MDBRow center className="d-flex justify-content-center">
                             <MDBCol className="d-flex justify-content-center">
                                 <SortSelect />
                             </MDBCol>
@@ -37,8 +37,8 @@ const BlogSearchBar = (props) => {
             );
         } else {
             searchBarComponent = (
-                <MDBCol size="6" lg="6" className="p-2 border-bottom border-white border-4 search-col">
-                    <MDBRow className="text-white">
+                <MDBCol size="6" lg="6" className="p-2 border-bottom border-dark border-4 search-col">
+                    <MDBRow>
                         <MDBCol className="d-flex justify-content-center">
                             <SortSelect />
                         </MDBCol>
@@ -53,7 +53,7 @@ const BlogSearchBar = (props) => {
     }
 
     return (        
-        <MDBRow center className="p-3 text-white">
+        <MDBRow end>
             { renderSearchBar() }
         </MDBRow>
     );

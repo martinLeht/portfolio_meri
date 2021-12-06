@@ -2,7 +2,7 @@ import { MDBIcon } from "mdbreact";
 
 const SortSelect = () => {
     return (
-        <div className="sort" >
+        <div className="text-dark sort" >
             <label htmlFor="sortOptions">
                 Lajittele
                 <MDBIcon className="ml-2" icon="sort-alpha-down" />

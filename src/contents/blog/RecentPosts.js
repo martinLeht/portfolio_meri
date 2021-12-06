@@ -3,7 +3,7 @@ import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
 import { NavLink } from "react-router-dom";
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
-import BlogCard from './BlogCard';
+import BlogPostCard from './BlogPostCard';
 
 const RecentPosts = () => {
 
@@ -24,7 +24,7 @@ const RecentPosts = () => {
             content = latestPosts.map((tag) => {
                 return (
                     <MDBCol className="d-flex justify-content-center" md="4" >           
-                        <BlogCard 
+                        <BlogPostCard 
                             className="recent-posts"
                             img={ tag.thumbnail }
                             title={ tag.postTitle }
@@ -52,28 +52,32 @@ const RecentPosts = () => {
         );
     }
 
-    return(
+    return (
         <>
-            <MDBRow between className="border border-white p-3 bg-dark-beige">
-                <MDBCol size="5">
-                    <h5>Viimeisimmät julkaisut</h5>
+            <MDBRow center>
+                <MDBCol size="10" className="border-bottom border-dark border-3 mb-2">
+                    <MDBRow between>
+                        <MDBCol bottom size="4">
+                            <h5>Viimeisimmät julkaisut</h5>
+                        </MDBCol>
+                        <MDBCol bottom size="4">
+                            <NavLink
+                                className="d-flex justify-content-end text-dark mt-1 align-items-center nav-link"
+                                to={ `/blog` }
+                            >
+                                <h6>
+                                    Katso kaikki
+                                    <MDBIcon className="ml-1" icon='chevron-right' size='sm'/>
+                                </h6>
+                            </NavLink>
+                        </MDBCol>
+                    </MDBRow>
                 </MDBCol>
-                <MDBCol size="5">
-                    <NavLink
-                        className="d-flex justify-content-end text-white mt-1 align-items-center nav-link"
-                        to={ `/blog` }
-                    >
-                        <h6>
-                            Katso kaikki{' '}
-                            <MDBIcon icon='chevron-right' size='sm'/>
-                        </h6>
-                    </NavLink>
-                </MDBCol>
-                <Suspense fallback={ <LoadingSpinner /> } >
-                    { renderPosts() }
-                </Suspense>
             </MDBRow>
             
+            <Suspense fallback={ <LoadingSpinner /> } >
+                { renderPosts() }
+            </Suspense>
         </>
     );
 }

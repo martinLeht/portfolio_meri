@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
+
 :root {
   --off-white: #fbf7f5;
+}
+
+#App {
+    font-family: 'Comfortaa';
+    height: 100%
 }
 
 /* Global */
@@ -20,34 +27,38 @@ blockquote {
  min-width: 300px;
 }
 
+.max-w-1000 {
+    max-width: 1000px;
+   }
+
 .dashed-border {
   border-width: 1px;  
   border-style: dashed;
-  border-color: white;
+  border-color: #2E2E2E;
 }
 
 .dashed-border-2 {
   border-width: 2px;  
   border-style: dashed;
-  border-color: white;
+  border-color: #2E2E2E;
 }
 
 .dashed-border-3 {
   border-width: 3px;  
   border-style: dashed;
-  border-color: white;
+  border-color:#2E2E2E;
 }
 
 .dashed-border-4 {
   border-width: 4px;  
   border-style: dashed;
-  border-color: white;
+  border-color:#2E2E2E;
 }
 
 .dashed-border-5 {
   border-width: 5px;  
   border-style: dashed;
-  border-color: white;
+  border-color: #2E2E2E;
 }
 
 
@@ -95,10 +106,19 @@ blockquote {
   }
 }
 
+
+/* Login */
+.login-form {
+    padding: 30px;
+    border: 4px solid;
+    border-radius: 20px;
+    border-color: #613B44;
+}
+
 /* Main Content */
 .main-content {
   padding: 0 !important;
-  background-color: #DAD1C5;
+  /*background-color: #DAD1C5;*/
 }
 
 .front-page {
@@ -198,4 +218,12 @@ blockquote {
 
 #email {
   cursor: pointer;
+}
+
+nav {
+    color: #613B44;
+}
+
+footer {
+    background-color: #613B44;
 }

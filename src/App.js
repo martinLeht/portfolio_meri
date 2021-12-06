@@ -2,7 +2,8 @@ import './App.css';
 import './insta-feed.css';
 import './insta-lightbox.css';
 import './blog.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
+import history from "./history";
 import Login from './contents/login/Login';
 import NavBar from './components/NavBar';
 import MainContent from './components/MainContent';
@@ -12,7 +13,7 @@ import Header from './components/Header';
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router history={ history }>
         <Switch>
             <Route exact path="/login">
                 <Login />

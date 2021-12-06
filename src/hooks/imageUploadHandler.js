@@ -1,55 +1,71 @@
 import axios from 'axios';
 import { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Editor, Transforms, Element as SlateElement } from 'slate';
-import { v4 as uuidv4 } from "uuid";
+import AuthenticationService from "../services/AuthenticationService";
+import { jwtAuthRequestInterceptor, jwtAuthResponseInterceptor } from '../services/interceptors/JwtAuthInterceptor';
 
 const useImageUploadHandler = (editor, previousSelection) => {
+
+    const { history } = useHistory();
+
+    const authenticationService = new AuthenticationService();
+    let client = axios.create({
+        baseURL: process.env.REACT_APP_IMAGE_STORAGE_API_ENDPOINT,
+        timeout: 31000,
+        headers: { 
+            'Access-Control-Allow-Origin': '*',
+            'content-type': 'multipart/form-data' 
+        }
+    });
+
+    client.interceptors.request.use(jwtAuthRequestInterceptor, err => {
+        Promise.reject(err);
+    }, { synchronous: true });
+    client.interceptors.response.use(response => response, err => jwtAuthResponseInterceptor(err));
 
     const isFileSizeInLimits = (size) => {
         return size < 1048576;
     }
 
     const handleImageUpload = (formData) => {
-        axios.post(process.env.REACT_APP_IMAGE_STORAGE_API_URL + "/upload", formData, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'content-type': 'multipart/form-data'
-            },
-        }).then((res) => {
-            const newImage = Editor.nodes(editor, {
-                match: (node) => node.fileName === res.data.name
+        const authenticatedUser = authenticationService.getCurrentUser();
+        if (authenticatedUser) {
+            client.post("/upload", formData).then((res) => {
+                const newImage = Editor.nodes(editor, {
+                    match: (node) => node.fileName === res.data.name
+                });
+                console.log("Käsitellään tuloksia");
+    
+                if (newImage === null) return;
+                console.log("Oli MATCH");
+                console.log(newImage);
+                console.log(res.data.name);
+                console.log(res.data.url);
+                Transforms.setNodes(
+                    editor,
+                    { 
+                        isUploading: false,
+                        fileName: res.data.name,
+                        url: res.data.url,
+                    },
+                    { at: newImage[1] }
+                );
+                Transforms.insertNodes(
+                    editor,
+                    {
+                        type: "paragraph",
+                        children: [
+                            {
+                              text: '',
+                            },
+                        ]
+                    }
+                );
+            }).catch((error) => {
+                console.log(error);     
             });
-            console.log("Käsitellään tuloksia");
-
-
-            if (newImage === null) return;
-            console.log("Oli MATCH");
-            console.log(newImage);
-            console.log(res.data.name);
-            console.log(res.data.url);
-            Transforms.setNodes(
-                editor,
-                { 
-                    isUploading: false,
-                    fileName: res.data.name,
-                    url: res.data.url,
-                },
-                { at: newImage[1] }
-            );
-            Transforms.insertNodes(
-                editor,
-                {
-                    type: "paragraph",
-                    children: [
-                        {
-                          text: '',
-                        },
-                    ]
-                }
-            );
-        }).catch((error) => {
-            console.log(error);     
-        });;
+        }
     }
 
     return useCallback((event) => {

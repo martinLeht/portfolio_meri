@@ -32,7 +32,11 @@ const BlogEditor = (props) => {
 
     const editor = useMemo(() =>  withReact(withEntryNormalization(createEditor())), []);
     const renderElement = useCallback(props => <Element {...props} />, []);
-    const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+    const renderLeaf = useCallback(props => {
+        console.log("New leaf");
+        console.log(props);
+        return <Leaf {...props} />;
+    }, []);
 
     const [previousSelection, selection, setSelection] = useSelection(editor);
     const handleContentChange = useCallback((content) => {
@@ -55,13 +59,13 @@ const BlogEditor = (props) => {
                 <BlockButton format="heading-two" icon="heading" tooltip="Medium heading" />
                 <BlockButton format="heading-one" icon="heading" size="2x" tooltip="Large heaging" />
                 <BlockButton format="block-quote" icon="quote-right" tooltip="Quote block" />
-                <BlockButton format="numbered-list" icon="list-ol" tooltip="Numbered list" />d
+                <BlockButton format="numbered-list" icon="list-ol" tooltip="Numbered list" />
                 <BlockButton format="bulleted-list" icon="list-ul" tooltip="Bulleted list" />
                 <BlockButton format="link" icon="link" tooltip="Link" />
                 <BlockButton format="image" icon="image" tooltip="Attach Image" />
             </Toolbar>
             <Editable 
-                className="bg-white rounded-3 p-2" 
+                className="border border-2 border-dark rounded-3 p-2" 
                 renderElement={ renderElement }
                 renderLeaf={ renderLeaf }
                 spellCheck

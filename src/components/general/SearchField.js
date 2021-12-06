@@ -1,12 +1,16 @@
 import { MDBInput, MDBBtn, MDBFormInline, MDBIcon } from "mdbreact";
 
-const SearchField = () => {
+const SearchField = (props) => {
+    const { onChange } = props;
     return (
-        <MDBFormInline className="md-form my-0 search">
-            <MDBInput className="m-0 text-white" label="Etsi / Search" />
-            <MDBBtn outline color="white" size="sm" type="submit" className="border-0 my-0">
-                <MDBIcon icon="search" size="2x" />
-            </MDBBtn>
+        <MDBFormInline className="md-form my-0">
+            <MDBIcon icon="search" />
+            <input className="form-control ml-3 w-75" 
+                    type="text" 
+                    placeholder="Search" 
+                    aria-label="Search"
+                    onChange={ onChange }
+            />
         </MDBFormInline>
     );
 }

@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom";
 import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
-import BlogCard from './BlogCard';
+import BlogPostCard from './BlogPostCard';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import { useAuthentication } from './../../hooks/useAuthentication';
 
 const BlogTopSection = (props) => {
 
     const { isLoading, latestPostTag } = props;
-    const { authenticated } = useAuthentication();
+    const { authenticatedUser } = useAuthentication();
 
     const renderLatestPost = () => {
-
         if (isLoading) {
             return <LoadingSpinner />;
         } else if (latestPostTag !== undefined) {
             return (
                 <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="7">
-                    <BlogCard img={ latestPostTag.thumbnail }
+                    <BlogPostCard img={ latestPostTag.thumbnail }
                             title={ latestPostTag.postTitle }
                             postIntro={ latestPostTag.postIntro } 
                             createdAt={ latestPostTag.createdAt } 
@@ -42,7 +41,7 @@ const BlogTopSection = (props) => {
                     </MDBCol>
                 </MDBRow>
                 {
-                    authenticated && (
+                    authenticatedUser && (
                         <MDBRow center middle>
                             <MDBCol className="p-3 blog-post-add-link dashed-border-5">
                                 <Link to="/blog/write" className="text-white">

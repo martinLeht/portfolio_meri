@@ -5,7 +5,7 @@ import BlogEditor from "./editor/BlogEditor";
 import BlogPostService from '../../services/BlogPostService';
 import { convertBlogDataToDto, convertDtoToBlogData } from '../../utils/BlogMappingUtils';
 
-const WriteBlogPost = (props) => {
+const WritePost = (props) => {
 
     const { newPostHandler } = props;
     const [title, setTitle] = useState('');
@@ -69,16 +69,18 @@ const WriteBlogPost = (props) => {
 
     const savePost = () => {
         const postContent = JSON.parse(localStorage.getItem('content'));
-        
+        console.log("Before Save POST:");
         if (isInEditMode()) {
             const postDto = convertBlogDataToDto(post.id, title, postContent);
             console.log(postDto);
             console.log(JSON.stringify(postDto));
 
             blogPostService.updatePost(Number(postDto.id), postDto).then(newPost => {
+                if (!newPost) return;
                 console.log("Updated POST:");
                 console.log(JSON.stringify(newPost));
-                history.push(`/blog/${newPost.id}`);
+                newPostHandler(newPost.tag);
+                history.push(`/blog/`);
             });
         } else {
             const postDto = convertBlogDataToDto(undefined, title, postContent);
@@ -86,11 +88,11 @@ const WriteBlogPost = (props) => {
             console.log(JSON.stringify(postDto));
 
             blogPostService.createPost(postDto).then(newPost => {
+                if (!newPost) return;
                 console.log("Created POST:");
                 console.log(JSON.stringify(newPost));
-                
-                history.push("/blog");
                 newPostHandler(newPost.tag);
+                history.push("/blog");
             });
         }
     }
@@ -120,9 +122,9 @@ const WriteBlogPost = (props) => {
     )
 }
 
-WriteBlogPost.defaltProps = {
+WritePost.defaltProps = {
     isEditMode: false,
     postToEdit: undefined
 }
 
-export default WriteBlogPost;
+export default WritePost;

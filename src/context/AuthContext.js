@@ -1,20 +1,21 @@
+import { createContext, useContext } from 'react';
 import { useAuthentication } from '../hooks/useAuthentication';
 
+export const AuthContext = createContext(null);
+
 const AuthProvider = ({ children }) => {
-    const auth = useAuthentication();
+    const { authenticated } = useAuthentication();
     return (
-        <authContext.Provider value={auth}>
-            {children}
-        </authContext.Provider>
+        <AuthContext.Provider value={ authenticated }>
+            { children }
+        </AuthContext.Provider>
     );
 }
 
 export default AuthProvider; 
 
-const authContext = React.createContext();
-
 const AuthConsumer = () => {
-    return React.useContext(authContext);
+    return useContext(AuthContext);
 }
   
 export default AuthConsumer;
