@@ -1,5 +1,5 @@
-import React from 'react';
-import { MDBContainer, MDBRow, MDBCol} from "mdbreact";
+
+import { MDBContainer, MDBRow, MDBCol} from "mdb-react-ui-kit";
 
 const ImageGallery = (props) => {
     

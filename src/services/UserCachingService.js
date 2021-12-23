@@ -1,7 +1,5 @@
 class UserCachingService {
 
-    constructor() { }
-
     setUser(user) {
         localStorage.setItem('user', JSON.stringify(user));
     }

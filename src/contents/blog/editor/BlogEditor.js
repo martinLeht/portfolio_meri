@@ -1,3 +1,4 @@
+
 import { useCallback, useMemo, useState } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
 import { createEditor } from 'slate';
@@ -38,7 +39,7 @@ const BlogEditor = (props) => {
         return <Leaf {...props} />;
     }, []);
 
-    const [previousSelection, selection, setSelection] = useSelection(editor);
+    const [setSelection] = useSelection(editor);
     const handleContentChange = useCallback((content) => {
         // Save the content to Local Storage.
         console.log("Callback change");

@@ -1,5 +1,6 @@
+
 import { Suspense, useEffect, useState } from "react";
-import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
+import { MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { NavLink } from "react-router-dom";
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
@@ -8,13 +9,13 @@ import BlogPostCard from './BlogPostCard';
 const RecentPosts = () => {
 
     const [latestPosts, setLatestPosts] = useState([]);
-    const blogPostService = new BlogPostService();
 
     useEffect(() => {
+        const blogPostService = new BlogPostService();
         blogPostService.getLatestTags().then(postTags => {
             setLatestPosts(postTags.slice(0, 3));
         }).catch(e => console.error(e.message));
-    }, []);
+    }, [setLatestPosts]);
 
     const renderPosts = () => {
 

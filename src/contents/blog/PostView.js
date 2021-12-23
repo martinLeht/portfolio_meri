@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BlogPostService from '../../services/BlogPostService';
-import { MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import { MDBRow, MDBCol, MDBIcon } from "mdb-react-ui-kit";
 import { NavLink } from "react-router-dom";
 import RecentPosts from "./RecentPosts";
 import { useAuthentication } from './../../hooks/useAuthentication';
@@ -11,19 +12,18 @@ const PostView = (props) => {
 
     const [post, setPost] = useState({});
     const { postId } = useParams();
-    const { height, width } = useWindowDimensions();
+    const { width } = useWindowDimensions();
     const isMobileSize = width < 785;
     const { deletePostHandler } = props;
     const { authenticatedUser, loading } = useAuthentication();
-
-    const blogPostService = new BlogPostService();
     
     useEffect(() => {
+        const blogPostService = new BlogPostService();
         blogPostService.getPostById(postId).then(post => {
             console.log(post);
             setPost(post);
         });
-    }, []);
+    }, [postId]);
 
     const renderContent = () => {
         const { content } = post;
@@ -65,7 +65,7 @@ const PostView = (props) => {
             case "image":
                 contentBlock = (
                     <MDBRow middle center>
-                        <img className="post-img" src={ block.blockItems[0].urlLink } />
+                        <img className="post-img" src={ block.blockItems[0].urlLink } alt="Not found..." />
                     </MDBRow>
                 );
                 break;

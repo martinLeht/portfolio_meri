@@ -1,4 +1,5 @@
-import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
+
+import { MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { NavLink } from "react-router-dom";
 
 const PostListItem = (props) => {

@@ -1,5 +1,5 @@
-import { MDBCard, MDBCardTitle, MDBIcon } from 'mdbreact';
-import { useHistory } from 'react-router-dom';
+
+import { MDBCard, MDBCardTitle, MDBIcon } from 'mdb-react-ui-kit';
 import { NavLink } from "react-router-dom";
 
 
@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 const BlogPostCard = (props) => {
 
     const { className, img, title, postIntro, createdAt, id } = props;
-    const history = useHistory();
 
     const imgPath = "url('" + img + "')";
 

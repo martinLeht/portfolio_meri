@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram  } from '@fortawesome/free-brands-svg-icons';
 import { faVoteYea  } from '@fortawesome/free-solid-svg-icons';
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
+import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdb-react-ui-kit";
 
 const Footer = () => {
 

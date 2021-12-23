@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { MDBRow, MDBCol } from 'mdbreact';
+import  { Component, createRef } from 'react';
+import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import Lightbox from "react-image-lightbox";
 import InstaPost from './InstaPost';
 import InstagramService from '../../services/InstagramService';
@@ -11,7 +11,7 @@ class InstaFeed extends Component {
     constructor(props) {
         super(props);
         this.instagramService = new InstagramService();
-        this.loader = React.createRef();
+        this.loader = createRef();
         this.state = {
             posts: [],
             isLoading: false, 
@@ -64,7 +64,7 @@ class InstaFeed extends Component {
                         <MDBRow center>
                             { isLoading && <LoadingSpinner/> }
                             {
-                                posts != undefined && posts.length > 0 
+                                posts !== undefined && posts.length > 0 
                                 && (
                                     posts.map(({
                                         id,

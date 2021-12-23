@@ -13,23 +13,26 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.0",
     "axios": "^0.21.1",
-    "dotenv": "^10.0.0",
-    "mdb-react-ui-kit": "^1.0.0-beta6",
-    "mdbreact": "^5.1.0",
+    "mdb-react-ui-kit": "^2.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.2",
+    "react-dotenv": "^0.1.3",
+    "react-image-lightbox": "^5.1.4",
+    "react-router": "^6.0.2",
+    "react-router-dom": "^6.1.0",
+    "react-scripts": "5.0.0",
     "react-scroll": "^1.8.1",
-    "react-vertical-timeline-component": "^3.3.3",
-    "slate": "^0.63.0",
+    "react-vertical-timeline-component": "^3.5.2",
+    "sass": "^1.44.0",
+    "slate": "^0.71.0",
     "slate-history": "^0.65.3",
     "slate-react": "^0.65.2",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && cp _redirects build/_redirects",
-    "test": "react-scripts test",
+    "start": "react-dotenv && react-scripts start",
+    "build": "react-dotenv && react-scripts build && cp _redirects build/_redirects",
+    "test": "react-dotenv && react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -48,6 +51,15 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "react-dotenv": {
+    "whitelist": ["REACT_APP_ACCESS_TOKEN", 
+        "REACT_APP_INSTA_API_URL",
+        "REACT_APP_API_GATEWAY_URL",
+        "REACT_APP_AUTHENTICATION_API_ENDPOINT",
+        "REACT_APP_BLOG_API_ENDPOINT",
+        "REACT_APP_IMAGE_STORAGE_API_ENDPOINT"
     ]
   }
 }

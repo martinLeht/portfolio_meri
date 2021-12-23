@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from 'react';
-import { useParams, useHistory } from "react-router-dom";
-import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import { useParams, useNavigate } from "react-router-dom";
+import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import BlogEditor from "./editor/BlogEditor";
 import BlogPostService from '../../services/BlogPostService';
 import { convertBlogDataToDto, convertDtoToBlogData } from '../../utils/BlogMappingUtils';
@@ -11,19 +12,20 @@ const WritePost = (props) => {
     const [title, setTitle] = useState('');
     const [post, setPost] = useState();
     const { postId } = useParams();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const blogPostService = new BlogPostService();
 
     useEffect(() => {
         if (postId !== undefined) {
+            const blogPostService = new BlogPostService();
             blogPostService.getPostById(postId).then(post => {
                 console.log(post);
                 setTitle(post.title);
                 setPost(post);
             }).catch(e => console.error(e.message));;
         }
-    }, []);
+    }, [postId]);
 
     const printContent = () => {
         console.log(localStorage.getItem('content'));
@@ -80,7 +82,7 @@ const WritePost = (props) => {
                 console.log("Updated POST:");
                 console.log(JSON.stringify(newPost));
                 newPostHandler(newPost.tag);
-                history.push(`/blog/`);
+                navigate(`/blog/`);
             });
         } else {
             const postDto = convertBlogDataToDto(undefined, title, postContent);
@@ -92,7 +94,7 @@ const WritePost = (props) => {
                 console.log("Created POST:");
                 console.log(JSON.stringify(newPost));
                 newPostHandler(newPost.tag);
-                history.push("/blog");
+                navigate("/blog");
             });
         }
     }

@@ -13,10 +13,7 @@ const formatPostContent = (postContent) => {
         let blockItems;
         if (block.type === 'numbered-list' || block.type === 'bulleted-list') {
             blockItems = block.children.map((listItem, i) => {
-                if (listItem.children) {
-                    return handleListItemForDto(listItem, i);
-                }
-                return;
+                return handleListItemForDto(listItem, i);
             });
         } else {
             const textFragments = block.children.map((child, i) => constructTextFragmentFromChild(child, i));

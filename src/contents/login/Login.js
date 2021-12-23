@@ -1,7 +1,9 @@
+
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { MDBContainer, MDBAlert, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import { useNavigate } from 'react-router-dom';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
+import AlertMsg from '../../components/general/AlertMsg';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 
 const Login = () => {
@@ -11,8 +13,7 @@ const Login = () => {
     const [errors, setErrors] = useState([]);
     const [loginDisabled, setLoginDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
-
-    let history = useHistory();
+    const { navigate } = useNavigate();
     const { login } = useAuthentication();
 
   
@@ -32,7 +33,7 @@ const Login = () => {
                     setErrors([authRes.error]);
                 } else {
                     setErrors([]);
-                    history.push("/");
+                    navigate("/");
                 }
             });
         }
@@ -83,7 +84,7 @@ const Login = () => {
                         <h5 className="text-center mb-4">Login</h5>
                         {
                             errors.length > 0 && (
-                                <MDBAlert color="danger">{ errors[0] }</MDBAlert>
+                                <AlertMsg text={errors[0]} />
                             )
                         }
                         <div className="grey-text">

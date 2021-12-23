@@ -1,5 +1,5 @@
-import { MDBBreadcrumb, MDBBreadcrumbItem, MDBRow, MDBCol } from 'mdbreact';
-import { Children } from 'react';
+
+import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 
 const SectionSeparator = (props) => {
 

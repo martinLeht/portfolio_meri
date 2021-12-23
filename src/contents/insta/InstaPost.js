@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { MDBCard, MDBView, MDBMask, MDBCardBody, MDBCardText, MDBIcon, MDBTooltip } from 'mdbreact';
+import  { Component } from 'react';
+import { MDBCard, MDBCardBody, MDBCardText } from 'mdb-react-ui-kit';
 import IconButton from '../../components/general/IconButton';
   
 
@@ -36,7 +36,7 @@ class InstaPost extends Component {
                 <img
                     src={ src }
                     className="img-fluid"
-                    alt=""
+                    alt="Instagram post"
                 />
             );
         }
@@ -51,11 +51,10 @@ class InstaPost extends Component {
 
         return (
             <MDBCard className="m-2">
-                <MDBView hover className="ig-post">
+                <div className="bg-image hover-overlay ig-post">
                     {mediaContent}
-                    <MDBMask 
-                        className="flex-center p-2" 
-                        overlay="red-light">
+                    <div 
+                        className="mask flex-center p-2 overlay-red-light">
                         <a className="white-text" href={ instaLink } key={id}>{ (this.isCaptionTooLong(caption) ? caption.slice(0, 80) + ' ...' : caption) }</a>
                         
                         <h4 className='white-text text-center'>
@@ -69,8 +68,8 @@ class InstaPost extends Component {
                             }
                         </h4>
                        
-                    </MDBMask>
-                </MDBView>
+                    </div>
+                </div>
                 {
                     !isCaptionHidden &&
                     <MDBCardBody>

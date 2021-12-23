@@ -1,3 +1,4 @@
+
 import { useSlate } from 'slate-react';
 import { Editor, Transforms, Element as SlateElement } from 'slate';
 
@@ -8,10 +9,10 @@ import IconButton from '../../../components/general/IconButton';
 import useImageUploadHandler from '../../../hooks/imageUploadHandler';
 
 const BlockButton = (props) => {
-    const { children, format, icon, tooltip, size } = props;
+    const { format, icon, tooltip, size } = props;
 
     const editor = useSlate();
-    const [previousSelection, selection, setSelection] = useSelection(editor);
+    const [previousSelection] = useSelection(editor);
     const onImageSelected = useImageUploadHandler(editor, previousSelection);
     const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 

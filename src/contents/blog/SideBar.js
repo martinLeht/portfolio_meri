@@ -1,5 +1,6 @@
+
 import { BrowserRouter } from 'react-router-dom';
-import { MDBNav, MDBNavItem, MDBNavLink, MDBInput, MDBBtn, MDBFormInline, MDBIcon } from "mdbreact";
+import { MDBNav, MDBNavItem, MDBNavLink, MDBInput, MDBBtn, MDBFormInline, MDBIcon } from "mdb-react-ui-kit";
 import PropTypes from 'prop-types';
 
 

@@ -1,46 +1,47 @@
-import React, { useState } from 'react';
-import { NavLink, useHistory } from "react-router-dom";
+import { useState } from 'react';
+import { NavLink, useNavigate } from "react-router-dom";
 import {
-    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBContainer, MDBBtn
-} from "mdbreact";
+    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarItem, MDBNavbarLink, MDBNavbarToggler, MDBCollapse, MDBContainer, MDBBtn, MDBIcon
+} from "mdb-react-ui-kit";
 import NavItem from './general/NavItem'
+import useWindowDimensions from './../hooks/window-dimensions';
 import { useAuthentication } from './../hooks/useAuthentication';
 
 const NavBar = () => {
 
     const [isOpen, setOpen] = useState(false);
     const { authenticatedUser, logout } = useAuthentication();
-    let history = useHistory();
+    const { isMobileSize } = useWindowDimensions();
+    let navigate = useNavigate();
 
     const toggleCollapse = () => {
-        setOpen(!isOpen );
+        setOpen(!isOpen);
     }
 
     const handleLogout = () => {
         logout().then(() => {
-            history.push("/");
+            navigate("/");
         });
     };
 
     return (
-        <MDBNavbar 
-            fixed="top" 
-            scrolling 
-            transparent
-            color={'elegant-color-dark'} 
+        <MDBNavbar
+            fixed="top"
+            bgColor='dark'
             dark 
-            expand="md" >
+            expand="md">
             <MDBContainer fluid>
-                <MDBNavbarBrand>
-                    <a className="text-white" href="#">Meri Niemi</a>
-                </MDBNavbarBrand>
-                <MDBNavbarToggler onClick={toggleCollapse} />
-                <MDBCollapse 
-                    className="justify-content-center" 
-                    id="navigation" 
-                    isOpen={ isOpen } 
-                    navbar>
-                    <MDBNavbarNav right>
+                <MDBNavbarBrand href="/">Meri Niemi</MDBNavbarBrand>
+                <MDBNavbarToggler
+                    aria-controls='navigation'
+                    aria-label='Toggle navigation'
+                    aria-expanded='false'
+                    onClick={ toggleCollapse } 
+                >
+                    <MDBIcon icon='bars' fas />
+                </MDBNavbarToggler>
+                <MDBCollapse navbar show={!isMobileSize || isMobileSize && isOpen}>
+                    <MDBNavbarNav left>
                         <NavItem item="Meri" navId="section-about" />
                         <NavItem item="Kokemus" navId="section-experience" />
                         <NavItem item="Galleria" navId="section-gallery" />
@@ -61,7 +62,7 @@ const NavBar = () => {
                             )
                         }
                     </MDBNavbarNav>
-                </MDBCollapse>
+                </MDBCollapse> 
             </MDBContainer>
         </MDBNavbar>
     )

@@ -1,12 +1,11 @@
-import React, { useState, Suspense, lazy, useEffect } from 'react';
-import { Route, Switch, Link, useHistory } from "react-router-dom";
-import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
+import  { useState, Suspense, lazy, useEffect } from 'react';
+import { Route, Routes, Link } from "react-router-dom";
+import { MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import BlogPostCard from './BlogPostCard';
 import SearchField from "../../components/general/SearchField";
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
-import { PostsProvider } from './context/PostsContext';
 import GuardedRoute from '../../components/general/GuardedRoute';
 
 
@@ -23,11 +22,11 @@ const Blog = () => {
     const [latestPostTag, setLatestPostTag] = useState({});
     const [isLoading, setLoading] = useState(true);
     const { authenticatedUser } = useAuthentication();
-    const history = useHistory();
 
-    const blogPostService = new BlogPostService(history);
+    const blogPostService = new BlogPostService();
 
     useEffect(() => {
+        const blogPostService = new BlogPostService();
         setLoading(true);
         blogPostService.getTags().then(postTags => {
             setPostTags(postTags);
@@ -38,7 +37,7 @@ const Blog = () => {
             console.error(err.message);
             setLoading(false);
         });
-    }, []);
+    }, [setLoading]);
 
 
     const newPostHandler = (postTag) => {
@@ -181,28 +180,30 @@ const Blog = () => {
     return (
         <div className="blog-container p-4">
                 <Suspense fallback={ <LoadingSpinner /> }>
-                    <Switch>
-                        <Route exact path="/blog" >
-                            { renderTopSection() }
-                            <SectionSeparator title="Kaikki julkaisut">
-                                <SearchField onChange={ searchChangeHandler } />
-                            </SectionSeparator>
-                            <BlogPostFeed isLoading={ isLoading } postTags={ filteredPostTags } />
-                        </Route>
-                        <Route exact path="/blog/write">
-                            <SectionSeparator title="Kirjoita Julkaisu" />
-                            <WritePost newPostHandler={ newPostHandler }/>
-                        </Route>
-                        <GuardedRoute exact path="/blog/write/:postId">
-                            <SectionSeparator title="Muokkaa Julkaisua" />
-                            <WritePost newPostHandler={ newPostHandler } />
-                        </GuardedRoute>
-                        <Route exact path="/blog/:postId">
-                            <PostsProvider value={ postTags }>
-                                <PostView deletePostHandler={ deletePostHandler } />
-                            </PostsProvider>
-                        </Route>                             
-                    </Switch>
+                    <Routes>
+                        <Route exact path="/blog" element={
+                            <>
+                                { renderTopSection() }
+                                <SectionSeparator title="Kaikki julkaisut">
+                                    <SearchField onChange={ searchChangeHandler } />
+                                </SectionSeparator>
+                                <BlogPostFeed isLoading={ isLoading } postTags={ filteredPostTags } />
+                            </>
+                        }/>
+                        <Route exact path="/blog/write" element={
+                            <>
+                                <SectionSeparator title="Kirjoita Julkaisu" />
+                                <WritePost newPostHandler={ newPostHandler }/>
+                            </>
+                        }/>
+                        <GuardedRoute exact path="/blog/write/:postId" element={
+                            <>
+                                <SectionSeparator title="Muokkaa Julkaisua" />
+                                <WritePost newPostHandler={ newPostHandler } />
+                            </>
+                        }/>
+                        <Route exact path="/blog/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
+                    </Routes>
                 </Suspense>
         </div>
     )    

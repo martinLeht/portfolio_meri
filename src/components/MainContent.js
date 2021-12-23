@@ -1,6 +1,8 @@
-import React, { lazy, Suspense } from 'react';
-import { Route, Switch } from "react-router-dom";
-import { MDBContainer } from 'mdbreact';
+import  { lazy, Suspense } from 'react';
+import { Route, Routes } from "react-router-dom";
+import { MDBContainer } from 'mdb-react-ui-kit';
+import Footer from './Footer';
+import Header from './Header';
 import LoadingSpinner from './general/LoadingSpinner';
 
 /* Lazy loaded components */
@@ -9,25 +11,31 @@ const Blog = lazy(() => import('../contents/blog/Blog'));
 const InstaFeed = lazy(() => import('../contents/insta/InstaFeed'));
 
 const MainContent = () => {
-    
-    require('dotenv').config();
 
     return (
-        <MDBContainer fluid className="main-content">
-            <Suspense fallback={ <LoadingSpinner /> }>
-                <Switch>
-                    <Route exact path="/">
-                        <FrontPage />
-                    </Route>
-                    <Route path="/blog">
-                        <Blog />
-                    </Route>
-                    <Route exact path="/insta">
-                        <InstaFeed />
-                    </Route>
-                </Switch>
-            </Suspense>
-        </MDBContainer>
+        <>
+            <Header />
+            <MDBContainer fluid className="main-content">
+                    <Routes>
+                        <Route exact path="*" element={ 
+                            <Suspense fallback={ <LoadingSpinner /> }>
+                                <FrontPage /> 
+                            </Suspense>
+                        } />
+                        <Route path="/blog" element={ 
+                            <Suspense fallback={ <LoadingSpinner /> }>
+                                <Blog />
+                            </Suspense>
+                        }/>
+                        <Route exact path="/insta" element={ 
+                            <Suspense fallback={ <LoadingSpinner /> }>
+                                <InstaFeed />
+                            </Suspense>
+                        } />
+                    </Routes>
+            </MDBContainer>
+            <Footer />
+        </>
     )
     
 }

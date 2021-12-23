@@ -1,6 +1,4 @@
-
-
-import React, { Component } from 'react';
+import  { Component } from 'react';
 import SectionBgColors from '../../resources/SectionBgColors';
 import Experience from './Experience';
 import About from './About';

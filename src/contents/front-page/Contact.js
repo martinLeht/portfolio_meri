@@ -1,5 +1,5 @@
-import React,{ Component, useRef, useEffect }  from 'react';
-import { MDBRow, MDBCol } from 'mdbreact';
+
+import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram  } from '@fortawesome/free-brands-svg-icons';
 import { faAt, faVoteYea  } from '@fortawesome/free-solid-svg-icons';
@@ -20,13 +20,13 @@ const Contact = (props) => {
                     <h1><b>Be In Touch.</b></h1>
                     <br />
                     <MDBRow>
-                        <MDBCol className="flex-column" middle md="5">
+                        <MDBCol className="flex-column" center md="5">
                             <div className="contact-link">
                                 <h5>Sähköposti</h5>
                                 <p className="border-bottom border-2"><span id="email" onClick={copyEmailToClipboard}><FontAwesomeIcon icon={ faAt } className="mr-2"/>{ email }</span></p>
                             </div>
                         </MDBCol>
-                        <MDBCol className="flex-column" middle md="3">
+                        <MDBCol className="flex-column" center md="3">
                             <div className="contact-link">
                                 <h5>Instagram</h5>
                                 <p className="border-bottom border-2">
@@ -36,7 +36,7 @@ const Contact = (props) => {
                                 </p>
                             </div>
                         </MDBCol>
-                        <MDBCol className="flex-column" middle md="3">
+                        <MDBCol className="flex-column" center md="3">
                             <div className="contact-link">
                                 <h5>Turun vihreät</h5>
                                 <p className="border-bottom border-2">

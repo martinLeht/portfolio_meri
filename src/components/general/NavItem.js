@@ -1,14 +1,14 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-scroll';
 
 
 const NavItem = (props) => {
-    let history = useHistory();
+    let navigate = useNavigate();
     const changeRoute = () => {
         const routePath = window.location.pathname;
         if (routePath !== "/") {
-            history.push("/");
+            navigate("/");
         }
     }
 

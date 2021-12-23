@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { MDBBadge, MDBRow, MDBCol } from 'mdbreact';
+import  { Component } from 'react';
+import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 
 class AboutCard extends Component {
 

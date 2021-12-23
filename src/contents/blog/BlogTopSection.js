@@ -1,5 +1,6 @@
+
 import { Link } from "react-router-dom";
-import { MDBRow, MDBCol, MDBIcon } from 'mdbreact';
+import { MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import BlogPostCard from './BlogPostCard';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import { useAuthentication } from './../../hooks/useAuthentication';

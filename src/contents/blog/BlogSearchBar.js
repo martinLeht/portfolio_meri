@@ -1,4 +1,5 @@
-import { MDBRow, MDBCol, MDBIcon } from "mdbreact";
+
+import { MDBRow, MDBCol, MDBIcon } from "mdb-react-ui-kit";
 import { useState } from 'react';
 import SortSelect from "../../components/general/SortSelect";
 import SearchField from "../../components/general/SearchField";

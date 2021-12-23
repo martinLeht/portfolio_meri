@@ -1,4 +1,3 @@
-import { MDBIcon } from 'mdbreact';
 
 
 const HeaderMedium = (props) => {

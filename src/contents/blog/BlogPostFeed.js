@@ -1,4 +1,5 @@
-import { MDBRow, MDBCol } from 'mdbreact';
+
+import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import BlogPostCard from './BlogPostCard';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 

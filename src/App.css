@@ -61,6 +61,14 @@ blockquote {
   border-color: #2E2E2E;
 }
 
+.overlay-black-light {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.overlay-red-light {
+    background-color: rgba(244, 67, 54, 0.3);
+}
+
 
 /* Fields, Buttons, etc... */
 .image-upload-input {
@@ -106,6 +114,29 @@ blockquote {
   }
 }
 
+/* Navbar */
+/* Color of the links BEFORE scroll */
+.navbar-scroll .nav-link,
+.navbar-scroll .navbar-toggler-icon {
+  color: #fff;
+}
+
+/* Color of the links AFTER scroll */
+.navbar-scrolled .nav-link,
+.navbar-scrolled .navbar-toggler-icon {
+  color: #4f4f4f;
+}
+
+/* Color of the navbar AFTER scroll */
+.navbar-scrolled {
+  background-color: #fff;
+}
+
+/* An optional height of the navbar AFTER scroll */
+.navbar.navbar-scroll.navbar-scrolled {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 
 /* Login */
 .login-form {
@@ -218,10 +249,6 @@ blockquote {
 
 #email {
   cursor: pointer;
-}
-
-nav {
-    color: #613B44;
 }
 
 footer {

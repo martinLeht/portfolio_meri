@@ -8,7 +8,7 @@ export const useAuthentication = () => {
 
     useEffect(() =>{
         setLoading(true);
-        const getAuthenticatedUser = async () => {
+        const getAuthenticatedUser = () => {
             console.log("Setting Current user");
             setAuthenticatedUser(authenticationService.getCurrentUser());
             console.log(authenticationService.getCurrentUser());

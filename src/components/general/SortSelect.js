@@ -1,4 +1,5 @@
-import { MDBIcon } from "mdbreact";
+
+import { MDBIcon } from "mdb-react-ui-kit";
 
 const SortSelect = () => {
     return (
