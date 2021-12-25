@@ -37,7 +37,7 @@ const BlogPostFeed = (props) => {
         }
 
         return (
-            <MDBRow center middle className={ hasPosts ? "d-flex" : "dashed-border-3"}>
+            <MDBRow center middle className="d-flex">
                 { content }
             </MDBRow>
         );

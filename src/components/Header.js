@@ -7,7 +7,6 @@ const Header = () => {
 
     return (
         <header>
-            <NavBar />
             <Routes>
                 <Route exact path="*" element={ <ImageCarouselHeader /> } />
                 <Route exact path="/insta" element={ 

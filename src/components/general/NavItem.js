@@ -17,7 +17,7 @@ const NavItem = (props) => {
     return (
         <li className="nav-item">
             <Link
-                className="nav-link"
+                className="nav-link text-white"
                 activeClass={ 'selected' }
                 to={ props.navId }
                 spy={true}

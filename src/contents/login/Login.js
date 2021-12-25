@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBInputGroup, MDBInputGroupElement, MDBInputGroupText, MDBIcon } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import AlertMsg from '../../components/general/AlertMsg';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
@@ -80,50 +80,51 @@ const Login = () => {
         <MDBContainer>
             <MDBRow center middle>
                 <MDBCol md="6">
-                    <form className="login-form" noValidate onSubmit={ loginHandler }>
+                    <form className="d-flex align-items-center flex-column login-form" noValidate onSubmit={ loginHandler }>
+                    
                         <h5 className="text-center mb-4">Login</h5>
                         {
                             errors.length > 0 && (
                                 <AlertMsg text={errors[0]} />
                             )
                         }
-                        <div className="grey-text">
-                            <MDBInput 
+                        <MDBInputGroup className='text-center w-50'>
+                            <MDBInputGroupText noBorder>
+                                <MDBIcon fas icon='at' />
+                            </MDBInputGroupText>
+                            <MDBInputGroupElement
+                                type='email' 
                                 value={ email }
                                 onChange={ emailChangeHandler }
                                 onBlur={ validateInput }
-                                id="email" 
-                                label="Email" 
-                                icon="at" 
-                                group 
-                                type="email"
-                                error="wrong"
-                                success="right"
-                                />
-                            <div className="invalid-feedback">
-                                Please provide a valid email.
-                            </div>
-                            <MDBInput 
+                                placeholder='Email'
+                            />
+                        </MDBInputGroup>
+                        <MDBInputGroup className='w-50'>
+                            <MDBInputGroupText noBorder>
+                                <MDBIcon fas icon='key' />
+                            </MDBInputGroupText>
+                            <MDBInputGroupElement
+                                type='password' 
                                 value={ password }
                                 onChange={ passwordChangeHandler }
-                                id="password"
-                                label="Password" 
-                                icon="lock" 
-                                group 
-                                type="password"/>
-                        </div>
+                                placeholder='Password'
+                            />
+                        </MDBInputGroup>
                         <div className="text-center">
                             <MDBBtn 
+                                
                                 className="text-white" 
-                                type="submit" 
-                                color="unique"
+                                type="submit"
                                 disabled={ loginDisabled || loading }
-                            >Login</MDBBtn>
-                            {
-                                loading 
-                                ? <LoadingSpinner />
-                                : ''
-                            }
+                            >
+                                {
+                                    loading 
+                                    ? <LoadingSpinner />
+                                    : 'Login'
+                                }
+                            </MDBBtn>
+                            
                         </div>
                     </form>
                 </MDBCol>

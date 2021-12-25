@@ -11,6 +11,10 @@
 
 /* Global */
 
+li {
+    text-decoration: none;
+}
+
 blockquote {
   color: rgb(145, 145, 145);
   padding-left: 10px;
@@ -75,13 +79,25 @@ blockquote {
     display: none;
 }
 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
 .search {
-  min-width: 260px;
+  border: none;
+  border-bottom: solid;
+  border-radius: 0;
+  outline: none !important;
 }
 
-.sort {
-  min-width: 230px;
-  max-width: 230px;
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+.search:focus {
+    border-color: #804d59 !important;
+    outline: none !important;
+    box-shadow: none!important;
 }
 
 .icon-button {
@@ -115,27 +131,56 @@ blockquote {
 }
 
 /* Navbar */
-/* Color of the links BEFORE scroll */
-.navbar-scroll .nav-link,
-.navbar-scroll .navbar-toggler-icon {
-  color: #fff;
+.nav-bar {
+    position: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #613B44;
+    z-index: 3;
+    -webkit-transition: background-color 300ms linear;
+    -moz-transition: background-color 300ms linear;
+    -o-transition: background-color 300ms linear;
+    -ms-transition: background-color 300ms linear;
+    transition: background-color 300ms linear;
 }
 
-/* Color of the links AFTER scroll */
-.navbar-scrolled .nav-link,
-.navbar-scrolled .navbar-toggler-icon {
-  color: #4f4f4f;
+.nav-bar.transparent {
+    background-color: rgba(97, 59, 68, 0);
 }
 
-/* Color of the navbar AFTER scroll */
-.navbar-scrolled {
-  background-color: #fff;
+.nav-collapsed {
+    height: 0;
+    -webkit-transition: height 500ms;
+    -moz-transition: height 500ms;
+    -o-transition: height 500ms;
+    -ms-transition: height 500ms;
+    transition: height 500ms;
 }
 
-/* An optional height of the navbar AFTER scroll */
-.navbar.navbar-scroll.navbar-scrolled {
-  padding-top: 5px;
-  padding-bottom: 5px;
+.nav-collapsed.open {
+    height: auto;
+    -webkit-transition: height 500ms;
+    -moz-transition: height 500ms;
+    -o-transition: height 500ms;
+    -ms-transition: height 500ms;
+    transition: height 500ms;
+}
+
+.nav-group {
+    font-size: large;
+}
+
+.nav-group li {
+    list-style-type: none;
+}
+
+.nav-item:hover {
+    color: black;
+}
+
+.nav-link:hover {
+    color: black;
 }
 
 /* Login */

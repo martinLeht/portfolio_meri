@@ -1,6 +1,7 @@
 import  { lazy, Suspense } from 'react';
 import { Route, Routes } from "react-router-dom";
 import { MDBContainer } from 'mdb-react-ui-kit';
+import NavBar from './NavBar';
 import Footer from './Footer';
 import Header from './Header';
 import LoadingSpinner from './general/LoadingSpinner';
@@ -14,10 +15,11 @@ const MainContent = () => {
 
     return (
         <>
+            <NavBar />
             <Header />
             <MDBContainer fluid className="main-content">
                     <Routes>
-                        <Route exact path="*" element={ 
+                        <Route exact path="/" element={ 
                             <Suspense fallback={ <LoadingSpinner /> }>
                                 <FrontPage /> 
                             </Suspense>

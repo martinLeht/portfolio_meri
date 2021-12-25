@@ -29,9 +29,15 @@ const Blog = () => {
         const blogPostService = new BlogPostService();
         setLoading(true);
         blogPostService.getTags().then(postTags => {
-            setPostTags(postTags);
-            setFilteredPostTags(postTags);
-            setLatestPostTag(postTags[0]);
+            if (!postTags) {
+                setPostTags([]);
+                setFilteredPostTags([]);
+                setLatestPostTag([]);
+            } else {
+                setPostTags(postTags);
+                setFilteredPostTags(postTags);
+                setLatestPostTag(postTags[0]);
+            }
             setLoading(false);
         }).catch(err => {
             console.error(err.message);
@@ -115,7 +121,7 @@ const Blog = () => {
         } else {
             return (
                 <MDBRow className="p-3" center middle>
-                    <MDBCol className="m-4" size="10" md="3" lg="4">
+                    <MDBCol className="m-4" size="10" lg="6">
                         <h1>
                             <b>Tervetuloa!</b>
                             <br/>
@@ -179,32 +185,34 @@ const Blog = () => {
 
     return (
         <div className="blog-container p-4">
-                <Suspense fallback={ <LoadingSpinner /> }>
-                    <Routes>
-                        <Route exact path="/blog" element={
-                            <>
-                                { renderTopSection() }
-                                <SectionSeparator title="Kaikki julkaisut">
-                                    <SearchField onChange={ searchChangeHandler } />
-                                </SectionSeparator>
-                                <BlogPostFeed isLoading={ isLoading } postTags={ filteredPostTags } />
-                            </>
-                        }/>
-                        <Route exact path="/blog/write" element={
-                            <>
-                                <SectionSeparator title="Kirjoita Julkaisu" />
-                                <WritePost newPostHandler={ newPostHandler }/>
-                            </>
-                        }/>
+            <Suspense fallback={ <LoadingSpinner /> }>
+                <Routes>
+                    <Route exact path="/" element={
+                        <>
+                            { renderTopSection() }
+                            <SectionSeparator title="Kaikki julkaisut">
+                                <SearchField onChange={ searchChangeHandler } />
+                            </SectionSeparator>
+                            <BlogPostFeed isLoading={ isLoading } postTags={ filteredPostTags } />
+                        </>
+                    }/>
+                    <Route exact path="/write" element={
+                        <>
+                            <SectionSeparator title="Kirjoita Julkaisu" />
+                            <WritePost newPostHandler={ newPostHandler }/>
+                        </>
+                    }/>
+                    <Route element={
                         <GuardedRoute exact path="/blog/write/:postId" element={
                             <>
                                 <SectionSeparator title="Muokkaa Julkaisua" />
                                 <WritePost newPostHandler={ newPostHandler } />
                             </>
                         }/>
-                        <Route exact path="/blog/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
-                    </Routes>
-                </Suspense>
+                    }/>
+                    <Route exact path="/blog/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
+                </Routes>
+            </Suspense>
         </div>
     )    
 }

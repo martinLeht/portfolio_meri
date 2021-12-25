@@ -3,16 +3,17 @@ import {
     MDBCarousel,
     MDBCarouselInner,
     MDBCarouselItem,
-    MDBCarouselElement
+    MDBCarouselElement,
+    MDBCarouselCaption
   } from "mdb-react-ui-kit";
 
 
 const ImageCarouselHeader = () => {
 
     const images = [
-        process.env.PUBLIC_URL + "/images/aura-river.jpg",
-        process.env.PUBLIC_URL + "/images/flowers-aura.jpg",
-        process.env.PUBLIC_URL + "/images/MeriNiemi-flama.jpg"
+        process.env.PUBLIC_URL + "/images/aura-river-carousel.jpg",
+        process.env.PUBLIC_URL + "/images/flowers-aura-carousel.jpg",
+        process.env.PUBLIC_URL + "/images/MeriNiemi-flama-carousel.jpg"
     ]
 
     const renderImageItems = () => {
@@ -20,35 +21,29 @@ const ImageCarouselHeader = () => {
         let imageItems = [];
 
         images.forEach((img, i) => {
-            imageItems.push(
-                <MDBCarouselItem key={"carousel-" + i.toString()}>
-                    <MDBCarouselElement src={ img } alt="Header image"/>
-                </MDBCarouselItem>
-            )
+            if (i === 0) {
+                imageItems.push(
+                    <MDBCarouselItem className='active' key={"carousel-" + i.toString()}>
+                        <MDBCarouselElement src={ img } alt="Header image"/>
+                    </MDBCarouselItem>
+                )
+            } else {
+                imageItems.push(
+                    <MDBCarouselItem key={"carousel-" + i.toString()}>
+                        <MDBCarouselElement src={ img } alt="Header image"/>
+                    </MDBCarouselItem>
+                )
+            }
         });
 
-        return imageItems;
-            /*
-        <MDBCarouselItem itemId="2">
-            <MDBView src={}>
-                <MDBMask overlay="black-light" />
-            </MDBView>
-        </MDBCarouselItem>
-        <MDBCarouselItem itemId="3">
-            <MDBView src={}>
-                <MDBMask overlay="black-slight" />
-            </MDBView>
-        </MDBCarouselItem>
-        */
-        
+        return imageItems;        
     }
 
     return (
         <MDBCarousel
-            length={ images.length }
             showControls
             showIndicators
-            className="z-depth-1"
+            fade
         >
             <MDBCarouselInner>
                 { renderImageItems() }

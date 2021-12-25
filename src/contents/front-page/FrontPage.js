@@ -53,7 +53,7 @@ class FrontPage extends Component {
     /* Section break check (relative to navbar height + extra 180 pixels) */
     sectionBreakCheckCallback = (sectionId) => {
         const section = document.getElementById(sectionId)
-        const navHeight = document.getElementsByTagName("nav")[0].offsetHeight + 180;
+        const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 180;
         const clientOffsetTop = window.pageYOffset + navHeight;
         if (clientOffsetTop >= section.offsetTop) {
             return true;
