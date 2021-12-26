@@ -34,6 +34,13 @@ const NavBar = () => {
     }
 
     const toggleCollapse = () => {
+        if (isMobileSize) {
+            if (isOpen) {
+                setTransparent(true);
+            } else {
+                setTransparent(false);
+            }
+        }
         setOpen(!isOpen);
     }
 
