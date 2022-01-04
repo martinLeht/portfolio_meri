@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import NavBar from './NavBar';
 import ImageCarouselHeader from '../contents/header/ImageCarouselHeader';
 import HeaderPanel from '../contents/header/HeaderPanel';
 

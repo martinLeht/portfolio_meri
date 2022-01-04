@@ -1,5 +1,5 @@
 
-import { MDBIcon, MDBTooltip } from 'mdb-react-ui-kit';
+import { MDBIcon } from 'mdb-react-ui-kit';
 
 const IconButton = (props) => {
 

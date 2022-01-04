@@ -8,8 +8,6 @@ import useWindowDimensions from './../hooks/window-dimensions';
 import { useAuthentication } from './../hooks/useAuthentication';
 
 const NavBar = () => {
-
-    const [isCollapsed, setCollapsed] = useState(false);
     const [isOpen, setOpen] = useState(false);
     const [isTransparent, setTransparent] = useState(true);
     

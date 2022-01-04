@@ -3,8 +3,7 @@ import {
     MDBCarousel,
     MDBCarouselInner,
     MDBCarouselItem,
-    MDBCarouselElement,
-    MDBCarouselCaption
+    MDBCarouselElement
   } from "mdb-react-ui-kit";
 
 

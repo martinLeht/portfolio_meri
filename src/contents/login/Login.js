@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBInputGroup, MDBInputGroupElement, MDBInputGroupText, MDBIcon } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInputGroup, MDBInputGroupElement, MDBInputGroupText, MDBIcon } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import AlertMsg from '../../components/general/AlertMsg';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
