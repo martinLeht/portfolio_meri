@@ -5,10 +5,13 @@ import { NavLink } from "react-router-dom";
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
 import BlogPostCard from './BlogPostCard';
+import useWindowDimensions from '../../hooks/window-dimensions';
 
 const RecentPosts = () => {
 
     const [latestPosts, setLatestPosts] = useState([]);
+
+    const { isMobileSize } = useWindowDimensions();
 
     useEffect(() => {
         const blogPostService = new BlogPostService();
@@ -24,7 +27,7 @@ const RecentPosts = () => {
         if (hasPosts) {
             content = latestPosts.map((tag) => {
                 return (
-                    <MDBCol className="d-flex justify-content-center" md="4" >           
+                    <MDBCol className="d-flex justify-content-center" size="auto" >           
                         <BlogPostCard 
                             className="recent-posts"
                             img={ tag.thumbnail }
@@ -56,19 +59,19 @@ const RecentPosts = () => {
     return (
         <>
             <MDBRow center>
-                <MDBCol size="10" className="border-bottom border-dark border-3 mb-2">
+                <MDBCol size="9" className="border-bottom border-dark border-3 mb-2">
                     <MDBRow between>
-                        <MDBCol bottom size="4">
+                        <MDBCol className="d-flex align-items-end" size="auto">
                             <h5>Viimeisimmät julkaisut</h5>
                         </MDBCol>
-                        <MDBCol bottom size="4">
+                        <MDBCol className="d-flex align-items-end" size="auto">
                             <NavLink
                                 className="d-flex justify-content-end text-dark mt-1 align-items-center nav-link"
                                 to={ `/blog` }
                             >
                                 <h6>
-                                    Katso kaikki
-                                    <MDBIcon className="ml-1" icon='chevron-right' size='sm'/>
+                                    Katso kaikki{' '}
+                                    <MDBIcon icon='chevron-right' size='sm'/>
                                 </h6>
                             </NavLink>
                         </MDBCol>

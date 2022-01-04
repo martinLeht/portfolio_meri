@@ -1,5 +1,5 @@
 import  { Component } from 'react';
-import { MDBCard, MDBCardBody, MDBCardText } from 'mdb-react-ui-kit';
+import { MDBCard, MDBCardBody, MDBCardText, MDBCollapse } from 'mdb-react-ui-kit';
 import IconButton from '../../components/general/IconButton';
   
 
@@ -54,7 +54,7 @@ class InstaPost extends Component {
                 <div className="bg-image hover-overlay ig-post">
                     {mediaContent}
                     <div 
-                        className="mask flex-center p-2 overlay-red-light">
+                        className="d-flex justify-content-center align-items-center mask flex-center p-2 overlay-red-light">
                         <a className="white-text" href={ instaLink } key={id}>{ (this.isCaptionTooLong(caption) ? caption.slice(0, 80) + ' ...' : caption) }</a>
                         
                         <h4 className='white-text text-center'>
@@ -63,21 +63,20 @@ class InstaPost extends Component {
                                 this.isCaptionTooLong(caption) && (
                                     isCaptionHidden 
                                     ? <IconButton icon='angle-double-down' tooltip='Laajenna kuvateksti / Open caption' action={ this.toggleOpenCaption }/>
-                                    : <IconButton icon='angle-double-up' tooltip='Pienennä kuvateksti / Minimize caption' action={ this.toggleOpenCaption }/>
+                                    : <IconButton icon='times' tooltip='Pienennä kuvateksti / Minimize caption' action={ this.toggleOpenCaption }/>
                                 )
                             }
                         </h4>
                        
                     </div>
                 </div>
-                {
-                    !isCaptionHidden &&
+                <MDBCollapse show={!isCaptionHidden}>
                     <MDBCardBody>
-                        <MDBCardText>
+                        <MDBCardText className="text-dark">
                             {caption}
                         </MDBCardText>
                     </MDBCardBody>
-                }
+                </MDBCollapse>
                 
             </MDBCard>
         )

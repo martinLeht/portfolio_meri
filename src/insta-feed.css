@@ -3,8 +3,14 @@
 }
 
 .ig-posts {
+    color: white;
     max-width: 1300px;
 }
+
+.ig-posts a {
+    color: white;
+}
+
 
 .ig-posts img {
     object-fit: contain;

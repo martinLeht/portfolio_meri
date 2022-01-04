@@ -5,19 +5,19 @@ import UserCachingService from '../UserCachingService';
 const userCachingService = new UserCachingService();
 const authService = new AuthenticationService();
 
-export const jwtAuthRequestInterceptor = async (request) => {
-    if (requestRequiresAuth(request)) {
+export const jwtAuthRequestInterceptor = async (config) => {
+    console.log(config);
+    if (requestRequiresAuth(config)) {
         const authTokens = userCachingService.getAuthTokens();
         if (authTokens === undefined) {
             throw new Error('No authentication tokens available! Login to make requests that require authentication.');
         }
-        request.headers.common.Authorization = `Bearer ${authTokens.accessToken}`;        
+        config.headers['Authorization']  = `Bearer ${authTokens.accessToken}`;        
     }
-    return request;
+    return config;
 }
 
 export const jwtAuthResponseInterceptor = async (error) => {
-    const origRequest = error.config;
     console.log(error);
     if (error && error.response) {
         switch(error.response.status) {
@@ -26,16 +26,20 @@ export const jwtAuthResponseInterceptor = async (error) => {
              * - Unauthorized error (401 unauthorized)
              */
             case 401:
-                if (!origRequest._retry) {
-                    const authTokens = await authService.refreshAuthTokens();
-                    if (authTokens !== undefined) {
-                        origRequest.headers['Authorization'] = `Bearer ${authTokens.accessToken}`;
-                        return axios.request(origRequest);
+                if (error.config) {
+                    const origRequest = error.config;
+                    if (!origRequest._retry) {
+                        const authTokens = await authService.refreshAuthTokens();
+                        if (authTokens !== undefined) {
+                            origRequest.headers['Authorization'] = `Bearer ${authTokens.accessToken}`;
+                            return axios.request(origRequest);
+                        }
+                    } else {
+                        userCachingService.signOut();
+                        history.push("/login");
                     }
-                } else {
-                    userCachingService.signOut();
-                    history.push("/login");
                 }
+                
                 break;           
                 
             default:
@@ -45,8 +49,8 @@ export const jwtAuthResponseInterceptor = async (error) => {
     return Promise.reject(error);
 }
 
-const requestRequiresAuth = (request) => {
-    const method = request.method;
+export const requestRequiresAuth = (config) => {
+    const method = config.method;
     return method === 'POST' || method === 'PUT' || method === 'DELETE'
-    || method === 'post' || method === 'put' || method === 'delete';
+        || method === 'post' || method === 'put' || method === 'delete';
 }

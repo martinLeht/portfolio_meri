@@ -9,10 +9,10 @@ const SectionSeparator = (props) => {
         <MDBRow center>
             <MDBCol size="10" className="my-4 border-bottom border-dark border-4">
                 <MDBRow between>
-                    <MDBCol bottom size="auto">
+                    <MDBCol size="auto">
                         <h2>{ title }</h2>
                     </MDBCol>
-                    <MDBCol bottom size="auto" className='mb-2'>
+                    <MDBCol size="auto" className='mb-2'>
                         { children }
                     </MDBCol>
                 </MDBRow>

@@ -24,7 +24,7 @@ const MainContent = () => {
                                 <FrontPage /> 
                             </Suspense>
                         } />
-                        <Route path="/blog" element={ 
+                        <Route path="/blog/*" element={ 
                             <Suspense fallback={ <LoadingSpinner /> }>
                                 <Blog />
                             </Suspense>

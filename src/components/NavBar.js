@@ -26,16 +26,26 @@ const NavBar = () => {
     })
 
     const changeTransparency = () => {
-        if (window.scrollY > 80) {
-            setTransparent(false);
+        if (isMobileSize) {
+            if (isOpen || window.scrollY > 80) {
+                setTransparent(false);
+            } else {
+                setTransparent(true);
+            }
+            
         } else {
-            setTransparent(true);
+            if (window.scrollY > 80) {
+                setTransparent(false);
+            } else {
+                setTransparent(true);
+            }
         }
+        
     }
 
     const toggleCollapse = () => {
         if (isMobileSize) {
-            if (isOpen) {
+            if (isOpen && window.scrollY < 80) {
                 setTransparent(true);
             } else {
                 setTransparent(false);
@@ -83,7 +93,11 @@ const NavBar = () => {
         return (
             <>
                 <MDBCol size="auto" className="d-flex align-items-center" onClick={toggleCollapse}>
-                    <MDBIcon fas icon="bars" size="lg"/>
+                    {
+                        isOpen 
+                        ? <MDBIcon icon="times" size="lg"/>
+                        : <MDBIcon fas icon="bars" size="lg"/>
+                    }
                 </MDBCol>
                 <MDBCollapse show={isOpen}>
                     <MDBRow className={'nav-collapsed ' + (isOpen ? 'open' : '')}>
@@ -94,7 +108,7 @@ const NavBar = () => {
                             <NavItem size="3" item="Ota Yhteyttä" navId="section-contact" />
                         </MDBCol>
 
-                        <MDBCol className="d-flex justify-content-center flex-column nav-group"> 
+                        <MDBCol className="d-flex justify-content-center flex-column nav-group border-start border-2"> 
                             <NavLink className="nav-link text-white" to="/blog">Blogi</NavLink>
                             <NavLink className="nav-link text-white" to="/insta">Insta feed</NavLink>
                             {

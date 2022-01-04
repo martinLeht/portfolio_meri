@@ -12,8 +12,7 @@ const PostView = (props) => {
 
     const [post, setPost] = useState({});
     const { postId } = useParams();
-    const { width } = useWindowDimensions();
-    const isMobileSize = width < 785;
+    const { isMobileSize } = useWindowDimensions();
     const { deletePostHandler } = props;
     const { authenticatedUser, loading } = useAuthentication();
     
@@ -109,50 +108,53 @@ const PostView = (props) => {
 
     return (
         <>
-                <MDBRow center>
-                    <MDBCol size="9" className="border-bottom border-dark border-3 blog-post-title">
-                        <MDBRow className={ isMobileSize ? 'd-flex justify-content-center' : 'd-flex justify-content-between'}>
-                            <MDBCol size="7" md="5" className="text-start">
-                                <h1>{ post.title }</h1>
-                                <p>{ post.createdAt }</p>
-                            </MDBCol>
-                            { 
-                                authenticatedUser && !loading && (
-                                    <MDBCol size="7" md="4" middle className="d-flex justify-content-center">
-                                        <NavLink
-                                            className="text-dark nav-link"
-                                            to={ `/blog/write/${postId}` }
-                                        >
-                                            <h6>
-                                                Muokkaa{' '}
-                                                <MDBIcon icon='edit' size='sm'/>
-                                            </h6>
-                                        </NavLink>
-                                        <NavLink
-                                            className="text-dark nav-link"
-                                            onClick={ handleDeletePost }
-                                            to={ `/blog` }
-                                        >
-                                            <h6>
-                                                Poista{' '}
-                                                <MDBIcon icon='trash-alt' size='sm'/>
-                                            </h6>
-                                        </NavLink> 
-                                    </MDBCol>
-                                )
+            <MDBRow center>
+                <MDBCol size="9" className="border-bottom border-dark border-3 blog-post-title">
+                    <MDBRow className={ isMobileSize ? 'd-flex justify-content-center text-center' : 'd-flex justify-content-between text-start'}>
+                        <MDBCol size="7" md="5">
+                            <h1>{ post.title }</h1>
+                            <p>{ post.createdAt }</p>
+                        </MDBCol>
+                        { 
+                            authenticatedUser && !loading && (
+                                <MDBCol size="7" md="4" middle className="d-flex justify-content-center">
+                                    <NavLink
+                                        className="text-dark nav-link"
+                                        to={ `/blog/write/${postId}` }
+                                    >
+                                        <h6>
+                                            Muokkaa{' '}
+                                            <MDBIcon icon='edit' size='sm'/>
+                                        </h6>
+                                    </NavLink>
+                                    <NavLink
+                                        className="text-dark nav-link"
+                                        onClick={ handleDeletePost }
+                                        to={ `/blog` }
+                                    >
+                                        <h6>
+                                            Poista{' '}
+                                            <MDBIcon icon='trash-alt' size='sm'/>
+                                        </h6>
+                                    </NavLink> 
+                                </MDBCol>
+                            )
 
-                            }
-                        </MDBRow>
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow center>
-                    <MDBCol size="10" lg="8" className="d-flex py-4 justify-content-center">
-                        <div className="blog-post">
-                            { renderContent() }
-                        </div>
-                    </MDBCol>
-                </MDBRow>
+                        }
+                    </MDBRow>
+                </MDBCol>
+            </MDBRow>
+            <MDBRow center>
+                <MDBCol size="10" lg="8" className="d-flex py-4 justify-content-center">
+                    <div className="blog-post">
+                        { renderContent() }
+                    </div>
+                </MDBCol>
+            </MDBRow>
+            <MDBRow className="mt-4">
                 <RecentPosts />
+            </MDBRow>
+            
             
         </>
     );

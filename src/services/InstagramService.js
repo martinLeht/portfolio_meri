@@ -3,7 +3,7 @@ import axios from 'axios';
 class InstagramService {
     
     constructor() {
-        this.api_endpoint = process.env.REACT_APP_INSTA_API_URL + `&access_token=${process.env.REACT_APP_ACCESS_TOKEN}`
+        this.api_endpoint = process.env.REACT_APP_INSTA_API_URL + `&access_token=${process.env.REACT_APP_IG_ACCESS_TOKEN}`
     }
 
     async fetchInstaPosts() {

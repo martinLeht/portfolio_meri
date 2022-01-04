@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
 
 :root {
-  --off-white: #fbf7f5;
+  --off-white: #f7f7f7;
 }
 
 #App {
+    background-color: var(--off-white);
     font-family: 'Comfortaa';
     height: 100%
 }
@@ -88,6 +89,7 @@ input[type="search"],
   border-bottom: solid;
   border-radius: 0;
   outline: none !important;
+  background-color: var(--off-white);
 }
 
 input[type="text"]:focus,
@@ -95,6 +97,7 @@ input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="search"]:focus,
 .search:focus {
+    background-color: var(--off-white);
     border-color: #804d59 !important;
     outline: none !important;
     box-shadow: none!important;
@@ -184,7 +187,10 @@ input[type="search"]:focus,
 }
 
 /* Login */
+
 .login-form {
+    background-color: var(--off-white);
+    margin-top: 100px;
     padding: 30px;
     border: 4px solid;
     border-radius: 20px;
@@ -226,7 +232,7 @@ input[type="search"]:focus,
   margin-right: 20px;
 }
 
-.about-card-content {
+.about-content {
   padding-top: 10px;
   margin-bottom: 30px;
 }
@@ -288,7 +294,7 @@ input[type="search"]:focus,
 
 .contact img {
   margin-bottom: 20px;
-  min-width: 350px;
+  min-width: 300px;
   border-radius: 10px
 }
 

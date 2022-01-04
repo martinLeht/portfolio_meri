@@ -29,6 +29,8 @@ const Blog = () => {
         const blogPostService = new BlogPostService();
         setLoading(true);
         blogPostService.getTags().then(postTags => {
+            console.log("GOT TAGS:");
+            console.log(postTags);
             if (!postTags) {
                 setPostTags([]);
                 setFilteredPostTags([]);
@@ -40,6 +42,7 @@ const Blog = () => {
             }
             setLoading(false);
         }).catch(err => {
+            console.log("Error on tags...");
             console.error(err.message);
             setLoading(false);
         });
@@ -88,7 +91,7 @@ const Blog = () => {
 
             return (
                 <MDBRow className="p-3" center middle>
-                    <MDBCol className="m-4" size="10" md="3" lg="4">
+                    <MDBCol className="m-4" size="10" md="3" lg="3">
                         <MDBRow center middle>
                             <MDBCol>
                                 <h1>
@@ -102,7 +105,7 @@ const Blog = () => {
                         {
                             authenticatedUser && (
                                 <MDBRow center middle>
-                                    <MDBCol className="p-3 blog-post-add-link dashed-border-5">
+                                    <MDBCol center className="p-3 blog-post-add-link dashed-border-5">
                                         <Link to="/blog/write" className="text-dark">
                                             <h3 className="d-flex justify-content-center align-items-center flex-column">
                                                 <b>Lisää Julkaisu</b>
@@ -121,7 +124,7 @@ const Blog = () => {
         } else {
             return (
                 <MDBRow className="p-3" center middle>
-                    <MDBCol className="m-4" size="10" lg="6">
+                    <MDBCol className="m-4" size="10" lg="7">
                         <h1>
                             <b>Tervetuloa!</b>
                             <br/>
@@ -131,7 +134,7 @@ const Blog = () => {
                     </MDBCol>
                     {
                         authenticatedUser && (
-                            <MDBCol size="8" md="3" middle className="p-3 blog-post-add-link dashed-border-5">
+                            <MDBCol size="8" md="3" center className="p-3 blog-post-add-link dashed-border-5">
                                 <Link to="/blog/write" className="text-dark">
                                     <h3 className="d-flex justify-content-center align-items-center flex-column">
                                         <b>Lisää Julkaisu</b>
@@ -152,7 +155,7 @@ const Blog = () => {
             return <LoadingSpinner />;
         } else if (latestPostTag !== undefined) {
             return (
-                <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="7">
+                <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="5">
                     <BlogPostCard img={ latestPostTag.thumbnail }
                             title={ latestPostTag.postTitle }
                             postIntro={ latestPostTag.postIntro } 
@@ -210,7 +213,7 @@ const Blog = () => {
                             </>
                         }/>
                     }/>
-                    <Route exact path="/blog/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
+                    <Route exact path="/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
                 </Routes>
             </Suspense>
         </div>

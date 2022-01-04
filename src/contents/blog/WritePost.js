@@ -106,12 +106,12 @@ const WritePost = (props) => {
                 <MDBCol size="8" lg="3" className="d-inline justify-content-top m-1">
                     <div className="form-group text-white rounded-4 m-1 p-3 editor-action-panel">
                         <h2>Otsikko</h2>
-                        <MDBInput className="text-white border-1" value={ initTitle() } size="lg" onChange={ handleTitle } />
+                        <MDBInput className="text-white border-1 m-2" value={ initTitle() } size="lg" onChange={ handleTitle } />
                         { renderTimestamps() }
-                        <MDBBtn outline color="white" type="submit" onClick={ printContent }>
+                        <MDBBtn className="m-2" outline color="white" type="submit" onClick={ printContent }>
                             Esikatsele
                         </MDBBtn>
-                        <MDBBtn outline color="white" type="submit" onClick={ savePost }>
+                        <MDBBtn className="m-2" outline color="white" type="submit" onClick={ savePost }>
                             Tallenna ja julkaise
                         </MDBBtn>
                     </div>

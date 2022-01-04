@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBInputGroup, MDBInputGroupElement, MDBInputGroupText, MDBIcon } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import AlertMsg from '../../components/general/AlertMsg';
@@ -13,7 +13,7 @@ const Login = () => {
     const [errors, setErrors] = useState([]);
     const [loginDisabled, setLoginDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
-    const { navigate } = useNavigate();
+    const navigate = useNavigate();
     const { login } = useAuthentication();
 
   
@@ -77,18 +77,18 @@ const Login = () => {
     }
   
     return (
-        <MDBContainer>
+        <MDBContainer className="login">
             <MDBRow center middle>
                 <MDBCol md="6">
                     <form className="d-flex align-items-center flex-column login-form" noValidate onSubmit={ loginHandler }>
                     
-                        <h5 className="text-center mb-4">Login</h5>
+                        <h5 className="text-center mb-4 m-2">Login</h5>
                         {
                             errors.length > 0 && (
                                 <AlertMsg text={errors[0]} />
                             )
                         }
-                        <MDBInputGroup className='text-center w-50'>
+                        <MDBInputGroup className='text-center w-75 m-2'>
                             <MDBInputGroupText noBorder>
                                 <MDBIcon fas icon='at' />
                             </MDBInputGroupText>
@@ -100,7 +100,7 @@ const Login = () => {
                                 placeholder='Email'
                             />
                         </MDBInputGroup>
-                        <MDBInputGroup className='w-50'>
+                        <MDBInputGroup className='w-75 m-2'>
                             <MDBInputGroupText noBorder>
                                 <MDBIcon fas icon='key' />
                             </MDBInputGroupText>
@@ -111,7 +111,7 @@ const Login = () => {
                                 placeholder='Password'
                             />
                         </MDBInputGroup>
-                        <div className="text-center">
+                        <div className="text-center m-2">
                             <MDBBtn 
                                 
                                 className="text-white" 

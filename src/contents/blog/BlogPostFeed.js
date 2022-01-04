@@ -30,7 +30,7 @@ const BlogPostFeed = (props) => {
             })
         } else {
             content = (
-                <MDBCol middle className="text-center p-4">
+                <MDBCol className="text-center p-4">
                     <h4>Ei löytynyt julkaisuja</h4>
                 </MDBCol>
             );
