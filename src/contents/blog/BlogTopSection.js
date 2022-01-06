@@ -45,7 +45,7 @@ const BlogTopSection = (props) => {
                     authenticatedUser && (
                         <MDBRow center middle>
                             <MDBCol className="p-3 blog-post-add-link dashed-border-5">
-                                <Link to="/blog/write" className="text-white">
+                                <Link to="/blog/posts/new" className="text-white">
                                     <h3 className="d-flex justify-content-center align-items-center flex-column">
                                         <b>Lisää Julkaisu</b>
                                         <MDBIcon icon="plus" />

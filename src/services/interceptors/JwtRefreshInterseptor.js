@@ -1,4 +1,4 @@
-import history from '../../history';
+import History from '../../routing/History';
 import UserCachingService from '../UserCachingService';
 const userCachingService = new UserCachingService();
 
@@ -14,7 +14,7 @@ export const jwtAuthTokenRefreshResponseInterceptor = async (error) => {
             case 400:
             case 403:
                 userCachingService.signOut();
-                history.push("/login");
+                History.push("/login");
                 break;
             default:
                 break;

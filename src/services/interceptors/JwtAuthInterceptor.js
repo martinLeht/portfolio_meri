@@ -1,5 +1,5 @@
 import axios from 'axios';
-import history from '../../history';
+import History from '../../routing/History';
 import AuthenticationService from '../AuthenticationService';
 import UserCachingService from '../UserCachingService';
 const userCachingService = new UserCachingService();
@@ -10,6 +10,8 @@ export const jwtAuthRequestInterceptor = async (config) => {
     if (requestRequiresAuth(config)) {
         const authTokens = userCachingService.getAuthTokens();
         if (authTokens === undefined) {
+            userCachingService.signOut();
+            History.push("/login");
             throw new Error('No authentication tokens available! Login to make requests that require authentication.');
         }
         config.headers['Authorization']  = `Bearer ${authTokens.accessToken}`;        
@@ -36,7 +38,7 @@ export const jwtAuthResponseInterceptor = async (error) => {
                         }
                     } else {
                         userCachingService.signOut();
-                        history.push("/login");
+                        History.push("/login");
                     }
                 }
                 

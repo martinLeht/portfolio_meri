@@ -106,7 +106,7 @@ const Blog = () => {
                             authenticatedUser && (
                                 <MDBRow center middle>
                                     <MDBCol center className="p-3 blog-post-add-link dashed-border-5">
-                                        <Link to="/blog/write" className="text-dark">
+                                        <Link to="/blog/posts/new" className="text-dark">
                                             <h3 className="d-flex justify-content-center align-items-center flex-column">
                                                 <b>Lisää Julkaisu</b>
                                                 <MDBIcon icon="plus" />
@@ -135,7 +135,7 @@ const Blog = () => {
                     {
                         authenticatedUser && (
                             <MDBCol size="8" md="3" center className="p-3 blog-post-add-link dashed-border-5">
-                                <Link to="/blog/write" className="text-dark">
+                                <Link to="/blog/posts/new" className="text-dark">
                                     <h3 className="d-flex justify-content-center align-items-center flex-column">
                                         <b>Lisää Julkaisu</b>
                                         <MDBIcon icon="plus" />
@@ -156,11 +156,12 @@ const Blog = () => {
         } else if (latestPostTag !== undefined) {
             return (
                 <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="5">
-                    <BlogPostCard img={ latestPostTag.thumbnail }
-                            title={ latestPostTag.postTitle }
-                            postIntro={ latestPostTag.postIntro } 
-                            createdAt={ latestPostTag.createdAt } 
-                            id={ latestPostTag.id } />
+                    <BlogPostCard 
+                        img={ latestPostTag.thumbnail }
+                        title={ latestPostTag.postTitle }
+                        postIntro={ latestPostTag.postIntro } 
+                        createdAt={ latestPostTag.createdAt } 
+                        id={ latestPostTag.id } />
                 </MDBCol>
             );
         } else {
@@ -190,7 +191,7 @@ const Blog = () => {
         <div className="blog-container p-4">
             <Suspense fallback={ <LoadingSpinner /> }>
                 <Routes>
-                    <Route exact path="/" element={
+                    <Route path="/" element={
                         <>
                             { renderTopSection() }
                             <SectionSeparator title="Kaikki julkaisut">
@@ -199,21 +200,21 @@ const Blog = () => {
                             <BlogPostFeed isLoading={ isLoading } postTags={ filteredPostTags } />
                         </>
                     }/>
-                    <Route exact path="/write" element={
+                    <Route path="/posts/new" element={
                         <>
                             <SectionSeparator title="Kirjoita Julkaisu" />
                             <WritePost newPostHandler={ newPostHandler }/>
                         </>
                     }/>
-                    <Route element={
-                        <GuardedRoute exact path="/blog/write/:postId" element={
+                    <Route path="/posts/:postId/edit" element={
+                        <GuardedRoute path="/posts/:postId/edit">
                             <>
                                 <SectionSeparator title="Muokkaa Julkaisua" />
                                 <WritePost newPostHandler={ newPostHandler } />
                             </>
-                        }/>
+                        </GuardedRoute>
                     }/>
-                    <Route exact path="/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
+                    <Route path="/posts/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
                 </Routes>
             </Suspense>
         </div>

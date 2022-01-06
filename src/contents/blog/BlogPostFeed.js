@@ -37,7 +37,7 @@ const BlogPostFeed = (props) => {
         }
 
         return (
-            <MDBRow center middle className="d-flex">
+            <MDBRow center middle>
                 { content }
             </MDBRow>
         );

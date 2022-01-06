@@ -14,6 +14,9 @@ const WritePost = (props) => {
     const { postId } = useParams();
     const navigate = useNavigate();
 
+    console.log("IN WRITE!");
+    console.log(postId);
+
     const blogPostService = new BlogPostService();
 
     useEffect(() => {

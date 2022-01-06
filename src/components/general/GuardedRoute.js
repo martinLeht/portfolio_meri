@@ -1,6 +1,6 @@
 
 
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import { useAuthentication } from './../../hooks/useAuthentication';
 
@@ -9,15 +9,15 @@ const GuardedRoute = (props) => {
     const { authenticatedUser, loading } = useAuthentication();
 
     const { 
-        component: Component,
+        children,
         ...rest 
     } = props;
     
     if (!loading) {
         if (authenticatedUser) {
-            return <Route {...rest} render={ (props) => <Component {...props}/> }/>
+            return children;
         } else {
-            return <Route path="*" element={<Navigate to ="/login" />}/>
+            return <Navigate to ="/login" />
         }
     } else {
         return <LoadingSpinner />;

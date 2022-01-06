@@ -39,7 +39,7 @@ const BlogEditor = (props) => {
         return <Leaf {...props} />;
     }, []);
 
-    const [setSelection] = useSelection(editor);
+    const [previousSelection, selection, setSelectionOptimized] = useSelection(editor);
     const handleContentChange = useCallback((content) => {
         // Save the content to Local Storage.
         console.log("Callback change");
@@ -47,8 +47,8 @@ const BlogEditor = (props) => {
         localStorage.setItem('content', JSON.stringify(content));
 
         setContent(content);
-        setSelection(editor.selection);
-    }, [editor.selection, setContent, setSelection]);
+        setSelectionOptimized(editor.selection);
+    }, [editor.selection, setContent, setSelectionOptimized]);
     
 
     return (

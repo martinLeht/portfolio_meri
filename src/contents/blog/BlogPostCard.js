@@ -31,7 +31,7 @@ const BlogPostCard = (props) => {
 
                     <NavLink
                         className="text-white mt-1 d-flex justify-content-end align-items-center nav-link"
-                        to={ `/blog/${id}` }
+                        to={ `/blog/posts/${id}` }
 
                     >
                         <h6>
