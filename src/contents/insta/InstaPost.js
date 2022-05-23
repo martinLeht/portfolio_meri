@@ -1,30 +1,24 @@
-import  { Component } from 'react';
+import  { useState } from 'react';
+import { useTranslation } from "react-i18next";
 import { MDBCard, MDBCardBody, MDBCardText, MDBCollapse } from 'mdb-react-ui-kit';
 import IconButton from '../../components/general/IconButton';
   
 
-class InstaPost extends Component {
+const InstaPost = (props) => {
 
-    constructor(props) {
-        super(props);
+    const { id, src, instaLink, caption, mediaType, openAction } = props;
+    const [captionHidden, setCaptionHidden] = useState(true);
+    const { t } = useTranslation();
 
-        this.state = {
-            isCaptionHidden: true
-        }
-    }
-
-
-    isCaptionTooLong = (caption) => {
+    const isCaptionTooLong = (caption) => {
         return caption.length > 80;
     }
 
-    toggleOpenCaption = () => {
-        this.setState({
-            isCaptionHidden: !this.state.isCaptionHidden
-        });
+    const toggleOpenCaption = () => {
+        setCaptionHidden(!captionHidden);
     }
 
-    resolveMediaType = (mediaType, src) => {
+    const resolveMediaType = (mediaType, src) => {
         if (mediaType === "VIDEO") {
             return (
                 <video autoplay muted loop playsinline>
@@ -42,45 +36,39 @@ class InstaPost extends Component {
         }
         return undefined;
     }
+    
 
-    render() {
-        const { id, src, instaLink, caption, mediaType, openAction } = this.props;
-        const { isCaptionHidden } = this.state;
-
-        const mediaContent = this.resolveMediaType(mediaType, src);
-
-        return (
-            <MDBCard className="m-2">
-                <div className="bg-image hover-overlay ig-post">
-                    {mediaContent}
-                    <div 
-                        className="d-flex justify-content-center align-items-center mask flex-center p-2 overlay-red-light">
-                        <a className="white-text" href={ instaLink } key={id}>{ (this.isCaptionTooLong(caption) ? caption.slice(0, 80) + ' ...' : caption) }</a>
-                        
-                        <h4 className='white-text text-center'>
-                            <IconButton icon='book-open' tooltip='Selaa kuvia / Browse images' action={ openAction }/>
-                            {
-                                this.isCaptionTooLong(caption) && (
-                                    isCaptionHidden 
-                                    ? <IconButton icon='angle-double-down' tooltip='Laajenna kuvateksti / Open caption' action={ this.toggleOpenCaption }/>
-                                    : <IconButton icon='times' tooltip='Pienennä kuvateksti / Minimize caption' action={ this.toggleOpenCaption }/>
-                                )
-                            }
-                        </h4>
-                       
-                    </div>
+    return (
+        <MDBCard className="m-2">
+            <div className="bg-image hover-overlay ig-post">
+                {resolveMediaType(mediaType, src)}
+                <div 
+                    className="d-flex justify-content-center align-items-center mask flex-center p-2 overlay-red-light">
+                    <a className="white-text" href={ instaLink } key={id}>{ (isCaptionTooLong(caption) ? caption.slice(0, 80) + ' ...' : caption) }</a>
+                    
+                    <h4 className='white-text text-center'>
+                        <IconButton icon='book-open' tooltip={t('insta.post.view_posts')} action={ openAction }/>
+                        {
+                            isCaptionTooLong(caption) && (
+                                captionHidden 
+                                ? <IconButton icon='angle-double-down' tooltip={t('insta.post.open_caption')} action={ toggleOpenCaption }/>
+                                : <IconButton icon='times' tooltip={t('insta.post.close_caption')} action={ toggleOpenCaption }/>
+                            )
+                        }
+                    </h4>
+                    
                 </div>
-                <MDBCollapse show={!isCaptionHidden}>
-                    <MDBCardBody>
-                        <MDBCardText className="text-dark">
-                            {caption}
-                        </MDBCardText>
-                    </MDBCardBody>
-                </MDBCollapse>
-                
-            </MDBCard>
-        )
-    }
+            </div>
+            <MDBCollapse show={!captionHidden}>
+                <MDBCardBody>
+                    <MDBCardText className="text-dark">
+                        {caption}
+                    </MDBCardText>
+                </MDBCardBody>
+            </MDBCollapse>
+            
+        </MDBCard>
+    )
 }
 
 export default InstaPost;

@@ -12,6 +12,6 @@ const useSelection = (editor) => {
         setSelection(newSelection);
     },[setSelection, selection]);
 
-    return [previousSelection.current, selection, setSelectionOptimized];
+    return [previousSelection.current, selection, setSelectionOptimized, setSelection];
 }
 export default useSelection;

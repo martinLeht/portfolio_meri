@@ -6,7 +6,6 @@ const useAuthenticatedUser = () => {
 
     useEffect(() =>{
         setCurrentUser(authenticationService.getCurrentUser());
-        console.log(authenticationService.getCurrentUser());
         setLoading(false);
     }, []);
     

@@ -1,4 +1,5 @@
 
+import { useTranslation } from "react-i18next";
 import { MDBCard, MDBCardTitle, MDBIcon } from 'mdb-react-ui-kit';
 import { NavLink } from "react-router-dom";
 
@@ -7,12 +8,13 @@ import { NavLink } from "react-router-dom";
 const BlogPostCard = (props) => {
 
     const { className, img, title, postIntro, createdAt, id } = props;
-
+    const { t } = useTranslation();    
+    const trimmedPostIntro = postIntro.substr(0, 100) + '...';
     const imgPath = "url('" + img + "')";
 
     return(
         <MDBCard
-            className={className + ' card-image justify-content-end mb-1 blog-card'}
+            className={className + ' card-image justify-content-end mb-1 hover-shadow blog-card'}
             style={{
                 backgroundImage: imgPath
             }}
@@ -23,7 +25,7 @@ const BlogPostCard = (props) => {
                         <MDBCardTitle tag='h4' className='pt-2'>
                             <strong>{ title }</strong>
                         </MDBCardTitle>
-                        <p> { postIntro } </p>
+                        <p> { trimmedPostIntro  } </p>
                         <p className='d-inline font-weight-bold'>
                             <MDBIcon far icon="clock" /> { createdAt }
                         </p>
@@ -35,7 +37,7 @@ const BlogPostCard = (props) => {
 
                     >
                         <h6>
-                            Lue lisää{' '}
+                            { t('blog.post_card.read_more') }{' '}
                             <MDBIcon icon='chevron-right' size='sm'/>
                         </h6>
                     </NavLink>                  

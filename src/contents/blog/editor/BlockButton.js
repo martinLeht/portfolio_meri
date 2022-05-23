@@ -12,7 +12,7 @@ const BlockButton = (props) => {
     const { format, icon, tooltip, size } = props;
 
     const editor = useSlate();
-    const [previousSelection] = useSelection(editor);
+    const [previousSelection, selection, setSelectionOptimized, setSelection] = useSelection(editor);
     const onImageSelected = useImageUploadHandler(editor, previousSelection);
     const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 

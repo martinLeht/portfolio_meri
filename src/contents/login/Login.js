@@ -1,27 +1,50 @@
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router';
+import { useTranslation } from "react-i18next";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInputGroup, MDBInputGroupElement, MDBInputGroupText, MDBIcon } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import AlertMsg from '../../components/general/AlertMsg';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 
-const Login = () => {
+const Login = (props) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
     const [loginDisabled, setLoginDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [callbackRoute, setCallbackRoute] = useState('/');
     const navigate = useNavigate();
+    const { state } = useLocation();
+    const { t } = useTranslation();
     const { login } = useAuthentication();
 
-  
+    useEffect(() => {
+        console.log(state);
+        if (state) {
+            console.log(state);
+            if (state.destinationRoute) {
+                const destinationRoute = state.destinationRoute;
+                if (destinationRoute && destinationRoute !== '') {
+                    setCallbackRoute(destinationRoute);
+                }
+            }
+            
+            if (state.alertMsg) {
+                const alertMsg = state.alertMsg;
+                if (alertMsg && alertMsg !== '') {
+                    setErrors([alertMsg]);
+                }
+            }
+        }
+        
+    }, [state]);
+
+    
     const loginHandler = (event) => {
         event.preventDefault();
         setLoading(true);
-        console.log(email);
-        console.log(password);
         validateInput();
         if (loginDisabled) {
             setLoading(false);
@@ -33,7 +56,7 @@ const Login = () => {
                     setErrors([authRes.error]);
                 } else {
                     setErrors([]);
-                    navigate("/");
+                    navigate(callbackRoute);
                 }
             });
         }
@@ -82,7 +105,7 @@ const Login = () => {
                 <MDBCol md="6">
                     <form className="d-flex align-items-center flex-column login-form" noValidate onSubmit={ loginHandler }>
                     
-                        <h5 className="text-center mb-4 m-2">Login</h5>
+                        <h5 className="text-center mb-4 m-2">{ t('login.login') }</h5>
                         {
                             errors.length > 0 && (
                                 <AlertMsg text={errors[0]} />
@@ -120,8 +143,8 @@ const Login = () => {
                             >
                                 {
                                     loading 
-                                    ? <LoadingSpinner />
-                                    : 'Login'
+                                    ? <LoadingSpinner size="sm" />
+                                    : t('login.login') 
                                 }
                             </MDBBtn>
                             

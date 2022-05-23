@@ -5,6 +5,7 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import reportWebVitals from './reportWebVitals';
 import 'react-vertical-timeline-component/style.min.css';
 import App from './App';
+import "./translation/i18n";
 
 ReactDOM.render(
   <React.StrictMode>

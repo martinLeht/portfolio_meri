@@ -1,11 +1,13 @@
 import React  from 'react';
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import { useTranslation } from "react-i18next";
 import useWindowDimensions from '../../hooks/window-dimensions';
 
 const About = (props) => {
 
     const { navId } = props;
     const { isMobileSize } = useWindowDimensions();
+    const { t } = useTranslation();
 
     return (
         <div className="about" id={ navId }>
@@ -18,25 +20,25 @@ const About = (props) => {
                     />
                 </MDBCol>
                 <MDBCol center size="8" lg="4" className="pt-3">
-                    <h2><b>Kuka Meri?</b></h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <h2><b>{ t("front_page.about.title")}</b></h2>
+                    <p>{ t("front_page.about.caption")}</p>
                     <div className="about-content">
                         <MDBRow className={"d-flex justify-content-start about-content-row text-white pt-3" + (isMobileSize ? " rounded border border-2 border-white": "")} >
                             <MDBCol className={"d-flex flex-column" + (!isMobileSize ? " border-right border-2 border-white" : "")}> 
-                                <h5><b>Arvoja</b></h5>
+                                <h5><b>{ t("front_page.about.values.title")}</b></h5>
                                 <ul>
-                                    <li>Tasa-arvo</li>
-                                    <li>Intersektionaalinen feminismi</li>
-                                    <li>Antirasismi</li>
+                                    <li>{ t("front_page.about.values.equality")}</li>
+                                    <li>{ t("front_page.about.values.feminism")}</li>
+                                    <li>{ t("front_page.about.values.anti_racism")}</li>
                                 </ul>
                             </MDBCol>
                             <MDBCol className="d-flex flex-column">
-                                <h5><b>Lähellä sydäntä</b></h5>
+                                <h5><b>{ t("front_page.about.likes.title")}</b></h5>
                                 <ul>
-                                    <li>Tanssi</li>
-                                    <li>Avantouinti</li>
-                                    <li>Kulttuuri</li>
-                                    <li>Rantaloma</li>
+                                    <li>{ t("front_page.about.likes.dance")}</li>
+                                    <li>{ t("front_page.about.likes.ice_swim")}</li>
+                                    <li>{ t("front_page.about.likes.culture")}</li>
+                                    <li>{ t("front_page.about.likes.vacation")}</li>
                                 </ul>
                             </MDBCol>
                         </MDBRow>

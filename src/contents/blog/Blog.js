@@ -1,16 +1,15 @@
 import  { useState, Suspense, lazy, useEffect } from 'react';
+import { useTranslation } from "react-i18next";
 import { Route, Routes, Link } from "react-router-dom";
 import { MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import BlogPostCard from './BlogPostCard';
+import RecentPosts from "./RecentPosts";
 import SearchField from "../../components/general/SearchField";
 import LoadingSpinner from '../../components/general/LoadingSpinner';
 import BlogPostService from '../../services/BlogPostService';
-import GuardedRoute from '../../components/general/GuardedRoute';
+import GuardedRoute from '../../components/routing/GuardedRoute';
 
-
-
-const BlogPostFeed = lazy(() => import('./BlogPostFeed'));
 const SectionSeparator = lazy(() => import('../../components/general/SectionSeparator'));
 const WritePost = lazy(() => import('./WritePost'));
 const PostView = lazy(() => import('./PostView'));
@@ -20,29 +19,26 @@ const Blog = () => {
     const [postTags, setPostTags] = useState([]);
     const [filteredPostTags, setFilteredPostTags] = useState([]);
     const [latestPostTag, setLatestPostTag] = useState({});
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState(false);
+    const { t } = useTranslation();
     const { authenticatedUser } = useAuthentication();
-
     const blogPostService = new BlogPostService();
 
     useEffect(() => {
         const blogPostService = new BlogPostService();
         setLoading(true);
         blogPostService.getTags().then(postTags => {
-            console.log("GOT TAGS:");
-            console.log(postTags);
-            if (!postTags) {
+            if (!postTags.data) {
                 setPostTags([]);
                 setFilteredPostTags([]);
                 setLatestPostTag([]);
             } else {
-                setPostTags(postTags);
-                setFilteredPostTags(postTags);
-                setLatestPostTag(postTags[0]);
+                setPostTags(postTags.data);
+                setFilteredPostTags(postTags.data);
+                setLatestPostTag(postTags.data[0]);
             }
             setLoading(false);
         }).catch(err => {
-            console.log("Error on tags...");
             console.error(err.message);
             setLoading(false);
         });
@@ -55,17 +51,18 @@ const Blog = () => {
             setFilteredPostTags([postTag]);
             setLatestPostTag(postTag);
         } else {
-            const i = postTags.findIndex(tag => tag.id === postTag.id);
+            let tagsCopy = postTags;
+            const i = postTags.findIndex(tag => tag.postId === postTag.postId);
             if (i === -1) {
-                postTags.unshift(postTag);
+                tagsCopy.unshift(postTag);
                 setLatestPostTag(postTag);
             } else if (i === 0) {
                 setLatestPostTag(postTag);
             } else {
-                postTags[i] = postTag;
+                tagsCopy[i] = postTag;
             }
-            setPostTags(postTags);
-            setFilteredPostTags(postTags);
+            setPostTags(tagsCopy);
+            setFilteredPostTags(tagsCopy);
         }
     }
 
@@ -77,7 +74,7 @@ const Blog = () => {
         } else {
             setLoading(true);
             blogPostService.deletePostById(postId).then(data => {
-                const postTagsCleaned = postTags.filter(tag => tag.id !== postId);
+                const postTagsCleaned = postTags.filter(tag => tag.postId !== postId);
                 setPostTags(postTagsCleaned);
                 setFilteredPostTags(postTagsCleaned)
                 setLatestPostTag(postTagsCleaned[0]);
@@ -91,15 +88,13 @@ const Blog = () => {
 
             return (
                 <MDBRow className="p-3" center middle>
-                    <MDBCol className="m-4" size="10" md="3" lg="3">
+                    <MDBCol className="m-4" size="10" md="3" lg="4">
                         <MDBRow center middle>
                             <MDBCol>
                                 <h1>
-                                    <b>Tervetuloa!</b>
-                                    <br/>
-                                    <b>Welcome!</b>
+                                    <b>{t('blog.top_section.title')}</b>
                                 </h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor </p>
+                                <p>{t('blog.top_section.caption')}</p>
                             </MDBCol>
                         </MDBRow>
                         {
@@ -108,7 +103,7 @@ const Blog = () => {
                                     <MDBCol center className="p-3 blog-post-add-link dashed-border-5">
                                         <Link to="/blog/posts/new" className="text-dark">
                                             <h3 className="d-flex justify-content-center align-items-center flex-column">
-                                                <b>Lisää Julkaisu</b>
+                                                <b>{t('blog.top_section.add_post')}</b>
                                                 <MDBIcon icon="plus" />
                                             </h3>
                                         </Link>
@@ -126,18 +121,16 @@ const Blog = () => {
                 <MDBRow className="p-3" center middle>
                     <MDBCol className="m-4" size="10" lg="7">
                         <h1>
-                            <b>Tervetuloa!</b>
-                            <br/>
-                            <b>Welcome!</b>
+                            <b>{t('blog.top_section.title')}</b>
                         </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor </p>
+                        <p>{t('blog.top_section.caption')}</p>
                     </MDBCol>
                     {
                         authenticatedUser && (
                             <MDBCol size="8" md="3" center className="p-3 blog-post-add-link dashed-border-5">
                                 <Link to="/blog/posts/new" className="text-dark">
                                     <h3 className="d-flex justify-content-center align-items-center flex-column">
-                                        <b>Lisää Julkaisu</b>
+                                        <b>{t('blog.top_section.add_post')}</b>
                                         <MDBIcon icon="plus" />
                                     </h3>
                                 </Link>
@@ -150,6 +143,38 @@ const Blog = () => {
         }
     }
 
+    const renderPostFeed = () => {
+
+        let content;
+        if (filteredPostTags.length > 0) {
+            content = filteredPostTags.map((tag) => {
+                return (
+                    <MDBCol md="3" key={ tag.postId } className="blog-feed-col">                
+                        <BlogPostCard 
+                            img={tag.thumbnail.link}
+                            title={ tag.postTitle }
+                            postIntro={ tag.postIntro }
+                            createdAt={ tag.createdAt }
+                            id={ tag.postId }
+                        />
+                    </MDBCol>
+                );
+            })
+        } else {
+            content = (
+                <MDBCol className="text-center p-4">
+                    <h4>{t('blog.feed.no_posts')}</h4>
+                </MDBCol>
+            );
+        }
+
+        return (
+            <MDBRow className="blog-feed" center middle>
+                { content }
+            </MDBRow>
+        );
+    }
+
     const renderLatestPost = () => {
         if (isLoading) {
             return <LoadingSpinner />;
@@ -157,11 +182,11 @@ const Blog = () => {
             return (
                 <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="5">
                     <BlogPostCard 
-                        img={ latestPostTag.thumbnail }
+                        img={ latestPostTag.thumbnail.link }
                         title={ latestPostTag.postTitle }
                         postIntro={ latestPostTag.postIntro } 
                         createdAt={ latestPostTag.createdAt } 
-                        id={ latestPostTag.id } />
+                        id={ latestPostTag.postId } />
                 </MDBCol>
             );
         } else {
@@ -194,27 +219,44 @@ const Blog = () => {
                     <Route path="/" element={
                         <>
                             { renderTopSection() }
-                            <SectionSeparator title="Kaikki julkaisut">
+                            <SectionSeparator title={t('blog.feed.title')}>
                                 <SearchField onChange={ searchChangeHandler } />
                             </SectionSeparator>
-                            <BlogPostFeed isLoading={ isLoading } postTags={ filteredPostTags } />
+                            { 
+                                isLoading 
+                                ? (
+                                    <div className="h-25 text-center">
+                                        <LoadingSpinner />
+                                    </div>
+                                ): renderPostFeed()
+                            }
+                            
                         </>
                     }/>
                     <Route path="/posts/new" element={
-                        <>
-                            <SectionSeparator title="Kirjoita Julkaisu" />
-                            <WritePost newPostHandler={ newPostHandler }/>
-                        </>
+                        <GuardedRoute path="/posts/new">
+                            <>
+                                <SectionSeparator title={t('blog.post.create')} />
+                                <WritePost newPostHandler={ newPostHandler }/>
+                            </>
+                        </GuardedRoute>
                     }/>
                     <Route path="/posts/:postId/edit" element={
                         <GuardedRoute path="/posts/:postId/edit">
                             <>
-                                <SectionSeparator title="Muokkaa Julkaisua" />
+                                <SectionSeparator title={t('blog.post.edit_post')} />
                                 <WritePost newPostHandler={ newPostHandler } />
                             </>
                         </GuardedRoute>
                     }/>
-                    <Route path="/posts/:postId" element={ <PostView deletePostHandler={ deletePostHandler } />}/>                           
+                    <Route path="/posts/:postId" element={
+                        <>
+                            <PostView deletePostHandler={ deletePostHandler } />
+                            <MDBRow className="mt-4">
+                                <RecentPosts />
+                            </MDBRow>
+                        </>
+                    }/>                           
                 </Routes>
             </Suspense>
         </div>

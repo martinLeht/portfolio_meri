@@ -1,6 +1,7 @@
 
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faCheck, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
 import TimelineColors from '../../resources/TimelineColors';
@@ -8,13 +9,14 @@ import TimelineColors from '../../resources/TimelineColors';
 const Experience = (props) => {
 
     const { navId } = props;
+    const { t } = useTranslation();
 
     return (
         <div className="experience" id={ navId }>
             <MDBRow>
                 <MDBCol>
                     <div className="d-flex justify-content-center">
-                        <h1><b>Kokemus</b></h1>
+                        <h1><b>{ t("front_page.experience.title")}</b></h1>
                         <br />
                     </div>
                 </MDBCol>

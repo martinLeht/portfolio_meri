@@ -6,7 +6,6 @@ const userCachingService = new UserCachingService();
 const authService = new AuthenticationService();
 
 export const jwtAuthRequestInterceptor = async (config) => {
-    console.log(config);
     if (requestRequiresAuth(config)) {
         const authTokens = userCachingService.getAuthTokens();
         if (authTokens === undefined) {
@@ -20,7 +19,6 @@ export const jwtAuthRequestInterceptor = async (config) => {
 }
 
 export const jwtAuthResponseInterceptor = async (error) => {
-    console.log(error);
     if (error && error.response) {
         switch(error.response.status) {
             /**

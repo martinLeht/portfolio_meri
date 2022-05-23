@@ -3,7 +3,6 @@ import UserCachingService from '../UserCachingService';
 const userCachingService = new UserCachingService();
 
 export const jwtAuthTokenRefreshResponseInterceptor = async (error) => {
-    console.log(error);
     if (error && error.response) {
         switch(error.response.status) {
             /**
@@ -14,7 +13,7 @@ export const jwtAuthTokenRefreshResponseInterceptor = async (error) => {
             case 400:
             case 403:
                 userCachingService.signOut();
-                History.push("/login");
+                History.push("/login", { state: {alertMsg: 'Authenticated user session has expired, login again.'}});
                 break;
             default:
                 break;

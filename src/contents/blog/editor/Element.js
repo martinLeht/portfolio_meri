@@ -6,23 +6,23 @@ const Element = (props) => {
     
     switch (element.type) {
         case 'block-quote':
-            return <blockquote {...attributes} >{children}</blockquote>
+            return <blockquote {...attributes} >{children}</blockquote>;
         case 'bulleted-list':
-            return <ul {...attributes} >{children}</ul>
+            return <ul {...attributes} >{children}</ul>;
         case 'link':
-            return <a href={children.text} {...attributes} >{children}</a>
+            return <a href={children.text} {...attributes} >{children}</a>;
         case 'heading-one':
-            return <h1 {...attributes} >{children}</h1>
+            return <h1 {...attributes} >{children}</h1>;
         case 'heading-two':
-            return <h2 {...attributes} >{children}</h2>
+            return <h2 {...attributes} >{children}</h2>;
         case 'list-item':
-            return <li {...attributes} >{children}</li>
+            return <li {...attributes} >{children}</li>;
         case 'numbered-list':
-            return <ol {...attributes} >{children}</ol>
+            return <ol {...attributes} >{children}</ol>;
         case 'image':
             return <Image {...props} />;
         default:
-            return <p {...attributes} >{children}</p>
+            return <p {...attributes} >{children}</p>;
     }
 }
 

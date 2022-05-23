@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import moment from "moment";
 import AuthenticationService from "../services/AuthenticationService";
+import UserCachingService from '../services/UserCachingService';
 
 export const useAuthentication = () => {
     const [authenticatedUser, setAuthenticatedUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const authenticationService = new AuthenticationService();
+    const userCachingService = new UserCachingService();
 
     useEffect(() =>{
         setLoading(true);
         const getAuthenticatedUser = () => {
-            console.log("Setting Current user");
             setAuthenticatedUser(authenticationService.getCurrentUser());
-            console.log(authenticationService.getCurrentUser());
             setLoading(false);
         }
         getAuthenticatedUser();  
     }, []);
+
 
     const login = async (userData) => {
         const authRes = await authenticationService.loginUser(userData);
@@ -29,18 +32,38 @@ export const useAuthentication = () => {
         return authRes;
     }
 
-    const logout = () => {
-        return new Promise((resolve) => {
-            authenticationService.logoutUser();
-            setAuthenticatedUser(null);
-            resolve();
-        });
+    const logout = async () => {
+        authenticationService.logoutUser();
+        setAuthenticatedUser(null);
+    }
+
+    const setAndVerifyAuthenticatedUser = async () => {
+        if (userCachingService.hasAuthTokens()) {
+            const { accessToken } = userCachingService.getAuthTokens();
+            const hasTokenExpired = hasAuthTokenExpired(accessToken);
+            if (hasTokenExpired) {
+                const refreshedAuthTokens = await authenticationService.refreshAuthTokens();
+                if (refreshedAuthTokens) setAuthenticatedUser(authenticationService.getCurrentUser());
+            }
+            console.log("User is verified!");
+        } else {
+            console.log("Not logged in and verified!");
+        }
+    }
+
+    const hasAuthTokenExpired = (accessToken) => {
+        const decodedToken = jwt_decode(accessToken);
+        const expiresEpochs = decodedToken.exp;
+        const expiratationDateTime = moment.unix(expiresEpochs);
+        const currentDateTime = moment();
+        return expiratationDateTime.isBefore(currentDateTime);
     }
 
     return {
         authenticatedUser,
         loading,
         login,
-        logout
+        logout,
+        setAndVerifyAuthenticatedUser
     };
 }

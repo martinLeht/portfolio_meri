@@ -74,6 +74,14 @@ blockquote {
     background-color: rgba(244, 67, 54, 0.3);
 }
 
+/* Colors */
+.primary-color {
+  color: #804d59;
+}
+
+.primary-bg-color {
+  background-color: #804d59;
+}
 
 /* Fields, Buttons, etc... */
 .image-upload-input {
@@ -300,6 +308,10 @@ input[type="search"]:focus,
 
 #email {
   cursor: pointer;
+}
+
+.copy-success {
+    color: #00B74A;
 }
 
 footer {

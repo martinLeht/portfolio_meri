@@ -1,10 +1,10 @@
 
 import { useCallback, useMemo, useState } from 'react';
-import { Slate, Editable, withReact } from 'slate-react';
+import { Slate, Editable, withReact} from 'slate-react';
+import { withHistory } from 'slate-history';
 import { createEditor } from 'slate';
 
 import useSelection from '../../../hooks/useSelection';
-import withEntryNormalization from '../plugins/with-entry-normalization';
 
 import Element from './Element';
 import Leaf from './Leaf';
@@ -28,22 +28,13 @@ const BlogEditor = (props) => {
     }
     const [content, setContent] = useState(initialContentValue);
 
-    console.log("CONTENT HERE");
-    console.log(content);
-
-    const editor = useMemo(() =>  withReact(withEntryNormalization(createEditor())), []);
+    const editor = useMemo(() =>  withReact(withHistory(createEditor())), []);
     const renderElement = useCallback(props => <Element {...props} />, []);
-    const renderLeaf = useCallback(props => {
-        console.log("New leaf");
-        console.log(props);
-        return <Leaf {...props} />;
-    }, []);
+    const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
-    const [previousSelection, selection, setSelectionOptimized] = useSelection(editor);
+    const [previousSelection, selection, setSelectionOptimized, setSelection] = useSelection(editor);
     const handleContentChange = useCallback((content) => {
         // Save the content to Local Storage.
-        console.log("Callback change");
-        console.log(content);
         localStorage.setItem('content', JSON.stringify(content));
 
         setContent(content);

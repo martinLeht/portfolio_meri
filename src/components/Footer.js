@@ -6,7 +6,7 @@ import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdb-react-ui-kit";
 const Footer = () => {
 
     return (
-        <MDBFooter className="font-small">
+        <MDBFooter className="font-small sticky">
                 <MDBContainer fluid className="text-center py-3">
                     <MDBRow center>
                         <MDBCol md="2">

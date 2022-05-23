@@ -9,7 +9,7 @@ const handleImageUpload = (formData, editor) => {
     const authenticatedUser = authenticationService.getCurrentUser();
     let client = axios.create({
         baseURL: process.env.REACT_APP_IMAGE_STORAGE_API_ENDPOINT,
-        timeout: 31000,
+        timeout: 10000,
         headers: { 
             'Access-Control-Allow-Origin': '*',
             'content-type': 'multipart/form-data' 
@@ -18,7 +18,7 @@ const handleImageUpload = (formData, editor) => {
 
     client.interceptors.request.use(jwtAuthRequestInterceptor, err => {
         Promise.reject(err);
-    }, { synchronous: true });
+    });
     client.interceptors.response.use(response => response, err => jwtAuthResponseInterceptor(err));
     
     if (authenticatedUser) {
@@ -26,7 +26,6 @@ const handleImageUpload = (formData, editor) => {
             const newImage = Editor.nodes(editor, {
                 match: (node) => node.fileName === res.data.name
             });
-            console.log("Käsitellään tuloksia");
 
             if (newImage === null) return;
 
@@ -34,8 +33,10 @@ const handleImageUpload = (formData, editor) => {
                 editor,
                 { 
                     isUploading: false,
-                    fileName: res.data.name,
-                    url: res.data.url,
+                    attachment: {
+                        name: res.data.name,
+                        link: res.data.url,
+                    }
                 },
                 { at: newImage[1] }
             );
@@ -81,9 +82,10 @@ const useImageUploadHandler = (editor, previousSelection) => {
             editor,
             {
                 type: "image",
-                caption: fileName,
-                fileName: fileName,
-                url: "",
+                attachment: {
+                    name: fileName,
+                    link: ""
+                },
                 isUploading: true,
                 children: [
                     {
@@ -93,6 +95,7 @@ const useImageUploadHandler = (editor, previousSelection) => {
             },{ at: previousSelection, select: true }
         );
         handleImageUpload(formData, editor);
+
     },[editor, previousSelection]);
 }
 

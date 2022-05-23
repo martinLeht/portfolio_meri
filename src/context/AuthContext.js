@@ -1,21 +1,22 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { useAuthentication } from '../hooks/useAuthentication';
 
 export const AuthContext = createContext(null);
 
-const AuthProvider = ({ children }) => {
-    const { authenticated } = useAuthentication();
+export const AuthProvider = ({ children }) => {
+    const { authenticatedUser, setAndVerifyAuthenticatedUser } = useAuthentication();
+
+    useEffect(() => {
+        setAndVerifyAuthenticatedUser();
+    }, [setAndVerifyAuthenticatedUser]);
+
     return (
-        <AuthContext.Provider value={ authenticated }>
+        <AuthContext.Provider value={ authenticatedUser }>
             { children }
         </AuthContext.Provider>
     );
 }
 
-export default AuthProvider; 
-
-const AuthConsumer = () => {
+export const AuthConsumer = () => {
     return useContext(AuthContext);
 }
-  
-export default AuthConsumer;
