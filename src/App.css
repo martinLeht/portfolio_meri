@@ -7,7 +7,7 @@
 #App {
     background-color: var(--off-white);
     font-family: 'Comfortaa';
-    height: 100%
+    height: 100%;
 }
 
 /* Global */
@@ -195,6 +195,12 @@ input[type="search"]:focus,
 }
 
 /* Login */
+
+.login {
+    height: 100%;
+    background-image: url('assets/img/adrian-infernus.jpg');
+    background-size: cover; 
+}
 
 .login-form {
     background-color: var(--off-white);

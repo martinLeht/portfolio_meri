@@ -100,9 +100,9 @@ const Login = (props) => {
     }
   
     return (
-        <MDBContainer className="login">
+        <MDBContainer fluid className="login">
             <MDBRow center middle>
-                <MDBCol md="6">
+                <MDBCol md="4">
                     <form className="d-flex align-items-center flex-column login-form" noValidate onSubmit={ loginHandler }>
                     
                         <h5 className="text-center mb-4 m-2">{ t('login.login') }</h5>

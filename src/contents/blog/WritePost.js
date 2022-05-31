@@ -105,7 +105,7 @@ const WritePost = (props) => {
             blogPostService.updatePost(Number(postDto.id), postDto).then(newPost => {
                 if (!newPost) return;
                 newPostHandler(newPost.tag);
-                navigate("/blog");
+                navigate("/blog/posts/" + newPost.tag.postId);
             });
         } else {
             const postDto = convertBlogDataToDto(undefined, title, postContent, authenticatedUser.user.userId);

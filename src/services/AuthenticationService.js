@@ -94,7 +94,6 @@ class AuthenticationService {
         if (!currentUser && !tokens) return undefined; 
 
         const decodedAccessToken = jwt_decode(tokens.accessToken);
-        console.log(decodedAccessToken);
 
         return {
             user: {
