@@ -132,41 +132,44 @@ const NavBar = () => {
                     }
                 </MDBCol>
                 <MDBCollapse show={isOpen}>
-                    <MDBRow className={'nav-collapsed ' + (isOpen ? 'open' : '')}>
-                        <MDBCol className="d-flex justify-content-center flex-column nav-group">
+                    <MDBRow center className={'nav-collapsed ' + (isOpen ? 'open' : '')}>
+                        <MDBCol size="auto" className="nav-group text-center py-2">
                             <NavItem size="3" item={ t("nav.about") } navId="section-about" />
                             <NavItem size="3" item={ t("nav.experience") } navId="section-experience" />
                             <NavItem size="3" item={ t("nav.gallery") } navId="section-gallery" />
                             <NavItem size="3" item={ t("nav.contact") } navId="section-contact" />
                         </MDBCol>
-
-                        <MDBCol className="d-flex justify-content-center flex-column nav-group border-start border-2"> 
+                    </MDBRow>
+                    <MDBRow center className="border-top border-2">
+                        <MDBCol size="auto" className="nav-group text-center">
                             <NavLink className="nav-link text-white" to="/blog">{ t("nav.blog") }</NavLink>
                             <NavLink className="nav-link text-white" to="/insta">{ t("nav.insta") }</NavLink>
-                            <MDBDropdown group>
-                                <MDBDropdownToggle
-                                    outline 
-                                    color="light" 
-                                    size='sm'>
-                                    { 
-                                        language && (
-                                            languageOptions.find(opt => opt.key.toLowerCase() === language.toLowerCase()).symbol + ` | ${language}`
-                                        )
-                                    }
-                                </MDBDropdownToggle>
-                                <MDBDropdownMenu>
-                                    {
-                                        languageOptions.map((opt, i) => (
-                                            <MDBDropdownItem key={ i }>
-                                                <MDBDropdownLink tag='button' type='button' onClick={() => changeLanguage(opt.key, opt.name)}>
-                                                    { opt.name }
-                                                    <Emoji className="ms-2" label={ opt.key } symbol={ opt.symbol }/>
-                                                </MDBDropdownLink>
-                                            </MDBDropdownItem>
-                                        ))
-                                    }
-                                </MDBDropdownMenu>
-                            </MDBDropdown>
+                            <div>
+                                <MDBDropdown group>
+                                    <MDBDropdownToggle
+                                        outline 
+                                        color="light" 
+                                        size='sm'>
+                                        { 
+                                            language && (
+                                                languageOptions.find(opt => opt.key.toLowerCase() === language.toLowerCase()).symbol + ` | ${language}`
+                                            )
+                                        }
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        {
+                                            languageOptions.map((opt, i) => (
+                                                <MDBDropdownItem key={ i }>
+                                                    <MDBDropdownLink tag='button' type='button' onClick={() => changeLanguage(opt.key, opt.name)}>
+                                                        { opt.name }
+                                                        <Emoji className="ms-2" label={ opt.key } symbol={ opt.symbol }/>
+                                                    </MDBDropdownLink>
+                                                </MDBDropdownItem>
+                                            ))
+                                        }
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </div>
                             {
                                 authenticatedUser && (
                                     <MDBBtn
@@ -179,8 +182,7 @@ const NavBar = () => {
                                     </MDBBtn>
                                 )
                             }
-                        </MDBCol>
-                        
+                        </MDBCol>   
                     </MDBRow>
                 </MDBCollapse>
             </>

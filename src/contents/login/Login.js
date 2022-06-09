@@ -103,7 +103,7 @@ const Login = (props) => {
         <MDBContainer fluid className="login">
             <MDBRow center middle>
                 <MDBCol md="4">
-                    <form className="d-flex align-items-center flex-column login-form" noValidate onSubmit={ loginHandler }>
+                    <form className="d-flex align-items-center flex-column login-form text-white" noValidate onSubmit={ loginHandler }>
                     
                         <h5 className="text-center mb-4 m-2">{ t('login.login') }</h5>
                         {
@@ -113,9 +113,10 @@ const Login = (props) => {
                         }
                         <MDBInputGroup className='text-center w-75 m-2'>
                             <MDBInputGroupText noBorder>
-                                <MDBIcon fas icon='at' />
+                                <MDBIcon fas color="white" icon='at' />
                             </MDBInputGroupText>
                             <MDBInputGroupElement
+                                className="text-white"
                                 type='email' 
                                 value={ email }
                                 onChange={ emailChangeHandler }
@@ -125,9 +126,10 @@ const Login = (props) => {
                         </MDBInputGroup>
                         <MDBInputGroup className='w-75 m-2'>
                             <MDBInputGroupText noBorder>
-                                <MDBIcon fas icon='key' />
+                                <MDBIcon fas color="white" icon='key' />
                             </MDBInputGroupText>
                             <MDBInputGroupElement
+                            className="text-white"
                                 type='password' 
                                 value={ password }
                                 onChange={ passwordChangeHandler }
@@ -136,7 +138,7 @@ const Login = (props) => {
                         </MDBInputGroup>
                         <div className="text-center m-2">
                             <MDBBtn 
-                                
+                                color="dark"
                                 className="text-white" 
                                 type="submit"
                                 disabled={ loginDisabled || loading }

@@ -9,7 +9,7 @@ const SearchField = (props) => {
                 <MDBIcon fas icon='search' />
             </MDBInputGroupText>
             <MDBInputGroupElement 
-                className="search"
+                className="search bg-shade rounded-pill"
                 type='text' 
                 placeholder='Search' 
                 onChange={ onChange }

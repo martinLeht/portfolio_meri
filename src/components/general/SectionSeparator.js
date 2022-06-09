@@ -1,14 +1,16 @@
 
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import useWindowDimensions from '../../hooks/window-dimensions';
 
 const SectionSeparator = (props) => {
 
     const { children, title } = props;
+    const { isMobileSize } = useWindowDimensions();
 
     return (
         <MDBRow center>
             <MDBCol size="10" className="my-4 border-bottom border-dark border-4">
-                <MDBRow between>
+                <MDBRow between={!isMobileSize} center={isMobileSize}>
                     <MDBCol size="auto">
                         <h2>{ title }</h2>
                     </MDBCol>

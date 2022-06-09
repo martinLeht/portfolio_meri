@@ -2,6 +2,7 @@
 
 :root {
   --off-white: #f7f7f7;
+  --off-dark: #202020;
 }
 
 #App {
@@ -97,7 +98,6 @@ input[type="search"],
   border-bottom: solid;
   border-radius: 0;
   outline: none !important;
-  background-color: var(--off-white);
 }
 
 input[type="text"]:focus,
@@ -105,7 +105,50 @@ input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="search"]:focus,
 .search:focus {
+    border-color: #804d59 !important;
+    outline: none !important;
+    box-shadow: none!important;
+}
+
+input[type="text"].bg-shade,
+input[type="password"].bg-shade,
+input[type="email"].bg-shade,
+input[type="search"].bg-shade,
+.search.bg-shade {
+  border: none;
+  border-radius: 50px;
+  background-color:  #cfcfcf;
+}
+
+input[type="text"].bg-shade:focus,
+input[type="password"].bg-shade:focus,
+input[type="email"].bg-shade:focus,
+input[type="search"].bg-shade:focus,
+.search.bg-shade:focus {
     background-color: var(--off-white);
+    border-color: #804d59 !important;
+    border: solid 1px;
+    box-shadow: none!important;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+.search.bg-dark {
+    background-color: var(--off-dark);
+  border: none;
+  border-bottom: solid;
+  border-radius: 0;
+  outline: none !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+.search.bg-dark:focus {
+    background-color: var(--off-dark);
     border-color: #804d59 !important;
     outline: none !important;
     box-shadow: none!important;
@@ -197,13 +240,10 @@ input[type="search"]:focus,
 /* Login */
 
 .login {
-    height: 100%;
-    background-image: url('assets/img/adrian-infernus.jpg');
-    background-size: cover; 
 }
 
 .login-form {
-    background-color: var(--off-white);
+    background-color: var(--off-dark);
     margin-top: 100px;
     padding: 30px;
     border: 4px solid;
