@@ -87,7 +87,7 @@ const Blog = () => {
         if (postTags !== undefined && postTags.length > 0) {
 
             return (
-                <MDBRow className="p-3" center middle>
+                <MDBRow className="mx-0 p-5 blog-top-section" center middle>
                     <MDBCol className="m-4" size="10" md="3" lg="4">
                         <MDBRow center middle>
                             <MDBCol>
@@ -118,7 +118,7 @@ const Blog = () => {
             );
         } else {
             return (
-                <MDBRow className="p-3" center middle>
+                <MDBRow className="" center middle>
                     <MDBCol className="m-4" size="10" lg="7">
                         <h1>
                             <b>{t('blog.top_section.title')}</b>
@@ -149,7 +149,7 @@ const Blog = () => {
         if (filteredPostTags.length > 0) {
             content = filteredPostTags.map((tag) => {
                 return (
-                    <MDBCol md="3" key={ tag.postId } className="blog-feed-col">                
+                    <MDBCol md="4" key={ tag.postId } className="blog-feed-col py-2">                
                         <BlogPostCard 
                             img={tag.thumbnail.link}
                             title={ tag.postTitle }
@@ -169,7 +169,7 @@ const Blog = () => {
         }
 
         return (
-            <MDBRow className="blog-feed" center middle>
+            <MDBRow className="mx-0 p-4 blog-feed" center middle>
                 { content }
             </MDBRow>
         );
@@ -213,7 +213,7 @@ const Blog = () => {
     }
 
     return (
-        <div className="blog-container p-4">
+        <div className="blog-container">
             <Suspense fallback={ <LoadingSpinner /> }>
                 <Routes>
                     <Route path="/" element={
@@ -252,7 +252,7 @@ const Blog = () => {
                     <Route path="/posts/:postId" element={
                         <>
                             <PostView deletePostHandler={ deletePostHandler } />
-                            <MDBRow className="mt-4">
+                            <MDBRow className="p-4 mt-4">
                                 <RecentPosts />
                             </MDBRow>
                         </>

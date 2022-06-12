@@ -139,7 +139,7 @@ const PostContent = (props) => {
             {
                 post && (
                     <>
-                        <MDBRow center>
+                        <MDBRow center className="p-4">
                             <MDBCol size="9" className="border-bottom border-dark border-3 blog-post-title">
                                 <MDBRow className={ isMobileSize ? 'd-flex justify-content-center text-center' : 'd-flex justify-content-between text-start'}>
                                     <MDBCol size="8" md="5">
@@ -173,7 +173,7 @@ const PostContent = (props) => {
                                 </MDBRow>
                             </MDBCol>
                         </MDBRow>
-                        <MDBRow center>
+                        <MDBRow center className="p-4">
                             <MDBCol size="10" lg="8" className="d-flex py-4 blog-post justify-content-center">
                                 <div className="blog-post-content">
                                     { renderContent() }

@@ -8,7 +8,7 @@ const SectionSeparator = (props) => {
     const { isMobileSize } = useWindowDimensions();
 
     return (
-        <MDBRow center>
+        <MDBRow className="mx-0" center>
             <MDBCol size="10" className="my-4 border-bottom border-dark border-4">
                 <MDBRow between={!isMobileSize} center={isMobileSize}>
                     <MDBCol size="auto">
