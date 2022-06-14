@@ -1,6 +1,7 @@
 
 import { useSlate } from 'slate-react';
 import { Editor, Transforms, Element as SlateElement } from 'slate';
+import { MDBCol} from "mdb-react-ui-kit";
 
 import useSelection from '../../../hooks/useSelection';
 
@@ -99,9 +100,11 @@ const BlockButton = (props) => {
     }
 
     return (
-        <Button onMouseDown={ handleButtonPress } >
-            { renderIconButton() }
-        </Button>
+        <MDBCol size="auto">
+            <Button onMouseDown={ handleButtonPress } >
+                { renderIconButton() }
+            </Button>
+        </MDBCol>
     )
 }
 

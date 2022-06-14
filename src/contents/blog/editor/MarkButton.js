@@ -1,8 +1,10 @@
 
 import { useSlate } from 'slate-react';
 import { Editor } from 'slate';
+import { MDBCol} from "mdb-react-ui-kit";
 import Button from './Button';
 import IconButton from '../../../components/general/IconButton';
+
 
 const MarkButton = (props) => {
     const { format, icon, tooltip } = props;
@@ -25,19 +27,21 @@ const MarkButton = (props) => {
     }
     
     return (
-        <Button
-            onMouseDown={ event => {
-                event.preventDefault();
-                toggleMark(editor, format);
-            }}
-        >
-            <IconButton 
-                icon={ icon } 
-                tooltip={ tooltip ? tooltip : '' } 
-                tooltipPlacement = { tooltip ? 'top' : '' }
-                active={ isMarkActive(editor, format) } 
-            />
-        </Button>
+        <MDBCol size="auto">
+            <Button
+                onMouseDown={ event => {
+                    event.preventDefault();
+                    toggleMark(editor, format);
+                }}
+            >
+                <IconButton 
+                    icon={ icon } 
+                    tooltip={ tooltip ? tooltip : '' } 
+                    tooltipPlacement = { tooltip ? 'top' : '' }
+                    active={ isMarkActive(editor, format) } 
+                />
+            </Button>
+        </MDBCol>
     )
 }
 

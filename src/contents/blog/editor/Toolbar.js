@@ -1,18 +1,18 @@
 
 import { forwardRef } from 'react';
+import { MDBRow } from "mdb-react-ui-kit";
 
 const Menu = forwardRef(({ 
     className, ...props 
   }, ref) => (
-    <div {...props} ref={ref} className={ className + " d-flex justify-content-center align-items-center" }
-    />
+    <MDBRow center middle {...props} ref={ref} className={ className }/>
   )
 );
 
 const Toolbar = forwardRef(({ 
-    className, ...props 
+    ...props 
   }, ref) => (
-    <Menu {...props} ref={ref} className={ className +" toolbar-menu" } />
+    <Menu {...props} ref={ref} className="toolbar-menu" />
   )
 );
 
