@@ -2,6 +2,7 @@
 
 :root {
   --off-white: #f7f7f7;
+  --off-white-shade: #f1f1f1;
   --off-dark: #353535;
 }
 
@@ -27,6 +28,10 @@ blockquote {
 /* General Styling */
 .bg-dark-beige {
   background-color: #d0bba1;
+}
+
+.bg-white-shade {
+    background-color: var(--off-white-shade); 
 }
 
 .min-width-300 {
@@ -230,6 +235,7 @@ input[type="search"]:focus,
 }
 
 .nav-item:hover {
+    cursor: pointer;
     color: black;
 }
 

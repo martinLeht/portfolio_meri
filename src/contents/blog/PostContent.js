@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { MDBRow, MDBCol, MDBIcon } from "mdb-react-ui-kit";
 import { NavLink } from "react-router-dom";
+import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
 import { useAuthentication } from './../../hooks/useAuthentication';
 import useWindowDimensions from '../../hooks/window-dimensions';
+import HelmetMetaData from '../../components/general/HelmetMetaData';
 import ImageViewer from '../../components/general/ImageViewer';
 
 const PostContent = (props) => {
@@ -14,13 +16,33 @@ const PostContent = (props) => {
     const { authenticatedUser, loading } = useAuthentication();
     const [viewerOpen, setViewerOpen] = useState(false);
     const [imageViewerIndex, setImageViewerIndex] = useState(0);
+    const [socialShareQuote, setSocialShareQuote] = useState(""); 
     const [ images, setImages ] = useState([]);
 
 
     useEffect(() => {
-        if (!previewMode && post !== undefined && post.attachments) initImagesForViewer();
+        if (!previewMode && !!post) {
+            generateQuoteForSocialShare();
+            if (post.attachments) initImagesForViewer();
+        } 
     }, [post]);
 
+    const generateQuoteForSocialShare = () => {
+        if (post.content) {
+            let quote = "";
+            post.content.every(block => {
+                if (quote.length >= 100) return false;
+                if (block.type === "paragraph") {
+                    block.textContent.forEach(fragment => {
+                        quote.concat(" " + fragment.text);
+                    });
+                }
+                return true;
+            });
+            const trimmedQuote = quote.substring(0, 100) + "...";
+            setSocialShareQuote(trimmedQuote);
+        }
+    }
 
     const initImagesForViewer = () => {
         const postImages = post.attachments.map(attachment => {
@@ -137,10 +159,16 @@ const PostContent = (props) => {
     return (
         <>
             {
-                post && (
+                !!post && (
                     <>
-                        <MDBRow center className="p-4">
-                            <MDBCol size="9" className="border-bottom border-dark border-3 blog-post-title">
+                        <HelmetMetaData
+                            title={post.title}
+                            description={post.title + " - Meri Niemi"}
+                            image={post.attachments && post.attachments.length > 0 ? post.attachments[0].link : ""}
+                            quote={socialShareQuote}
+                        />
+                        <MDBRow center className="mx-0 pt-4">
+                            <MDBCol size="9" className="blog-post-title">
                                 <MDBRow className={ isMobileSize ? 'd-flex justify-content-center text-center' : 'd-flex justify-content-between text-start'}>
                                     <MDBCol size="8" md="5">
                                         <h1>{ post.title }</h1>
@@ -173,11 +201,45 @@ const PostContent = (props) => {
                                 </MDBRow>
                             </MDBCol>
                         </MDBRow>
-                        <MDBRow center className="p-4">
+                        <MDBRow center className="mx-0">
                             <MDBCol size="10" lg="8" className="d-flex py-4 blog-post justify-content-center">
                                 <div className="blog-post-content">
                                     { renderContent() }
                                 </div>
+                            </MDBCol>
+                        </MDBRow>
+                        <MDBRow center middle className="mx-0">
+                            <MDBCol size="auto">
+                                <MDBRow className="p-2 text-center border border-dark rounded-pill">
+                                    <MDBCol size="auto" className="d-flex align-items-center">
+                                            <FacebookShareButton 
+                                                url={"https://www.merijohanna.com/blog/posts/" + post.id}
+                                                quote={post.title + " - Meri Niemi"}
+                                                className="socialMediaButton"
+                                            >
+                                                <MDBIcon size="2x" fab icon="facebook-square" color="primary" />
+                                            </FacebookShareButton>
+                                    </MDBCol>
+                                    <MDBCol size="auto">
+                                        <TwitterShareButton
+                                            url={"https://www.merijohanna.com/blog/posts/" + post.id}
+                                            title={post.title + " - Meri Niemi"}
+                                            className="socialMediaButton"
+                                        >
+                                            <MDBIcon size="2x" fab icon="twitter-square" color="info" />
+                                        </TwitterShareButton>
+                                    </MDBCol>
+                                    <MDBCol size="auto">
+                                        <WhatsappShareButton
+                                            url={"https://www.merijohanna.com/blog/posts/" + post.id}
+                                            title={post.title + " - Meri Niemi"}
+                                            separator=":: "
+                                            className="socialMediaButton"
+                                        >
+                                            <MDBIcon size="2x" fab icon="whatsapp-square" color="success" />
+                                        </WhatsappShareButton>
+                                    </MDBCol>
+                                </MDBRow>
                             </MDBCol>
                         </MDBRow>
                         {

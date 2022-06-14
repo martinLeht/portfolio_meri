@@ -213,53 +213,51 @@ const Blog = () => {
     }
 
     return (
-        <div className="blog-container">
-            <Suspense fallback={ <LoadingSpinner /> }>
-                <Routes>
-                    <Route path="/" element={
+        <Suspense fallback={ <LoadingSpinner /> }>
+            <Routes>
+                <Route path="/" element={
+                    <>
+                        { renderTopSection() }
+                        <SectionSeparator title={t('blog.feed.title')} className="bg-white-shade">
+                            <SearchField onChange={ searchChangeHandler } />
+                        </SectionSeparator>
+                        { 
+                            isLoading 
+                            ? (
+                                <div className="h-25 text-center">
+                                    <LoadingSpinner />
+                                </div>
+                            ): renderPostFeed()
+                        }
+                        
+                    </>
+                }/>
+                <Route path="/posts/new" element={
+                    <GuardedRoute path="/posts/new">
                         <>
-                            { renderTopSection() }
-                            <SectionSeparator title={t('blog.feed.title')}>
-                                <SearchField onChange={ searchChangeHandler } />
-                            </SectionSeparator>
-                            { 
-                                isLoading 
-                                ? (
-                                    <div className="h-25 text-center">
-                                        <LoadingSpinner />
-                                    </div>
-                                ): renderPostFeed()
-                            }
-                            
+                            <SectionSeparator title={t('blog.post.create')} />
+                            <WritePost newPostHandler={ newPostHandler }/>
                         </>
-                    }/>
-                    <Route path="/posts/new" element={
-                        <GuardedRoute path="/posts/new">
-                            <>
-                                <SectionSeparator title={t('blog.post.create')} />
-                                <WritePost newPostHandler={ newPostHandler }/>
-                            </>
-                        </GuardedRoute>
-                    }/>
-                    <Route path="/posts/:postId/edit" element={
-                        <GuardedRoute path="/posts/:postId/edit">
-                            <>
-                                <SectionSeparator title={t('blog.post.edit_post')} />
-                                <WritePost newPostHandler={ newPostHandler } />
-                            </>
-                        </GuardedRoute>
-                    }/>
-                    <Route path="/posts/:postId" element={
+                    </GuardedRoute>
+                }/>
+                <Route path="/posts/:postId/edit" element={
+                    <GuardedRoute path="/posts/:postId/edit">
                         <>
-                            <PostView deletePostHandler={ deletePostHandler } />
-                            <MDBRow className="p-4 mt-4">
-                                <RecentPosts />
-                            </MDBRow>
+                            <SectionSeparator title={t('blog.post.edit_post')} />
+                            <WritePost newPostHandler={ newPostHandler } />
                         </>
-                    }/>                           
-                </Routes>
-            </Suspense>
-        </div>
+                    </GuardedRoute>
+                }/>
+                <Route path="/posts/:postId" element={
+                    <>
+                        <PostView deletePostHandler={ deletePostHandler } />
+                        <MDBRow className="mx-0 p-4 mt-4">
+                            <RecentPosts />
+                        </MDBRow>
+                    </>
+                }/>                           
+            </Routes>
+        </Suspense>
     )    
 }
 

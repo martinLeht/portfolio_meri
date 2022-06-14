@@ -38,7 +38,7 @@ const PostView = (props) => {
             {
                 isLoading 
                 ? (
-                    <div className="h-25 text-center">
+                    <div className="h-50 text-center">
                         <LoadingSpinner />
                     </div>
                 ): (

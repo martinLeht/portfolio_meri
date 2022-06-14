@@ -4,11 +4,11 @@ import useWindowDimensions from '../../hooks/window-dimensions';
 
 const SectionSeparator = (props) => {
 
-    const { children, title } = props;
+    const { children, title, className } = props;
     const { isMobileSize } = useWindowDimensions();
 
     return (
-        <MDBRow className="mx-0" center>
+        <MDBRow className={"mx-0" + (className ? " " + className : "")} center>
             <MDBCol size="10" className="my-4 border-bottom border-dark border-4">
                 <MDBRow between={!isMobileSize} center={isMobileSize}>
                     <MDBCol size="auto">
