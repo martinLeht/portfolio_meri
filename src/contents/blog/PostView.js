@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import BlogPostService from '../../services/BlogPostService';
-import LoadingSpinner from "../../components/general/LoadingSpinner";
+import Loader from "../../components/general/Loader";
 import PostContent from "./PostContent";
 
 const PostView = (props) => {
@@ -37,11 +37,8 @@ const PostView = (props) => {
         <>
             {
                 isLoading 
-                ? (
-                    <div className="h-50 text-center">
-                        <LoadingSpinner />
-                    </div>
-                ): (
+                ? <Loader />
+                : (
                     post !== undefined
                     ? <PostContent post={ post } onDeletePostAction={handleDeletePost}/>
                     : <Navigate to="/blog" />

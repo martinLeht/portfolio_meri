@@ -4,23 +4,22 @@ import { useLocation } from "react-router-dom";
 
 const HelmetMetaData = (props) => {
 
-    let { quote, title, image, description, hashtag } = props;
+    const { quote, title, image, description, hashtag } = props;
 
-    let location = useLocation();
-    let currentUrlData = "https://www.merijohanna.com" + location.pathname;
-    let quoteData = quote !== undefined ? quote : "";
-    let titleData = title !== undefined ? title : "";
-    let imageData = image !== undefined ? image : "";
-    let descriptionData = description !== undefined ? description  : "";   
-    let hashtagData = hashtag !== undefined ? hashtag : "";
+    const location = useLocation();
+    const currentUrlData = "https://www.merijohanna.com" + location.pathname;
+    const quoteData = quote !== undefined ? quote : "";
+    const titleData = title !== undefined ? title : "";
+    const imageData = image !== undefined ? image : "";
+    const descriptionData = description !== undefined ? description  : "";   
+    const hashtagData = hashtag !== undefined ? hashtag : "";
    
     return ( 
         <Helmet>
             <title>{titleData}</title>
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta name="csrf_token" content="" />
-            <meta property="type" content="website" />
+            <meta property="type" content="article" />
             <meta property="url" content={currentUrlData} />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
             <meta name="msapplication-TileColor" content="#ffffff" />
@@ -40,7 +39,7 @@ const HelmetMetaData = (props) => {
             <meta property="og:image" content={imageData} />
             <meta content="image/*" property="og:image:type" />
             <meta property="og:url" content={currentUrlData} />
-            <meta property="og:site_name" content="CampersTribe" />
+            <meta property="og:site_name" content="MeriJohanna" />
             <meta property="og:description" content={descriptionData} />
         </Helmet>
     );

@@ -34,7 +34,7 @@ const PostContent = (props) => {
                 if (quote.length >= 100) return false;
                 if (block.type === "paragraph") {
                     block.textContent.forEach(fragment => {
-                        quote.concat(" " + fragment.text);
+                        quote = quote.concat(" " + fragment.text);
                     });
                 }
                 return true;
@@ -156,17 +156,25 @@ const PostContent = (props) => {
         setViewerOpen(false);
     }
 
+    const initHelmetData = () => {
+        console.log(post);
+        console.log(socialShareQuote);
+        return (
+            <HelmetMetaData
+                title={post.title}
+                description={post.title + " - Meri Niemi"}
+                image={post.attachments && post.attachments.length > 0 ? post.attachments[0].link : ""}
+                quote={socialShareQuote}
+            />
+        );
+        }
+
     return (
         <>
             {
                 !!post && (
                     <>
-                        <HelmetMetaData
-                            title={post.title}
-                            description={post.title + " - Meri Niemi"}
-                            image={post.attachments && post.attachments.length > 0 ? post.attachments[0].link : ""}
-                            quote={socialShareQuote}
-                        />
+                        { initHelmetData() }
                         <MDBRow center className="mx-0 pt-4">
                             <MDBCol size="9" className="blog-post-title">
                                 <MDBRow className={ isMobileSize ? 'd-flex justify-content-center text-center' : 'd-flex justify-content-between text-start'}>

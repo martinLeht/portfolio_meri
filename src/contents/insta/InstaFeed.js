@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import InstaPost from './InstaPost';
 import InstagramService from '../../services/InstagramService';
-import LoadingSpinner from '../../components/general/LoadingSpinner';
+import HelmetMetaData from '../../components/general/HelmetMetaData';
+import Loader from '../../components/general/Loader';
 import SectionSeparator from '../../components/general/SectionSeparator';
 import ImageViewer from '../../components/general/ImageViewer';
 
@@ -40,49 +41,53 @@ const InstaFeed = () => {
     }
 
     return (
-        <div className="p-4">
-            <SectionSeparator title={t('insta.feed.title')} />
-            <div className="d-flex align-items-center justify-content-center ig-container">
-                
-                <div className="mdb-lightbox no-margin p-1 ig-posts">
-                    <MDBRow center>
-                        { loading && <LoadingSpinner/> }
-                        {
-                            posts !== undefined && posts.length > 0 
-                            && (
-                                posts.map(({
-                                    id,
-                                    media_type,
-                                    caption,
-                                    media_url,
-                                    permalink}, i) => {
-                                    return (
-                                        <MDBCol md="4" key={ i }>
-                                            <InstaPost
-                                                id={ id } 
-                                                src={ media_url } 
-                                                instaLink={ permalink }
-                                                caption={ caption }
-                                                mediaType={ media_type }
-                                                openAction={ () => openImageViewerAction(i) }
-                                            />
-                                        </MDBCol>
-                                    );
-                                })
-                            )
-                        }
-                    </MDBRow>
-                </div>
+        <>
+            <HelmetMetaData
+                title={t('insta.feed.title')}
+            />
+            <div className="p-4">
+                <SectionSeparator title={t('insta.feed.title')} />
+                <div className="d-flex align-items-center justify-content-center ig-container">
+                    
+                    <div className="mdb-lightbox no-margin p-1 ig-posts">
+                        <MDBRow center>
+                            { loading && <Loader /> }
+                            {
+                                !!posts && (
+                                    posts.map(({
+                                        id,
+                                        media_type,
+                                        caption,
+                                        media_url,
+                                        permalink}, i) => {
+                                        return (
+                                            <MDBCol md="4" key={ i }>
+                                                <InstaPost
+                                                    id={ id } 
+                                                    src={ media_url } 
+                                                    instaLink={ permalink }
+                                                    caption={ caption }
+                                                    mediaType={ media_type }
+                                                    openAction={ () => openImageViewerAction(i) }
+                                                />
+                                            </MDBCol>
+                                        );
+                                    })
+                                )
+                            }
+                        </MDBRow>
+                    </div>
 
-                { !loading && viewerOpen && posts.length > 0 && (
-                    <ImageViewer 
-                        images={ posts.map(post => { return { mediaUrl: post.media_url }})} 
-                        openAtIndex={ imageViewerIndex } 
-                        onCloseAction={ closeImageViewer } 
-                    />
-                )}
+                    { !loading && viewerOpen && posts.length > 0 && (
+                        <ImageViewer 
+                            images={ posts.map(post => { return { mediaUrl: post.media_url }})} 
+                            openAtIndex={ imageViewerIndex } 
+                            onCloseAction={ closeImageViewer } 
+                        />
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

@@ -1,5 +1,6 @@
 import  { Component } from 'react';
 import SectionBgColors from '../../resources/SectionBgColors';
+import HelmetMetaData from '../../components/general/HelmetMetaData';
 import Experience from './Experience';
 import About from './About';
 import ImageGallery from './ImageGallery';
@@ -63,12 +64,17 @@ class FrontPage extends Component {
 
     render() {
         return (
-            <div className="front-page">
-                <About navId="section-about" />
-                <Experience navId="section-experience" />
-                <ImageGallery navId="section-gallery" />
-                <Contact navId="section-contact" email="joku.sposti@gmail.com" />
-            </div>
+            <>
+                <HelmetMetaData
+                    title="Meri Niemi"
+                />
+                <div className="front-page">
+                    <About navId="section-about" />
+                    <Experience navId="section-experience" />
+                    <ImageGallery navId="section-gallery" />
+                    <Contact navId="section-contact" email="joku.sposti@gmail.com" />
+                </div>
+            </>
         )
     }
     

@@ -6,7 +6,8 @@ import { useAuthentication } from './../../hooks/useAuthentication';
 import BlogPostCard from './BlogPostCard';
 import RecentPosts from "./RecentPosts";
 import SearchField from "../../components/general/SearchField";
-import LoadingSpinner from '../../components/general/LoadingSpinner';
+import HelmetMetaData from '../../components/general/HelmetMetaData';
+import Loader from '../../components/general/Loader';
 import BlogPostService from '../../services/BlogPostService';
 import GuardedRoute from '../../components/routing/GuardedRoute';
 
@@ -177,7 +178,11 @@ const Blog = () => {
 
     const renderLatestPost = () => {
         if (isLoading) {
-            return <LoadingSpinner />;
+            return (
+                <MDBCol center size="auto">
+                    <Loader />
+                </MDBCol>
+            );
         } else if (latestPostTag !== undefined) {
             return (
                 <MDBCol className="d-flex justify-content-center p-0 blog-latest" size="12" md="6" lg="5">
@@ -213,51 +218,53 @@ const Blog = () => {
     }
 
     return (
-        <Suspense fallback={ <LoadingSpinner /> }>
-            <Routes>
-                <Route path="/" element={
-                    <>
-                        { renderTopSection() }
-                        <SectionSeparator title={t('blog.feed.title')} className="bg-white-shade">
-                            <SearchField onChange={ searchChangeHandler } />
-                        </SectionSeparator>
-                        { 
-                            isLoading 
-                            ? (
-                                <div className="h-25 text-center">
-                                    <LoadingSpinner />
-                                </div>
-                            ): renderPostFeed()
-                        }
-                        
-                    </>
-                }/>
-                <Route path="/posts/new" element={
-                    <GuardedRoute path="/posts/new">
+        <>
+            <Suspense fallback={ <Loader /> }>
+                <Routes>
+                    <Route path="/" element={
                         <>
-                            <SectionSeparator title={t('blog.post.create')} />
-                            <WritePost newPostHandler={ newPostHandler }/>
+                            <HelmetMetaData title={t('blog.title')}/>
+                            { renderTopSection() }
+                            <SectionSeparator title={t('blog.feed.title')} className="bg-white-shade">
+                                <SearchField onChange={ searchChangeHandler } />
+                            </SectionSeparator>
+                            { 
+                                isLoading 
+                                ? <Loader className="bg-white-shade"/>
+                                : renderPostFeed()
+                            }
+                            
                         </>
-                    </GuardedRoute>
-                }/>
-                <Route path="/posts/:postId/edit" element={
-                    <GuardedRoute path="/posts/:postId/edit">
+                    }/>
+                    <Route path="/posts/new" element={
+                        <GuardedRoute path="/posts/new">
+                            <>
+                                <HelmetMetaData title={t('blog.post.create')}/>
+                                <SectionSeparator title={t('blog.post.create')} />
+                                <WritePost newPostHandler={ newPostHandler }/>
+                            </>
+                        </GuardedRoute>
+                    }/>
+                    <Route path="/posts/:postId/edit" element={
+                        <GuardedRoute path="/posts/:postId/edit">
+                            <>
+                                <HelmetMetaData title={t('blog.post.edit_post')}/>
+                                <SectionSeparator title={t('blog.post.edit_post')} />
+                                <WritePost newPostHandler={ newPostHandler } />
+                            </>
+                        </GuardedRoute>
+                    }/>
+                    <Route path="/posts/:postId" element={
                         <>
-                            <SectionSeparator title={t('blog.post.edit_post')} />
-                            <WritePost newPostHandler={ newPostHandler } />
+                            <PostView deletePostHandler={ deletePostHandler } />
+                            <MDBRow center className="mx-0 p-4 mt-4">
+                                <RecentPosts />
+                            </MDBRow>
                         </>
-                    </GuardedRoute>
-                }/>
-                <Route path="/posts/:postId" element={
-                    <>
-                        <PostView deletePostHandler={ deletePostHandler } />
-                        <MDBRow className="mx-0 p-4 mt-4">
-                            <RecentPosts />
-                        </MDBRow>
-                    </>
-                }/>                           
-            </Routes>
-        </Suspense>
+                    }/>                           
+                </Routes>
+            </Suspense>
+        </>
     )    
 }
 

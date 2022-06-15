@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { NavLink } from "react-router-dom";
 import useWindowDimensions from '../../hooks/window-dimensions';
-import LoadingSpinner from '../../components/general/LoadingSpinner';
+import Loader from '../../components/general/Loader';
 import BlogPostService from '../../services/BlogPostService';
 import BlogPostCard from './BlogPostCard';
 
@@ -28,7 +28,7 @@ const RecentPosts = () => {
         if (hasPosts) {
             content = latestPosts.map((tag) => {
                 return (
-                    <MDBCol className="d-flex justify-content-center" size="auto" key={ tag.postId }>           
+                    <MDBCol className="d-flex justify-content-center my-2" size="auto" key={ tag.postId }>           
                         <BlogPostCard 
                             className="recent-posts"
                             img={ tag.thumbnail.link }
@@ -79,7 +79,7 @@ const RecentPosts = () => {
                 </MDBCol>
             </MDBRow>
             
-            <Suspense fallback={ <LoadingSpinner /> } >
+            <Suspense fallback={ <Loader /> } >
                 { renderPosts() }
             </Suspense>
         </>
