@@ -29,8 +29,15 @@ const Experience = (props) => {
                     slideItemDuration={4000}
                     scrollable={{ scrollbar: true }}
                     useReadMore
+                    theme={{
+                        cardBgColor: 'white',
+                        primary: '#353535',
+                        secondary: '#804d59',
+                        titleColorActive: 'white',
+                        textColor: 'blue',
+                        titleColor: "#353535"
+                      }}
                 >
-
                 </Chrono>
                 
             </MDBRow>

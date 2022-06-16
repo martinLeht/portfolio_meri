@@ -54,11 +54,16 @@ class FrontPage extends Component {
     /* Section break check (relative to navbar height + extra 180 pixels) */
     sectionBreakCheckCallback = (sectionId) => {
         const section = document.getElementById(sectionId)
-        const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 180;
+        const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 350;
         const clientOffsetTop = window.pageYOffset + navHeight;
         if (clientOffsetTop >= section.offsetTop) {
+            section.classList.add('fade-in');
+            section.classList.remove('fade-out');
             return true;
         }
+        section.classList.add('fade-out');
+        section.classList.remove('fade-in')
+        
         return false;
     }    
 

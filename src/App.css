@@ -80,6 +80,19 @@ blockquote {
     background-color: rgba(244, 67, 54, 0.3);
 }
 
+/* Visibility */
+.fade-out {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 800ms, opacity 800ms;
+}
+
+.fade-in {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 800ms;
+}
+
 /* Colors */
 .primary-color {
   color: #804d59;
