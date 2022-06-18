@@ -25,25 +25,25 @@ const FrontPage = () => {
 
     /* Scroll handler to change backround color for sections */
     const onScrollBackgroundColorHandler = (sectionBackgroundsMap, sectionBreakCheckCallback) => {
-            if (window.location.pathname === '/') {
-                let color = SectionBgColors.DEFAULT_BG;
-                const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 300;
-                const clientOffsetTop = window.pageYOffset + navHeight;
-                sectionBackgroundsMap.forEach((bgColor, sectionId) => {
-                    if (sectionBreakCheckCallback(sectionId, clientOffsetTop)) {
-                        color = bgColor;
-                    }
-                });
-                /* If page is scrolled to bottom, use white background and force fade in for bottom section */
-                if (window.innerHeight + window.pageYOffset >= document.body.clientHeight) {
-                    color = SectionBgColors.DEFAULT_BG;
-                    contactRef.current.classList.add('fade-in');
-                    contactRef.current.classList.remove('fade-out');
+        if (window.location.pathname === '/') {
+            let color = SectionBgColors.DEFAULT_BG;
+            const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 300;
+            const clientOffsetTop = window.pageYOffset + navHeight;
+            sectionBackgroundsMap.forEach((bgColor, sectionId) => {
+                if (sectionBreakCheckCallback(sectionId, clientOffsetTop)) {
+                    color = bgColor;
                 }
-                frontPageRef.current.style.background = color;
-            } else {
-                frontPageRef.current.style.background = SectionBgColors.DEFAULT_BG;
+            });
+            /* If page is scrolled to bottom, use white background and force fade in for bottom section */
+            if (Math.ceil(window.innerHeight + window.pageYOffset) >= document.body.clientHeight) {
+                color = SectionBgColors.DEFAULT_BG;
+                contactRef.current.classList.add('fade-in');
+                contactRef.current.classList.remove('fade-out');
             }
+            frontPageRef.current.style.background = color;
+        } else {
+            frontPageRef.current.style.background = SectionBgColors.DEFAULT_BG;
+        }
         
     }
 
