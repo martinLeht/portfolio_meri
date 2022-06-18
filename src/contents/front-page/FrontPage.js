@@ -1,4 +1,4 @@
-import  { useEffect } from 'react';
+import  { useEffect, createRef } from 'react';
 import { throttle } from 'lodash';
 import SectionBgColors from '../../resources/SectionBgColors';
 import HelmetMetaData from '../../components/general/HelmetMetaData';
@@ -10,6 +10,12 @@ import Contact from './Contact';
 
 const FrontPage = () => {
 
+    const frontPageRef = createRef();
+    const aboutRef = createRef();
+    const experienceRef = createRef();
+    const galleryRef = createRef();
+    const contactRef = createRef();
+
     const sectionBackgroundsMap = new Map([
         ['section-about', SectionBgColors.ABOUT_BG],
         ['section-experience', SectionBgColors.CAREER_BG],
@@ -19,45 +25,53 @@ const FrontPage = () => {
 
     /* Scroll handler to change backround color for sections */
     const onScrollBackgroundColorHandler = (sectionBackgroundsMap, sectionBreakCheckCallback) => {
-        let frontPage = document.getElementsByClassName('front-page')[0];
-        if (frontPage !== undefined) {
             if (window.location.pathname === '/') {
                 let color = SectionBgColors.DEFAULT_BG;
+                const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 300;
+                const clientOffsetTop = window.pageYOffset + navHeight;
                 sectionBackgroundsMap.forEach((bgColor, sectionId) => {
-                    if (sectionBreakCheckCallback(sectionId)) {
+                    if (sectionBreakCheckCallback(sectionId, clientOffsetTop)) {
                         color = bgColor;
                     }
                 });
                 /* If page is scrolled to bottom, use white background and force fade in for bottom section */
                 if (window.innerHeight + window.pageYOffset >= document.body.clientHeight) {
                     color = SectionBgColors.DEFAULT_BG;
-                    const section = document.getElementById('section-contact');
-                    section.classList.add('fade-in');
-                    section.classList.remove('fade-out');
+                    contactRef.current.classList.add('fade-in');
+                    contactRef.current.classList.remove('fade-out');
                 }
-                frontPage.style.background = color;
+                frontPageRef.current.style.background = color;
             } else {
-                frontPage.style.background = SectionBgColors.DEFAULT_BG;
+                frontPageRef.current.style.background = SectionBgColors.DEFAULT_BG;
             }
-        }
         
     }
 
     /* Section break check (relative to navbar height + extra 180 pixels) */
-    const sectionBreakCheckCallback = (sectionId) => {
-        const section = document.getElementById(sectionId);
-        const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 300;
-        const clientOffsetTop = window.pageYOffset + navHeight;
-        if (clientOffsetTop >= section.offsetTop) {
-            section.classList.add('fade-in');
-            section.classList.remove('fade-out');
+    const sectionBreakCheckCallback = (sectionId, clientOffsetTop) => {
+        if (sectionId === 'section-about') {
+            return hasPassedSection(aboutRef, clientOffsetTop)
+        } else if (sectionId === 'section-experience') {
+            return hasPassedSection(experienceRef, clientOffsetTop)
+        } else if (sectionId === 'section-gallery') {
+            return hasPassedSection(galleryRef, clientOffsetTop)
+        } else if (sectionId === 'section-contact') {
+            return hasPassedSection(contactRef, clientOffsetTop)
+        } else {
+            return false;
+        }
+    }   
+
+    const hasPassedSection = (sectionRef, clientOffsetTop) => {
+        if (clientOffsetTop >= sectionRef.current.offsetTop) {
+            sectionRef.current.classList.add('fade-in');
+            sectionRef.current.classList.remove('fade-out');
             return true;
         }
-        section.classList.add('fade-out');
-        section.classList.remove('fade-in')
-        
-        return false;
-    }   
+        sectionRef.current.classList.add('fade-out');
+        sectionRef.current.classList.remove('fade-in');
+        return false
+    };
 
     useEffect(() => {
         const scrollHandler = () => onScrollBackgroundColorHandler(sectionBackgroundsMap, sectionBreakCheckCallback);
@@ -73,11 +87,11 @@ const FrontPage = () => {
             <HelmetMetaData
                 title="Meri Niemi"
             />
-            <div className="front-page">
-                <About navId="section-about" />
-                <Experience navId="section-experience" />
-                <ImageGallery navId="section-gallery" />
-                <Contact navId="section-contact" email="joku.sposti@gmail.com" />
+            <div ref={frontPageRef} className="front-page">
+                <About ref={aboutRef} navId="section-about" />
+                <Experience ref={experienceRef} navId="section-experience" />
+                <ImageGallery ref={galleryRef} navId="section-gallery" />
+                <Contact ref={contactRef} navId="section-contact" email="joku.sposti@gmail.com" />
             </div>
         </>
     );

@@ -1,18 +1,19 @@
 
+import { forwardRef } from 'react';
 import { Chrono } from "react-chrono";
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useTranslation } from "react-i18next";
 import data from "./data";
 import useWindowDimensions from '../../hooks/window-dimensions';
 
-const Experience = (props) => {
+const Experience = (props, ref) => {
 
     const { navId } = props;
     const { t } = useTranslation();
     const { isMobileSize } = useWindowDimensions(); 
 
     return (
-        <div className="experience" id={ navId }>
+        <div ref={ref} className="experience" id={ navId }>
             <MDBRow>
                 <MDBCol>
                     <div className="d-flex justify-content-center">
@@ -46,4 +47,4 @@ const Experience = (props) => {
     
 }
 
-export default Experience;
+export default forwardRef(Experience);

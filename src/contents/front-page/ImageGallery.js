@@ -1,12 +1,13 @@
 
+import { forwardRef } from 'react';
 import { MDBContainer, MDBRow, MDBCol} from "mdb-react-ui-kit";
 
-const ImageGallery = (props) => {
+const ImageGallery = (props, ref) => {
     
     const { navId } = props;
 
     return (
-        <div className="gallery" id={ navId }>
+        <div ref={ref} className="gallery" id={ navId }>
             <MDBContainer>
                 <MDBRow>
                     <MDBCol md="12" className="mb-3">
@@ -37,4 +38,4 @@ const ImageGallery = (props) => {
     );
 }
 
-export default ImageGallery;
+export default forwardRef(ImageGallery);

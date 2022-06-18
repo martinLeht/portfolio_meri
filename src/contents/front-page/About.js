@@ -1,16 +1,16 @@
-import React  from 'react';
+import { forwardRef }  from 'react';
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useTranslation } from "react-i18next";
 import useWindowDimensions from '../../hooks/window-dimensions';
 
-const About = (props) => {
+const About = (props, ref) => {
 
     const { navId } = props;
     const { isMobileSize } = useWindowDimensions();
     const { t } = useTranslation();
 
     return (
-        <div className="about" id={ navId }>
+        <div ref={ref} className="about" id={ navId }>
             <MDBRow center>
                 <MDBCol size="10" lg="4">
                     <img
@@ -49,4 +49,4 @@ const About = (props) => {
     )
 }
 
-export default About;
+export default forwardRef(About);

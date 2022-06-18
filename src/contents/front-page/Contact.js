@@ -1,12 +1,12 @@
 
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { MDBIcon, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram  } from '@fortawesome/free-brands-svg-icons';
 import { faAt, faVoteYea  } from '@fortawesome/free-solid-svg-icons';
 
-const Contact = (props) => {
+const Contact = (props, ref) => {
 
     const { navId, email } = props;
     const [copySuccess, setCopySuccess] = useState(false);
@@ -23,7 +23,7 @@ const Contact = (props) => {
     }
 
     return (
-        <div className="contact pb-3" id={ navId }>
+        <div ref={ref} className="contact pb-3" id={ navId }>
             <MDBRow center>
                 <MDBCol className="flex-column" size="10" md="7">
                     <h1><b>{ t("front_page.contact.title")}</b></h1>
@@ -78,4 +78,4 @@ const Contact = (props) => {
     )
 }
 
-export default Contact;
+export default forwardRef(Contact);
