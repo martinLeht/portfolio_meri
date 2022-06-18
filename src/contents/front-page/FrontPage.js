@@ -24,7 +24,7 @@ const FrontPage = () => {
     ]);
 
     /* Scroll handler to change backround color for sections */
-    const onScrollBackgroundColorHandler = (sectionBackgroundsMap, sectionBreakCheckCallback) => {
+    const onScrollBackgroundColorHandler = () => {
         if (window.location.pathname === '/') {
             let color = SectionBgColors.DEFAULT_BG;
             const navHeight = document.getElementsByClassName("nav-bar")[0].offsetHeight + 300;
@@ -74,8 +74,7 @@ const FrontPage = () => {
     };
 
     useEffect(() => {
-        const scrollHandler = () => onScrollBackgroundColorHandler(sectionBackgroundsMap, sectionBreakCheckCallback);
-        const throtteledScrollBackgroundColorHandler = throttle(scrollHandler, 200);
+        const throtteledScrollBackgroundColorHandler = throttle(onScrollBackgroundColorHandler, 200);
         window.addEventListener("scroll", throtteledScrollBackgroundColorHandler, { passive: true });
 
         return () => window.removeEventListener("scroll", throtteledScrollBackgroundColorHandler);
