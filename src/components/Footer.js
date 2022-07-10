@@ -1,7 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram  } from '@fortawesome/free-brands-svg-icons';
-import { faVoteYea  } from '@fortawesome/free-solid-svg-icons';
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdb-react-ui-kit";
+import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdb-react-ui-kit";
 
 const Footer = () => {
 
@@ -11,12 +8,12 @@ const Footer = () => {
                     <MDBRow center>
                         <MDBCol md="2">
                             <h5>
-                                <a className="text-white" href="https://www.instagram.com/meriniemi_/?hl=fi"><FontAwesomeIcon icon={faInstagram} /> Instagram</a>
+                                <a className="text-white" href="https://www.instagram.com/meriniemi_/?hl=fi"><MDBIcon fab icon="instagram" /> Instagram</a>
                             </h5>
                         </MDBCol>
                         <MDBCol md="2">
                             <h5>
-                                <a className="text-white" href="https://www.turunvihreat.fi/kuntavaalit/ehdokkaat2021/?kieli=fi&vaali=o_5&sukupuoli=nainen&ehdokas=niemi-meri-1075"><FontAwesomeIcon icon={faVoteYea} /> Vihreät | 427</a>
+                                <a className="text-white" href="https://www.turunvihreat.fi/kuntavaalit/ehdokkaat2021/?kieli=fi&vaali=o_5&sukupuoli=nainen&ehdokas=niemi-meri-1075"><MDBIcon fas icon="vote-yea" /> Vihreät | 427</a>
                             </h5>
                         </MDBCol>
                     </MDBRow>         

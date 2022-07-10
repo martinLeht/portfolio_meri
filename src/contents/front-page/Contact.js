@@ -2,9 +2,6 @@
 import { useState, forwardRef } from 'react';
 import { MDBIcon, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useTranslation } from "react-i18next";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram  } from '@fortawesome/free-brands-svg-icons';
-import { faAt, faVoteYea  } from '@fortawesome/free-solid-svg-icons';
 
 const Contact = (props, ref) => {
 
@@ -33,7 +30,7 @@ const Contact = (props, ref) => {
                             <div className="contact-link">
                                 <h5>{ t("front_page.contact.email")}</h5>
                                 <p className="border-bottom border-2">
-                                    <FontAwesomeIcon icon={ faAt } className="mr-2"/>
+                                    <MDBIcon fas icon="at" className="mr-2"/>
                                     <span id="email" onClick={copyEmailToClipboard}>{ email }</span>
                                     {
                                         copySuccess && (
@@ -49,7 +46,7 @@ const Contact = (props, ref) => {
                                 <h5>{ t("front_page.contact.instagram")}</h5>
                                 <p className="border-bottom border-2">
                                     <a href="https://www.instagram.com/meriniemi_/?hl=fi">
-                                        <FontAwesomeIcon icon={ faInstagram } className="mr-2" color="#e91e63"/> meriniemi_
+                                        <MDBIcon fab icon="instagram" className="mr-2" color="#e91e63"/> meriniemi_
                                     </a>
                                 </p>
                             </div>
@@ -59,7 +56,7 @@ const Contact = (props, ref) => {
                                 <h5>{ t("front_page.contact.green")}</h5>
                                 <p className="border-bottom border-2">
                                     <a href="https://www.turunvihreat.fi/kuntavaalit/ehdokkaat2021/?kieli=fi&vaali=o_5&sukupuoli=nainen&ehdokas=niemi-meri-1075">
-                                        <FontAwesomeIcon icon={ faVoteYea } className="mr-2" color="#81c784"/> Meri Niemi 427
+                                        <MDBIcon fas icon="vote-yea" className="mr-2" color="#81c784"/> Meri Niemi 427
                                     </a>
                                 </p>
                             </div>
