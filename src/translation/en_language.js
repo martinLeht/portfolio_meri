@@ -32,7 +32,9 @@ export const enTranslations = {
             }
         },
         experience: {
-            title: "Experience"
+            title: "Experience",
+            add_experience: "Add experience",
+            edit_experience: "Edit"
         },
         gallery: {
             

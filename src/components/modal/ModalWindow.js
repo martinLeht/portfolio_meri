@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MDBBtn,
   MDBModal,
   MDBModalDialog,
@@ -8,28 +8,30 @@ import { MDBBtn,
   MDBModalBody
 } from 'mdb-react-ui-kit';
 
-const ModalWindow = (props) => {
+const ModalWindow = React.memo((props) => {
 
-    const { title, content, open, onCloseAction } = props;
+    const { title, content, open, onCloseAction, size } = props;
     const [showModal, setShowModal] = useState(false);
+
+    const handleCloseModal = useCallback(() => {
+        setShowModal(false);
+        onCloseAction();
+    }, []);
+
+    console.log(title);
 
     useEffect(() => {
         setShowModal(open);
     }, [open]);
 
-    const toggleCloseModal = () => {
-        setShowModal(!showModal);
-        onCloseAction();
-    }
-
     return (
         <>
             <MDBModal show={showModal} tabIndex='-1' setShow={setShowModal}>
-                <MDBModalDialog size='xl'>
+                <MDBModalDialog size={ !!size ? size : 'xl'}>
                     <MDBModalContent>
                         <MDBModalHeader className="primary-bg-color text-white">
                             <MDBModalTitle>{ title }</MDBModalTitle>
-                            <MDBBtn className='btn-close' color='none' onClick={toggleCloseModal}></MDBBtn>
+                            <MDBBtn className='btn-close' color='none' onClick={handleCloseModal}></MDBBtn>
                         </MDBModalHeader>
                         <MDBModalBody>{ content }</MDBModalBody>
                     </MDBModalContent>
@@ -37,6 +39,6 @@ const ModalWindow = (props) => {
             </MDBModal>
         </>
     );
-}
+})
 
 export default ModalWindow;

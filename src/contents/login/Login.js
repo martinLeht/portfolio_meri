@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useTranslation } from "react-i18next";
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInputGroup, MDBInputGroupElement, MDBInputGroupText, MDBIcon } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInputGroup, MDBInput, MDBIcon } from 'mdb-react-ui-kit';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import AlertMsg from '../../components/general/AlertMsg';
 import LoadingSpinner from '../../components/general/LoadingSpinner';
@@ -111,31 +111,30 @@ const Login = (props) => {
                                 <AlertMsg text={errors[0]} />
                             )
                         }
-                        <MDBInputGroup className='text-center w-75 m-2'>
-                            <MDBInputGroupText noBorder>
-                                <MDBIcon fas color="white" icon='at' />
-                            </MDBInputGroupText>
-                            <MDBInputGroupElement
-                                className="text-white"
-                                type='email' 
-                                value={ email }
-                                onChange={ emailChangeHandler }
-                                onBlur={ validateInput }
-                                placeholder='Email'
-                            />
-                        </MDBInputGroup>
-                        <MDBInputGroup className='w-75 m-2'>
-                            <MDBInputGroupText noBorder>
-                                <MDBIcon fas color="white" icon='key' />
-                            </MDBInputGroupText>
-                            <MDBInputGroupElement
-                            className="text-white"
-                                type='password' 
-                                value={ password }
-                                onChange={ passwordChangeHandler }
-                                placeholder='Password'
-                            />
-                        </MDBInputGroup>
+
+                        <div className='text-center'>
+                            <MDBInputGroup className='m-2' noBorder textBefore={<MDBIcon fas color="white" icon='at' />}>
+                                <input
+                                    className="text-white"
+                                    type='email' 
+                                    value={ email }
+                                    onChange={ emailChangeHandler }
+                                    onBlur={ validateInput }
+                                    placeholder='Email'
+                                />
+                            </MDBInputGroup>
+                            <MDBInputGroup className='m-2' noBorder textBefore={<MDBIcon fas color="white" icon='key' />}>
+                                <input
+                                    className="text-white"
+                                    type='password' 
+                                    value={ password }
+                                    onChange={ passwordChangeHandler }
+                                    placeholder='Password'
+                                />
+                            </MDBInputGroup>
+                        </div>
+                        
+                        
                         <div className="text-center m-2">
                             <MDBBtn 
                                 color="dark"

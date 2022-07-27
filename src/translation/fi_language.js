@@ -32,7 +32,9 @@ export const fiTranslations = {
             }
         },
         experience: {
-            title: "Kokemus"
+            title: "Kokemus",
+            add_experience: "Lisää kokemus",
+            edit_experience: "Muokkaa"
         },
         gallery: {
             
