@@ -93,9 +93,35 @@ export const enTranslations = {
             close_caption: "Minimize caption"
         }
     },
+    experience_modal: {
+        edit_title: "Edit experience",
+        add_title: "Add new experience",
+        title_field: "Title",
+        public_checkbox_field: "Public",
+        short_desc_field: "Short description",
+        content_field: "Experience content"
+    },
+    dialog: {
+        unsaved_changes: "Unsaved changes",
+        are_you_sure: "Are you sure?",
+        want_to_save: "Do you want to save changes before closing?",
+        confirm_delete: "Confirm deletion",
+        want_to_delete: "Do you want to delete this experience?"
+    },
     general: {
         search: "Search",
-        copied: "Copied!"
+        copied: "Copied!",
+        buttons: {
+            save_and_close: "Save and close",
+            close: "Close",
+            cancel: "Cancel",
+            yes: "Yes",
+            no: "No"
+        },
+        date_range: {
+            start_date: "Start date",
+            end_date: "End date"
+        }
     },
     network: {
         

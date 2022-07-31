@@ -114,8 +114,8 @@ const Login = (props) => {
 
                         <div className='text-center'>
                             <MDBInputGroup className='m-2' noBorder textBefore={<MDBIcon fas color="white" icon='at' />}>
-                                <input
-                                    className="text-white"
+                                <MDBInput
+                                    className="bg-dark"
                                     type='email' 
                                     value={ email }
                                     onChange={ emailChangeHandler }
@@ -124,8 +124,8 @@ const Login = (props) => {
                                 />
                             </MDBInputGroup>
                             <MDBInputGroup className='m-2' noBorder textBefore={<MDBIcon fas color="white" icon='key' />}>
-                                <input
-                                    className="text-white"
+                                <MDBInput
+                                    className="bg-dark"
                                     type='password' 
                                     value={ password }
                                     onChange={ passwordChangeHandler }

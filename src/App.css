@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
 
 :root {
-  --off-white: #f7f7f7;
-  --off-white-shade: #f1f1f1;
-  --off-dark: #353535;
-  --off-dark-beige: #d0bba1;
+    --off-white: #f7f7f7;
+    --off-white-shade: #f1f1f1;
+    --off-dark: #353535;
+    --off-dark-beige: #d0bba1;
+    --off-gray: #9E9E9E;
 }
 
 #App {
@@ -20,57 +21,61 @@ li {
 }
 
 blockquote {
-  color: rgb(145, 145, 145);
-  padding-left: 10px;
-  border-left: 2px solid rgb(145, 145, 145);
-  font-style: italic;
+    color: rgb(145, 145, 145);
+    padding-left: 10px;
+    border-left: 2px solid rgb(145, 145, 145);
+    font-style: italic;
 }
 
 /* General Styling */
 .bg-dark-beige {
-  background-color: #d0bba1;
+    background-color: #d0bba1;
 }
 
 .bg-white-shade {
     background-color: var(--off-white-shade); 
 }
 
+.bg-gray {
+    background-color: var(--off-gray);
+}
+
 .min-width-300 {
- min-width: 300px;
+    min-width: 300px;
 }
 
 .max-w-1000 {
     max-width: 1000px;
-   }
+}
 
 .dashed-border {
-  border-width: 1px;  
-  border-style: dashed;
-  border-color: #2E2E2E;
+    border-width: 1px;  
+    border-style: dashed;
+    border-color: #2E2E2E;
 }
 
 .dashed-border-2 {
-  border-width: 2px;  
-  border-style: dashed;
-  border-color: #2E2E2E;
+    border-width: 2px;  
+    border-style: dashed;
+    border-color: #2E2E2E;
 }
 
 .dashed-border-3 {
-  border-width: 3px;  
-  border-style: dashed;
-  border-color:#2E2E2E;
+    border-width: 3px;  
+    border-style: dashed;
+    border-color:#2E2E2E;
 }
 
 .dashed-border-4 {
-  border-width: 4px;  
-  border-style: dashed;
-  border-color:#2E2E2E;
+    border-width: 4px;  
+    border-style: dashed;
+    border-color:#2E2E2E;
 }
 
 .dashed-border-5 {
-  border-width: 5px;  
-  border-style: dashed;
-  border-color: #2E2E2E;
+    border-width: 5px;  
+    border-style: dashed;
+    border-color: #2E2E2E;
 }
 
 .overlay-black-light {
@@ -96,11 +101,11 @@ blockquote {
 
 /* Colors */
 .primary-color {
-  color: #804d59;
+    color: #804d59;
 }
 
 .primary-bg-color {
-  background-color: #804d59;
+    background-color: #804d59;
 }
 
 /* Fields, Buttons, etc... */
@@ -110,22 +115,14 @@ blockquote {
 
 
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="search"],
 .custom-input,
 .search {
-  border: none;
-  border-bottom: solid;
-  border-radius: 0;
-  outline: none !important;
+    border: none;
+    border-bottom: solid;
+    border-radius: 0;
+    outline: none !important;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="search"]:focus,
 .custom-input:focus,
 .search:focus {
     border-color: #804d59 !important;
@@ -162,11 +159,10 @@ input[type="email"].bg-dark,
 input[type="search"].bg-dark,
 .custom-input.bg-dark,
 .search.bg-dark {
+    color: white;
     background-color: var(--off-dark);
-  border: none;
-  border-bottom: solid;
-  border-radius: 0;
-  outline: none !important;
+    border-radius: 0;
+    outline: none !important;
 }
 
 input[type="text"].bg-dark:focus,
@@ -175,10 +171,11 @@ input[type="email"].bg-dark:focus,
 input[type="search"].bg-dark:focus,
 .custom-input.bg-dark:focus,
 .search.bg-dark:focus {
+    color: white;
     background-color: var(--off-dark);
     border-color: #804d59 !important;
     outline: none !important;
-    box-shadow: none!important;
+    box-shadow: none !important;
 }
 
 .icon-button {

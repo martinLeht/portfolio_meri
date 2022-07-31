@@ -93,9 +93,35 @@ export const fiTranslations = {
             close_caption: "Pienennä kuvateksti"
         }
     },
+    experience_modal: {
+        edit_title: "Muokkaa kokemusta",
+        add_title: "Lisää uusi kokemus",
+        title_field: "Otsikko",
+        public_checkbox_field: "Julkinen",
+        short_desc_field: "Lyhyt kuvaus",
+        content_field: "Kokemuksen kuvaus"
+    },
+    dialog: {
+        unsaved_changes: "Tallentamattomia muutoksia",
+        are_you_sure: "Oletko varma?",
+        want_to_save: "Haluatko tallentaa muutokset ennen sulkemista?",
+        confirm_delete: "Vahvista poistaminen",
+        want_to_delete: "Haluatko poistaa kokemuksen?"
+    },
     general: {
         search: "Etsi",
-        copied: "Kopioitu!"
+        copied: "Kopioitu!",
+        buttons: {
+            save_and_close: "Tallenna ja sulje",
+            close: "Sulje",
+            cancel: "Peruuta",
+            yes: "Kyllä",
+            no: "Ei"
+        },
+        date_range: {
+            start_date: "Alkupäivä",
+            end_date: "Loppupäivä"
+        }
     },
     network: {
         
