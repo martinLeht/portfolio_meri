@@ -58,25 +58,20 @@ const ExperienceModal = (props) => {
     const onSaveAndCloseModal = () => {
         console.log("Saving and closing!");
         const data = {
+            uuid: experienceData.uuid ? experienceData.uuid : null,
             title: title,
             startDate: startDate,
             endDate: endDate,
             shortDescription: shortDescription,
-            content: content
+            content: content,
+            hidden: publiclyVisible
         }
         onSave(data);
     }
 
     const handleConfirmDeleteDialogYesAction = () => {
         setConfirmDeleteDialogOpen(false);
-        const data = {
-            title: title,
-            startDate: startDate,
-            endDate: endDate,
-            shortDescription: shortDescription,
-            content: content
-        }
-        onDelete(data);
+        onDelete(experienceData.uuid);
     };
 
     const handleConfirmDeleteDialogCancelAction = () => {
@@ -97,7 +92,7 @@ const ExperienceModal = (props) => {
         }
     };
 
-    const buttons = [
+    const buttons = experienceData && experienceData.uuid ? [
         {
             text: t('general.buttons.save_and_close'),
             action: onSaveAndCloseModal,
@@ -111,6 +106,17 @@ const ExperienceModal = (props) => {
         {
             text: <MDBIcon fas icon="trash-alt" size="lg" />,
             action: onDeleteAndCloseModal,
+            color: "danger"
+        }
+    ]: [
+        {
+            text: t('general.buttons.save_and_close'),
+            action: onSaveAndCloseModal,
+            color: "success"
+        },
+        {
+            text: t('general.buttons.cancel'),
+            action: onCloseModal,
             color: "danger"
         }
     ]
@@ -168,7 +174,9 @@ const ExperienceModal = (props) => {
                 content={ 
                     <>
                         <MDBRow className="mb-3">
-                            <MDBCol sm='5' lg ='7'><MDBInput  label={t('experience_modal.title_field')} id='experience-title' type='text' size='lg'  value={ title } onChange={handleTitleChange} /></MDBCol>
+                            <MDBCol sm='5' lg ='7'>
+                                <MDBInput label={t('experience_modal.title_field')} id='experience-title' type='text' size='lg' value={ title } onChange={handleTitleChange} />
+                            </MDBCol>
                             <MDBCol center size='auto'>
                                 <MDBCheckbox name='experiencePublicCheck' value={publiclyVisible} id='experience-public-checkbox' label={t('experience_modal.public_checkbox_field')} defaultChecked onChange={handlePublicCheckbox} />
                             </MDBCol>
@@ -186,7 +194,9 @@ const ExperienceModal = (props) => {
                         </MDBRow>
 
                         <MDBRow className="mb-3">
-                            <MDBCol sm='6' lg ='8'><MDBInput label={t('experience_modal.short_desc_field')} id='experience-title' type='text' value={ shortDescription } onChange={handleShortDescriptionChange} /></MDBCol>
+                            <MDBCol sm='6' lg ='8'>
+                                <MDBInput label={t('experience_modal.short_desc_field')} id='experience-title' type='text' value={ shortDescription } onChange={handleShortDescriptionChange} />
+                            </MDBCol>
                         </MDBRow>
 
                         <MDBRow center>
@@ -198,6 +208,7 @@ const ExperienceModal = (props) => {
             />
             <SimpleDialog 
                 title={t('dialog.unsaved_changes')} 
+                icon={<MDBIcon fas icon="exclamation-triangle" size="lg" color="warning" />}
                 body={t('dialog.want_to_save')} 
                 open={confirmUnsavedChangesDialogOpen} 
                 onYes={handleUnsavedChangesDialogYesAction}
@@ -205,7 +216,8 @@ const ExperienceModal = (props) => {
                 onCancel={handleUnsavedChangesDialogCloseAction}
             />
             <SimpleDialog 
-                title={t('dialog.confirm_delete')} 
+                title={t('dialog.confirm_delete')}
+                icon={<MDBIcon fas icon="trash-alt" size="lg" color="danger" />} 
                 body={t('dialog.want_to_delete')} 
                 open={confirmDeleteDialogOpen} 
                 onYes={handleConfirmDeleteDialogYesAction}

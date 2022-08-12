@@ -5,7 +5,7 @@ import ModalWindow from "../ModalWindow";
 
 
 const SimpleDialog = (props) => {
-    const { title, body, open, onYes, onNo, onCancel } = props;
+    const { title, icon, body, open, onYes, onNo, onCancel } = props;
 
     const [dialogButtons, setDialogButtons] = useState([]);
 
@@ -64,7 +64,14 @@ const SimpleDialog = (props) => {
             size="sm"
             content={ 
                 <MDBRow>
-                    <MDBCol size='auto'>
+                    { 
+                        icon && (
+                            <MDBCol center size='auto'>
+                                { icon }
+                            </MDBCol>
+                        )
+                    }
+                    <MDBCol>
                         { body }
                     </MDBCol>
                 </MDBRow>

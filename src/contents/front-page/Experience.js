@@ -1,61 +1,93 @@
 
 import { forwardRef, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Chrono } from "react-chrono";
 import moment from "moment";
-import { MDBRow, MDBCol, MDBTextArea, MDBInput, MDBIcon} from 'mdb-react-ui-kit';
-import DateRange from '../../components/general/DateRange';
+import { MDBRow, MDBCol, MDBIcon} from 'mdb-react-ui-kit';
 import { useTranslation } from "react-i18next";
-import data from "./data";
 import useWindowDimensions from '../../hooks/window-dimensions';
-import ModalWindow from "../../components/modal/ModalWindow";
 import ExperienceModal from '../../components/modal/ExperienceModal';
+import Loader from '../../components/general/Loader';
+import PortfolioDataService from '../../services/PortfolioDataService';
 
 
 const Experience = (props, ref) => {
     
-    const [experienceEntryData, setExperienceEntryData] = useState([]);
     const [selectedExperience, setSelectedExperience] = useState();
-    const [experienceFormData, setExperienceFormData] = useState();
     const [openExperienceModal, setOpenExperienceModal] = useState(false);
     const { navId } = props;
     const { t } = useTranslation();
     const { isMobileSize } = useWindowDimensions(); 
+    const portfolioDataService = new PortfolioDataService();
+    const queryClient = useQueryClient();
 
-    const experienceData = [
+    const { data: experiencesData, isLoading: isLoading } = useQuery(
+        ["experience"],
+        () => portfolioDataService.getExperiences(),
         {
-            title: "Item title",
-            startDate: new Date(2019, 1, 17),
-            endDate: new Date(2020, 2, 18),
-            shortDescription: "Some short description but not much text.",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            images: []
-        },
-        {
-            title: "Item title 2",
-            startDate: new Date(),
-            endDate: new Date(),
-            shortDescription: "Some short description but not much text.",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            images: []
-        },
-        {
-            title: "Item title 3",
-            startDate: new Date(),
-            endDate: new Date(),
-            shortDescription: "Some short description but not much text.",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            images: []
+            // time until stale data is garbage collected
+            cacheTime: 60 * 1000,
+            // time until data becomes stale
+            staleTime: 30 * 1000
+            // and many more
         }
+    );
+    const experiences = isLoading ? [] : experiencesData.data;
+    const createExperience = useMutation((data) => portfolioDataService.createExperience(data), {
+        onSuccess: data => {
+          console.log(data);
+          console.log("DATA SUCCESFULLY CREATED");
+        },
+        onError: () => {
+          alert("there was an error")
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries('experience');
+        }
+    });
 
-    ];
+    const updateExperience = useMutation((id, data) => portfolioDataService.updateExperience(id, data), {
+        onSuccess: data => {
+          console.log(data);
+          console.log("DATA SUCCESFULLY UPDATED");
+        },
+        onError: () => {
+          alert("there was an error")
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries('experience');
+        }
+    });
+    
+
+    const deleteExperience = useMutation((id) => portfolioDataService.deleteExperienceById(id), {
+        onSuccess: data => {
+          console.log(data);
+          console.log("DATA SUCCESFULLY DELETED");
+        },
+        onError: () => {
+          alert("there was an error")
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries('experience');
+        }
+    });
 
     const convertExperinceDataToTimeline = () => {
-        return experienceData.map(experienceEntry => {
+        return experiences.map(experience => {
             return {
-                title: moment(experienceEntry.startDate).format("M/YYYY") + " - " + moment(experienceEntry.endDate).format("M/YYYY"),
-                cardTitle: experienceEntry.title,
-                cardSubtitle: experienceEntry.shortDescription,
-                cardDetailedText: [experienceEntry.content],
+                title: moment(experience.startDate).format("M/YYYY") + " - " + moment(experience.endDate).format("M/YYYY"),
+                cardTitle: experience.title,
+                cardSubtitle: experience.shortDescription,
+                cardDetailedText: [experience.content],
+                media: !!experience.media 
+                ? {
+                    name: experience.media.name,
+                    source: {
+                      url: experience.media.url
+                    },
+                    type: experience.media.type
+                } : null
               }
         })
     }
@@ -66,10 +98,18 @@ const Experience = (props, ref) => {
     }
 
     const handleSaveAndCloseModal = (data) => {
+        console.log(data);
+        if (data.uuid) {
+            updateExperience.mutate(data.uuid, data);
+        } else {
+            createExperience.mutate(data);
+        }
         setOpenExperienceModal(false);
     }
 
     const handleDeleteAndCloseModal = (data) => {
+        console.log(data);
+        deleteExperience.mutate(data.uuid);
         setOpenExperienceModal(false);
     }
 
@@ -99,34 +139,37 @@ const Experience = (props, ref) => {
                         </div>
                     </MDBCol>
                 </MDBRow>
+                {isLoading && <Loader/>}
+                {
+                    !isLoading && (
+                        <MDBRow className="justify-content-center">
+                            <Chrono
+                                items={ convertExperinceDataToTimeline() }
+                                mode={ isMobileSize ? "VERTICAL" : "VERTICAL_ALTERNATING"}
+                                scrollable={{ scrollbar: true }}
+                                useReadMore
+                                hideControls
+                                theme={{
+                                    cardBgColor: 'white',
+                                    primary: '#353535',
+                                    secondary: '#804d59',
+                                    titleColorActive: 'white',
+                                    textColor: 'blue',
+                                    titleColor: "#353535"
+                                }}
+                            >
+                                <div className="chrono-icons">
+                                {
+                                    experiences.map((entry) => {
+                                        return <MDBIcon className='icon' icon='edit' size='sm' onClick={() => openModal(entry) } key={`${entry.uuid}`}/>
+                                    })
+                                }
 
-                <MDBRow className="justify-content-center">
-                    <Chrono
-                        items={ convertExperinceDataToTimeline() }
-                        mode={ isMobileSize ? "VERTICAL" : "VERTICAL_ALTERNATING"}
-                        slideShow
-                        slideItemDuration={4000}
-                        scrollable={{ scrollbar: true }}
-                        useReadMore
-                        theme={{
-                            cardBgColor: 'white',
-                            primary: '#353535',
-                            secondary: '#804d59',
-                            titleColorActive: 'white',
-                            textColor: 'blue',
-                            titleColor: "#353535"
-                        }}
-                    >
-                        <div className="chrono-icons">
-                        {
-                            experienceData.map((entry, i) => {
-                                return <MDBIcon className='icon' icon='edit' size='sm' onClick={() => openModal(entry) } key={`exp-${i}`}/>
-                            })
-                        }
-
-                        </div>
-                    </Chrono>                
-                </MDBRow>           
+                                </div>
+                            </Chrono>                
+                        </MDBRow>        
+                    )
+                }
             </div>
             <ExperienceModal 
                 open={openExperienceModal} 
