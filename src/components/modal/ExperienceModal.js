@@ -64,7 +64,8 @@ const ExperienceModal = (props) => {
             endDate: endDate,
             shortDescription: shortDescription,
             content: content,
-            hidden: publiclyVisible
+            hidden: publiclyVisible,
+            media: experienceData.media ? experienceData.media : null,
         }
         onSave(data);
     }
@@ -138,7 +139,22 @@ const ExperienceModal = (props) => {
             setInitialEndDate(experienceData.endDate);
             setInitialShortDescription(experienceData.shortDescription);
             setInitialContent(experienceData.content);
+        } else {
+            setTitle("");
+            setPubliclyVisible(true);
+            setStartDate(null);
+            setEndDate(null);
+            setShortDescription("");
+            setContent("");
+
+            setInitialTitle("");
+            setInitialPubliclyVisible(true);
+            setInitialStartDate(null);
+            setInitialEndDate(null);
+            setInitialShortDescription(null);
+            setInitialContent(null);
         }
+
     }, [experienceData]);
 
 
