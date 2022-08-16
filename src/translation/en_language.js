@@ -97,7 +97,7 @@ export const enTranslations = {
         edit_title: "Edit experience",
         add_title: "Add new experience",
         title_field: "Title",
-        public_checkbox_field: "Public",
+        public_checkbox_field: "Publicly hidden",
         short_desc_field: "Short description",
         content_field: "Experience content"
     },

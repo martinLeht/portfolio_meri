@@ -97,7 +97,7 @@ export const fiTranslations = {
         edit_title: "Muokkaa kokemusta",
         add_title: "Lisää uusi kokemus",
         title_field: "Otsikko",
-        public_checkbox_field: "Julkinen",
+        public_checkbox_field: "Julkisesti piilotettu",
         short_desc_field: "Lyhyt kuvaus",
         content_field: "Kokemuksen kuvaus"
     },

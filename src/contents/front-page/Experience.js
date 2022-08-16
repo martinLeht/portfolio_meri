@@ -9,6 +9,7 @@ import useWindowDimensions from '../../hooks/window-dimensions';
 import ExperienceModal from '../../components/modal/ExperienceModal';
 import Loader from '../../components/general/Loader';
 import PortfolioDataService from '../../services/PortfolioDataService';
+import { useAuthentication } from '../../hooks/useAuthentication';
 
 
 const Experience = (props, ref) => {
@@ -17,6 +18,7 @@ const Experience = (props, ref) => {
     const [openExperienceModal, setOpenExperienceModal] = useState(false);
     const { navId } = props;
     const { t } = useTranslation();
+    const { authenticatedUser } = useAuthentication();
     const { isMobileSize } = useWindowDimensions(); 
     const portfolioDataService = new PortfolioDataService();
     const queryClient = useQueryClient();
@@ -33,7 +35,7 @@ const Experience = (props, ref) => {
         }
     );
     const experiences = isLoading ? [] : experiencesData.data;
-    const createExperience = useMutation((data) => portfolioDataService.createExperience(data), {
+    const createExperience = useMutation(data => portfolioDataService.createExperience(data), {
         onSuccess: data => {
           console.log(data);
           console.log("DATA SUCCESFULLY CREATED");
@@ -46,7 +48,7 @@ const Experience = (props, ref) => {
         }
     });
 
-    const updateExperience = useMutation((id, data) => portfolioDataService.updateExperience(id, data), {
+    const updateExperience = useMutation(data => portfolioDataService.updateExperience(data.uuid, data), {
         onSuccess: data => {
           console.log(data);
           console.log("DATA SUCCESFULLY UPDATED");
@@ -60,7 +62,7 @@ const Experience = (props, ref) => {
     });
     
 
-    const deleteExperience = useMutation((id) => portfolioDataService.deleteExperienceById(id), {
+    const deleteExperience = useMutation(id => portfolioDataService.deleteExperienceById(id), {
         onSuccess: data => {
           console.log(data);
           console.log("DATA SUCCESFULLY DELETED");
@@ -100,7 +102,7 @@ const Experience = (props, ref) => {
     const handleSaveAndCloseModal = (data) => {
         console.log(data);
         if (data.uuid) {
-            updateExperience.mutate(data.uuid, data);
+            updateExperience.mutate(data);
         } else {
             createExperience.mutate(data);
         }
@@ -130,7 +132,7 @@ const Experience = (props, ref) => {
                 </MDBRow>
 
                 <MDBRow center middle>
-                    <MDBCol size='auto' center className="p-3 button-bg-hover dashed-border-4" onClick={() => openModal(undefined)}>
+                    <MDBCol size='auto' center className="p-3 button-bg-hover dashed-border-4" onClick={() => openModal(null)}>
                         <div className="text-dark">
                             <h5 className="d-flex justify-content-center align-items-center flex-column">
                                 <b>{t('front_page.experience.add_experience')}</b>
@@ -149,6 +151,7 @@ const Experience = (props, ref) => {
                                 scrollable={{ scrollbar: true }}
                                 useReadMore
                                 hideControls
+                                allowDynamicUpdate
                                 theme={{
                                     cardBgColor: 'white',
                                     primary: '#353535',
@@ -160,9 +163,11 @@ const Experience = (props, ref) => {
                             >
                                 <div className="chrono-icons">
                                 {
-                                    experiences.map((entry) => {
-                                        return <MDBIcon className='icon' icon='edit' size='sm' onClick={() => openModal(entry) } key={`${entry.uuid}`}/>
-                                    })
+                                    authenticatedUser && (
+                                        experiences.map((entry) => {
+                                            return <MDBIcon className='icon' icon='edit' size='sm' onClick={() => openModal(entry) } key={`${entry.uuid}`}/>
+                                        })
+                                    )
                                 }
 
                                 </div>
@@ -171,13 +176,17 @@ const Experience = (props, ref) => {
                     )
                 }
             </div>
-            <ExperienceModal 
-                open={openExperienceModal} 
-                experienceData={selectedExperience} 
-                onSave={ handleSaveAndCloseModal }
-                onDelete={ handleDeleteAndCloseModal }
-                onClose={ closeModal } 
-            />            
+            {
+                authenticatedUser && (
+                    <ExperienceModal 
+                        open={openExperienceModal} 
+                        experienceData={selectedExperience} 
+                        onSave={ handleSaveAndCloseModal }
+                        onDelete={ handleDeleteAndCloseModal }
+                        onClose={ closeModal } 
+                    />         
+                )
+            }   
         </>
     );
     
