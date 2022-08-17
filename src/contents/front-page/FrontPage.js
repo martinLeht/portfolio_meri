@@ -34,8 +34,11 @@ const FrontPage = () => {
                     color = bgColor;
                 }
             });
+            
             /* If page is scrolled to bottom, use white background and force fade in for bottom section */
-            if (Math.ceil(window.innerHeight + window.pageYOffset) >= document.body.clientHeight) {
+            if (window.pageYOffset < 300) {
+                color = SectionBgColors.ABOUT_BG;
+            } else if (Math.ceil(window.innerHeight + window.pageYOffset) >= document.body.clientHeight) {
                 color = SectionBgColors.DEFAULT_BG;
                 contactRef.current.classList.add('fade-in');
                 contactRef.current.classList.remove('fade-out');

@@ -68,7 +68,7 @@ const Experience = (props, ref) => {
           console.log("DATA SUCCESFULLY DELETED");
         },
         onError: () => {
-          alert("there was an error")
+          alert("there was an error");
         },
         onSettled: () => {
           queryClient.invalidateQueries('experience');
@@ -78,7 +78,7 @@ const Experience = (props, ref) => {
     const convertExperinceDataToTimeline = () => {
         return experiences.map(experience => {
             return {
-                title: moment(experience.startDate).format("M/YYYY") + " - " + moment(experience.endDate).format("M/YYYY"),
+                title: moment(experience.startDate).format("M / YYYY") + " - " + moment(experience.endDate).format("M / YYYY"),
                 cardTitle: experience.title,
                 cardSubtitle: experience.shortDescription,
                 cardDetailedText: [experience.content],
@@ -100,7 +100,6 @@ const Experience = (props, ref) => {
     }
 
     const handleSaveAndCloseModal = (data) => {
-        console.log(data);
         if (data.uuid) {
             updateExperience.mutate(data);
         } else {
@@ -109,9 +108,8 @@ const Experience = (props, ref) => {
         setOpenExperienceModal(false);
     }
 
-    const handleDeleteAndCloseModal = (data) => {
-        console.log(data);
-        deleteExperience.mutate(data.uuid);
+    const handleDeleteAndCloseModal = (id) => {
+        deleteExperience.mutate(id);
         setOpenExperienceModal(false);
     }
 
@@ -131,16 +129,20 @@ const Experience = (props, ref) => {
                     </MDBCol>
                 </MDBRow>
 
-                <MDBRow center middle>
-                    <MDBCol size='auto' center className="p-3 button-bg-hover dashed-border-4" onClick={() => openModal(null)}>
-                        <div className="text-dark">
-                            <h5 className="d-flex justify-content-center align-items-center flex-column">
-                                <b>{t('front_page.experience.add_experience')}</b>
-                                <MDBIcon icon="plus" />
-                            </h5>
-                        </div>
-                    </MDBCol>
-                </MDBRow>
+                {
+                    authenticatedUser && (
+                        <MDBRow center middle>
+                            <MDBCol size='auto' center className="p-3 button-bg-hover dashed-border-4" onClick={() => openModal(null)}>
+                                <div className="text-dark">
+                                    <h5 className="d-flex justify-content-center align-items-center flex-column">
+                                        <b>{t('front_page.experience.add_experience')}</b>
+                                        <MDBIcon icon="plus" />
+                                    </h5>
+                                </div>
+                            </MDBCol>
+                        </MDBRow>
+                    )
+                }
                 {isLoading && <Loader/>}
                 {
                     !isLoading && (

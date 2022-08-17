@@ -69,7 +69,7 @@ const ExperienceModal = (props) => {
 
     const onSaveAndCloseModal = () => {
         const data = {
-            uuid: experienceData.uuid ? experienceData.uuid : null,
+            uuid: experienceData && experienceData.uuid ? experienceData.uuid : null,
             title: title,
             userId: authenticatedUser.user.userId,
             startDate: startDate,
@@ -77,7 +77,7 @@ const ExperienceModal = (props) => {
             shortDescription: shortDescription,
             content: content,
             hidden: publiclyHidden,
-            media: experienceData.media ? experienceData.media : null,
+            media: experienceData && experienceData.media ? experienceData.media : null,
             experienceType: experienceType.value
         }
         onSave(data);
@@ -94,7 +94,6 @@ const ExperienceModal = (props) => {
 
 
     const onDeleteAndCloseModal = () => {
-        console.log("Saving and closing!");
         setConfirmDeleteDialogOpen(true);
     }
 
@@ -137,7 +136,6 @@ const ExperienceModal = (props) => {
 
 
     useEffect(() => {
-        console.log(experienceData);
         if (experienceData) {
             setTitle(experienceData.title);
             setPubliclyHidden(experienceData.hidden);
