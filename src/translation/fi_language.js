@@ -99,7 +99,8 @@ export const fiTranslations = {
         title_field: "Otsikko",
         public_checkbox_field: "Julkisesti piilotettu",
         short_desc_field: "Lyhyt kuvaus",
-        content_field: "Kokemuksen kuvaus"
+        content_field: "Kokemuksen kuvaus",
+        restore_image: "Palauta alkuperäinen"
     },
     dialog: {
         unsaved_changes: "Tallentamattomia muutoksia",
@@ -121,6 +122,10 @@ export const fiTranslations = {
         date_range: {
             start_date: "Alkupäivä",
             end_date: "Loppupäivä"
+        },
+        image: {
+            delete: "Poista kuva",
+            upload: "Lataa kuva"
         }
     },
     network: {

@@ -1,12 +1,17 @@
 
 import { useState, useEffect } from 'react';
 import { MDBRow, MDBCol, MDBTextArea, MDBInput, MDBCheckbox, MDBIcon} from 'mdb-react-ui-kit';
-import DateRange from '../../components/general/DateRange';
 import { useTranslation } from "react-i18next";
 import Select from 'react-select';
-import ModalWindow from "../../components/modal/ModalWindow";
-import SimpleDialog from "../../components/modal/dialog/SimpleDialog";
+import ModalWindow from "./ModalWindow";
+import SimpleDialog from "./dialog/SimpleDialog";
 import { useAuthentication } from '../../hooks/useAuthentication';
+import useImageUploadHandler from '../../hooks/useGeneralImageUploader';
+import DateRange from '../general/DateRange';
+import IconButton from '../general/IconButton';
+import LoadingSpinner from '../general/LoadingSpinner';
+import Image from '../general/Image';
+import PortfolioDataService from '../../services/PortfolioDataService';
 
 
 const ExperienceModal = (props) => {
@@ -23,6 +28,7 @@ const ExperienceModal = (props) => {
     const [shortDescription, setShortDescription] = useState('');
     const [content, setContent] = useState('');
     const [experienceType, setExperienceType] = useState(null);
+    const [media, setMedia] = useState(null);
 
     const [initialTitle, setInitialTitle] = useState('');
     const [initialPubliclyHidden, setInitialPubliclyHidden] = useState(false);
@@ -31,9 +37,12 @@ const ExperienceModal = (props) => {
     const [initialShortDescription, setInitialShortDescription] = useState('');
     const [initialContent, setInitialContent] = useState('');
     const [initialExperienceType, setInitialExperienceType] = useState(null);
+    const [initialMedia, setInitialMedia] = useState(null);
 
     const { t } = useTranslation();
     const { authenticatedUser } = useAuthentication();
+    const { file, isUploading, uploadImage, deleteImage, getImage } = useImageUploadHandler();
+    const portfolioDataService = new PortfolioDataService();
 
     const experienceTypeOpts = [
         { value: 'WORK', label: 'Work' },
@@ -50,6 +59,7 @@ const ExperienceModal = (props) => {
             || shortDescription !== initialShortDescription
             || content !== initialContent
             || experienceType !== initialExperienceType
+            || media !== initialMedia
         )
     }
 
@@ -68,19 +78,54 @@ const ExperienceModal = (props) => {
     };
 
     const onSaveAndCloseModal = () => {
-        const data = {
-            uuid: experienceData && experienceData.uuid ? experienceData.uuid : null,
-            title: title,
-            userId: authenticatedUser.user.userId,
-            startDate: startDate,
-            endDate: endDate,
-            shortDescription: shortDescription,
-            content: content,
-            hidden: publiclyHidden,
-            media: experienceData && experienceData.media ? experienceData.media : null,
-            experienceType: experienceType.value
+
+        if (media && media.name) {
+            getImage(media.name, (img) => {
+                let data;
+                if (img && img.name && img.url) {
+                    data = {
+                        uuid: experienceData && experienceData.uuid ? experienceData.uuid : null,
+                        title: title,
+                        userId: authenticatedUser.user.userId,
+                        startDate: startDate,
+                        endDate: endDate,
+                        shortDescription: shortDescription,
+                        content: content,
+                        hidden: publiclyHidden,
+                        media: media,
+                        experienceType: experienceType.value
+                    };
+                } else {
+                    data = {
+                        uuid: experienceData && experienceData.uuid ? experienceData.uuid : null,
+                        title: title,
+                        userId: authenticatedUser.user.userId,
+                        startDate: startDate,
+                        endDate: endDate,
+                        shortDescription: shortDescription,
+                        content: content,
+                        hidden: publiclyHidden,
+                        media: null,
+                        experienceType: experienceType.value
+                    };
+                }
+                onSave(data);
+            });
+        } else {
+            const data = {
+                uuid: experienceData && experienceData.uuid ? experienceData.uuid : null,
+                title: title,
+                userId: authenticatedUser.user.userId,
+                startDate: startDate,
+                endDate: endDate,
+                shortDescription: shortDescription,
+                content: content,
+                hidden: publiclyHidden,
+                media: media,
+                experienceType: experienceType.value
+            }
+            onSave(data);
         }
-        onSave(data);
     }
 
     const handleConfirmDeleteDialogYesAction = () => {
@@ -143,6 +188,7 @@ const ExperienceModal = (props) => {
             setEndDate(experienceData.endDate);
             setShortDescription(experienceData.shortDescription);
             setContent(experienceData.content);
+            setMedia(experienceData.media);
 
             const type = experienceTypeOpts.find(opt => opt.value === experienceData.experienceType);
             setExperienceType(type);
@@ -153,6 +199,7 @@ const ExperienceModal = (props) => {
             setInitialEndDate(experienceData.endDate);
             setInitialShortDescription(experienceData.shortDescription);
             setInitialContent(experienceData.content);
+            setInitialMedia(experienceData.media);
             setInitialExperienceType(type);
         } else {
             setTitle("");
@@ -161,6 +208,7 @@ const ExperienceModal = (props) => {
             setEndDate(null);
             setShortDescription("");
             setContent("");
+            setMedia(null);
 
             const type = experienceTypeOpts.find(opt => opt.value === 'WORK');
             setExperienceType(type);
@@ -171,12 +219,33 @@ const ExperienceModal = (props) => {
             setInitialEndDate(null);
             setInitialShortDescription(null);
             setInitialContent(null);
+            setInitialMedia(null);
             setInitialExperienceType(type);
         }
 
     }, [experienceData]);
 
 
+    const handleImageUpload = (e) => {
+        uploadImage(e, setMedia);
+    }
+
+    const handleRestoreInitialImage = () => {
+        if (initialMedia && initialMedia.name) {
+            getImage(initialMedia.name, setMedia);
+        } else {
+            console.log("No images to restore: " + initialMedia);
+        }
+    }
+
+    const handleDeleteImage = (fileName) => {
+        deleteImage(fileName, () => {
+            setMedia(null);
+            if (initialMedia && initialMedia.name === fileName) {
+                setInitialMedia(null);
+            }
+        });
+    }
     
     const handlePublicCheckbox = (e) => {
         setPubliclyHidden(!publiclyHidden);
@@ -244,6 +313,40 @@ const ExperienceModal = (props) => {
                             </MDBCol>
                         </MDBRow>
 
+                        <MDBRow className="mb-3">
+                            <MDBCol size="auto">
+                                <MDBRow center>
+                                    <MDBCol center size="auto">
+                                        <label htmlFor="image-upload">
+                                            <IconButton 
+                                                icon='image'
+                                                tooltip={t('general.image.upload')} 
+                                                tooltipPlacement='top'
+                                                size='lg'
+                                            />
+                                            { t('general.image.upload') }
+                                        </label>
+                                        <input
+                                            type="file"
+                                            id="image-upload"
+                                            className="image-upload-input"
+                                            accept="image/png, image/jpeg"
+                                            onChange={ handleImageUpload }
+                                        />
+                                    </MDBCol>                                    
+                                </MDBRow>
+                                
+                            </MDBCol>
+                            <MDBCol sm='5' lg ='7'>
+                                {
+                                    isUploading 
+                                    ? <LoadingSpinner pulse />
+                                    : media && (
+                                        <Image src={media.url} name={media.name} onDelete={handleDeleteImage} />
+                                    )
+                                }
+                            </MDBCol>
+                        </MDBRow>
                         <MDBRow className="mb-3">
                             <MDBCol sm='6' lg ='8'>
                                 <MDBInput label={t('experience_modal.short_desc_field')} id='experience-title' type='text' value={ shortDescription } onChange={handleShortDescriptionChange} />

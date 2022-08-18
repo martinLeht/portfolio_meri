@@ -35,6 +35,7 @@ export const useAuthentication = () => {
     const logout = async () => {
         authenticationService.logoutUser();
         setAuthenticatedUser(null);
+        window.location.reload();
     }
 
     const setAndVerifyAuthenticatedUser = async () => {

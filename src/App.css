@@ -113,6 +113,15 @@ blockquote {
     display: none;
 }
 
+.image-wrapper {
+    position: relative;
+}
+
+.image-delete-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
 
 
 .custom-input,

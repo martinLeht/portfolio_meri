@@ -7,7 +7,7 @@ import useSelection from '../../../hooks/useSelection';
 
 import Button from './Button';
 import IconButton from '../../../components/general/IconButton';
-import useImageUploadHandler from '../../../hooks/imageUploadHandler';
+import useImageUploadHandler from '../../../hooks/editorImageUploadHandler';
 
 const BlockButton = (props) => {
     const { format, icon, tooltip, size } = props;

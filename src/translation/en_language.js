@@ -99,7 +99,8 @@ export const enTranslations = {
         title_field: "Title",
         public_checkbox_field: "Publicly hidden",
         short_desc_field: "Short description",
-        content_field: "Experience content"
+        content_field: "Experience content",
+        restore_image: "Restore original"
     },
     dialog: {
         unsaved_changes: "Unsaved changes",
@@ -121,6 +122,10 @@ export const enTranslations = {
         date_range: {
             start_date: "Start date",
             end_date: "End date"
+        },
+        image: {
+            delete: "Delete image",
+            upload: "Upload image"
         }
     },
     network: {
