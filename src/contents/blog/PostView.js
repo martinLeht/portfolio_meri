@@ -37,7 +37,7 @@ const PostView = (props) => {
         <>
             {
                 isLoading 
-                ? <Loader />
+                ? <Loader pulse/>
                 : (
                     post !== undefined
                     ? <PostContent post={ post } onDeletePostAction={handleDeletePost}/>

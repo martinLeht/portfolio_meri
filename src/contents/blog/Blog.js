@@ -180,7 +180,7 @@ const Blog = () => {
         if (isLoading) {
             return (
                 <MDBCol center size="auto">
-                    <Loader />
+                    <Loader pulse/>
                 </MDBCol>
             );
         } else if (latestPostTag !== undefined) {
@@ -219,7 +219,7 @@ const Blog = () => {
 
     return (
         <>
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={ <Loader pulse /> }>
                 <Routes>
                     <Route path="/" element={
                         <>
@@ -230,7 +230,7 @@ const Blog = () => {
                             </SectionSeparator>
                             { 
                                 isLoading 
-                                ? <Loader className="bg-white-shade"/>
+                                ? <Loader pulse className="bg-white-shade"/>
                                 : renderPostFeed()
                             }
                             
@@ -241,7 +241,9 @@ const Blog = () => {
                             <>
                                 <HelmetMetaData title={t('blog.post.create')}/>
                                 <SectionSeparator title={t('blog.post.create')} />
-                                <WritePost newPostHandler={ newPostHandler }/>
+                                <Suspense fallback={ <Loader pulse /> }>
+                                    <WritePost newPostHandler={ newPostHandler }/>
+                                </Suspense>
                             </>
                         </GuardedRoute>
                     }/>
@@ -250,7 +252,9 @@ const Blog = () => {
                             <>
                                 <HelmetMetaData title={t('blog.post.edit_post')}/>
                                 <SectionSeparator title={t('blog.post.edit_post')} />
-                                <WritePost newPostHandler={ newPostHandler } />
+                                <Suspense fallback={ <Loader pulse /> }>
+                                    <WritePost newPostHandler={ newPostHandler } />
+                                </Suspense>
                             </>
                         </GuardedRoute>
                     }/>

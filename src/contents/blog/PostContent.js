@@ -157,8 +157,6 @@ const PostContent = (props) => {
     }
 
     const initHelmetData = () => {
-        console.log(post);
-        console.log(socialShareQuote);
         return (
             <HelmetMetaData
                 title={post.title}

@@ -51,7 +51,7 @@ const InstaFeed = () => {
                     
                     <div className="mdb-lightbox no-margin p-1 ig-posts">
                         <MDBRow center>
-                            { loading && <Loader /> }
+                            { loading && <Loader pulse /> }
                             {
                                 !!posts && (
                                     posts.map(({

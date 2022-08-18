@@ -79,7 +79,7 @@ const RecentPosts = () => {
                 </MDBCol>
             </MDBRow>
             
-            <Suspense fallback={ <Loader /> } >
+            <Suspense fallback={ <Loader pulse /> } >
                 { renderPosts() }
             </Suspense>
         </>

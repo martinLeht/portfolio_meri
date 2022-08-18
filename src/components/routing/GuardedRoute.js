@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import LoadingSpinner from '../general/LoadingSpinner';
+import Loader from '../general/Loader';
 import { useAuthentication } from '../../hooks/useAuthentication';
 
 
@@ -10,13 +10,9 @@ const GuardedRoute = (props) => {
     const { path } = props;  
     const { authenticatedUser, loading, setAndVerifyAuthenticatedUser } = useAuthentication();
 
-    const { 
-        children,
-        ...rest 
-    } = props;
+    const { children } = props;
 
     useEffect(() => {
-        console.log("Suojattu ROUTE");
         setAndVerifyAuthenticatedUser();
     }, [setAndVerifyAuthenticatedUser]);
 
@@ -31,7 +27,7 @@ const GuardedRoute = (props) => {
                     }}/>;
         }
     } else {
-        return <LoadingSpinner />;
+        return <Loader pulse/>;
     }
     
 }

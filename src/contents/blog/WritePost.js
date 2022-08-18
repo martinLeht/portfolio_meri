@@ -25,9 +25,6 @@ const WritePost = (props) => {
     const { isMobileSize } = useWindowDimensions();    
     const { authenticatedUser } = useAuthentication();
 
-    console.log("RERENDERED Write Post");
-    console.log(openPostPreview);
-
     const blogPostService = new BlogPostService();
 
     useEffect(() => {

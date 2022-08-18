@@ -45,7 +45,9 @@ const FrontPage = () => {
             }
             frontPageRef.current.style.background = color;
         } else {
-            frontPageRef.current.style.background = SectionBgColors.DEFAULT_BG;
+            if (frontPageRef.current) {
+                frontPageRef.current.style.background = SectionBgColors.DEFAULT_BG;
+            }
         }
         
     }

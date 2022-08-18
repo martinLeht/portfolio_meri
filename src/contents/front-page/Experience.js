@@ -143,7 +143,7 @@ const Experience = (props, ref) => {
                         </MDBRow>
                     )
                 }
-                {isLoading && <Loader/>}
+                {isLoading && <Loader pulse/>}
                 {
                     !isLoading && (
                         <MDBRow className="justify-content-center">
