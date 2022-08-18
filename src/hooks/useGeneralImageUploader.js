@@ -33,13 +33,14 @@ const useImageUploadHandler = () => {
         const fileData = files[0];
 
         if (!isFileSizeInLimits(fileData.size)) {
+            setIsUploading(false);
             return;
         }
 
         const formData = new FormData();
         formData.append("file", fileData);
         const data = await handleImageUpload(formData);
-        
+
         setFile(data);
         setIsUploading(false);
         if (callback) callback(data);
