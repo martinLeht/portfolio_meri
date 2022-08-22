@@ -26,12 +26,12 @@ const MainContent = () => {
                                 </Suspense>
                             } />
                             <Route path="/blog/*" element={ 
-                                <Suspense fallback={ <Loader /> }>
+                                <Suspense fallback={ <Loader pulse/> }>
                                     <Blog />
                                 </Suspense>
                             }/>
                             <Route exact path="/insta" element={ 
-                                <Suspense fallback={ <Loader /> }>
+                                <Suspense fallback={ <Loader pulse/> }>
                                     <InstaFeed />
                                 </Suspense>
                             } />
