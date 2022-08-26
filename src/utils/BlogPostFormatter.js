@@ -32,7 +32,7 @@ const formatEditorContentToDto = (postContent) => {
             } else if (block.type === 'link') {
                 contentBlock = {
                     type: 'link-item',
-                    urlLink: block.url,
+                    urlLink: block.src,
                     textContent: block.children,
                     orderNumber: 0
                 };

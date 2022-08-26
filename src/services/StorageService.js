@@ -2,15 +2,19 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import { jwtAuthRequestInterceptor, jwtAuthResponseInterceptor, requestRequiresAuth } from './interceptors/JwtAuthInterceptor';
 
-class PortfolioDataService {
+class StorageService {
 
     constructor() {
+
         this.client = axios.create({
-            baseURL: process.env.REACT_APP_PORTFOLIO_DATA_API_ENDPOINT,
-            timeout: 7000,
-            headers: {'Access-Control-Allow-Origin': '*'}
+            baseURL: process.env.REACT_APP_IMAGE_STORAGE_API_ENDPOINT,
+            timeout: 10000,
+            headers: { 
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'multipart/form-data' 
+            }
         });
-        
+
         this.client.interceptors.request.use(jwtAuthRequestInterceptor, err => {
             return Promise.reject(err);
         }, { runWhen: requestRequiresAuth });
@@ -30,54 +34,74 @@ class PortfolioDataService {
         });
     }
 
-    async getExperiences() {
+    async getBlogMedia(fileName) {
         try {
-            const res = await this.client.get('/experience');
+            const res = await this.client.post('/get', {
+                fileName: fileName,
+                mediaCategory: 'BLOG'
+            });
             return res.data;
         } catch(err) {
             console.error(err);
         }
     }
 
-    async getPublicExperiences() {
+    async getExperienceMedia(fileName) {
         try {
-            const res = await this.client.get('/experience/public');
+            const res = await this.client.post('/get', {
+                fileName: fileName,
+                mediaCategory: 'EXPERIENCE'
+            });
             return res.data;
         } catch(err) {
             console.error(err);
         }
     }
 
-    async getExperienceById(id) {
+    async uploadBlogMedia(fileData) {
         try {
-            const res = await this.client.get(`/experience/${id}`);
+            const formData = new FormData();
+            formData.append("file", fileData);
+            formData.append("mediaCategory", "BLOG");
+
+            const res = await this.client.post('/upload', formData);
             return res.data;
         } catch(err) {
             console.error(err);
         }
     }
 
-    async createExperience(experienceData) {
+    async uploadExperienceMedia(fileData) {
         try {
-            const res = await this.client.post('/experience', experienceData);
+            const formData = new FormData();
+            formData.append("file", fileData);
+            formData.append("mediaCategory", "EXPERIENCE");
+
+            const res = await this.client.post('/upload', formData);
             return res.data;
         } catch(err) {
             console.error(err);
         }
     }
 
-    async updateExperience(id, experienceData) {
+    async deleteBlogMedia(fileName) {
         try {
-            const res = await this.client.put(`/experience/${id}`, experienceData);
+            const res = await this.client.post(`/delete`, {
+                fileName: fileName,
+                mediaCategory: 'BLOG'
+            });
             return res.data;
         } catch(err) {
             console.error(err);
         }
     }
 
-    async deleteExperienceById(id) {
+    async deleteExperienceMedia(fileName) {
         try {
-            const res = await this.client.delete(`/experience/${id}`);
+            const res = await this.client.post('/delete', {
+                fileName: fileName,
+                mediaCategory: 'EXPERIENCE'
+            });
             return res.data;
         } catch(err) {
             console.error(err);
@@ -86,4 +110,4 @@ class PortfolioDataService {
 
 }
 
-export default PortfolioDataService;
+export default StorageService;

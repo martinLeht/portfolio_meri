@@ -82,7 +82,7 @@ const ExperienceModal = (props) => {
         if (media && media.name) {
             getImage(media.name, (img) => {
                 let data;
-                if (img && img.name && img.url) {
+                if (img && img.name && img.src) {
                     data = {
                         uuid: experienceData && experienceData.uuid ? experienceData.uuid : null,
                         title: title,
@@ -342,7 +342,7 @@ const ExperienceModal = (props) => {
                                     isUploading 
                                     ? <LoadingSpinner pulse />
                                     : media && (
-                                        <Image src={media.url} name={media.name} onDelete={handleDeleteImage} />
+                                        <Image src={media.src} name={media.name} onDelete={handleDeleteImage} />
                                     )
                                 }
                             </MDBCol>

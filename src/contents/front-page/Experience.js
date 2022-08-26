@@ -25,8 +25,13 @@ const Experience = (props, ref) => {
 
     const { data: experiencesData, isLoading: isLoading } = useQuery(
         ["experience"],
-        () => portfolioDataService.getExperiences(),
-        {
+        () => {
+            if (authenticatedUser) {
+                portfolioDataService.getExperiences()
+            } else {
+                portfolioDataService.getPublicExperiences()
+            }
+        }, {
             // time until stale data is garbage collected
             cacheTime: 60 * 1000,
             // time until data becomes stale
@@ -86,7 +91,7 @@ const Experience = (props, ref) => {
                 ? {
                     name: experience.media.name,
                     source: {
-                      url: experience.media.url
+                      url: experience.media.src
                     },
                     type: experience.media.type
                 } : null
