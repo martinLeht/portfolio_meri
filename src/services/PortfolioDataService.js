@@ -10,10 +10,14 @@ class PortfolioDataService {
             timeout: 7000,
             headers: {'Access-Control-Allow-Origin': '*'}
         });
+        const interceptorConfig = {
+            ignoreEndpoints: ['/experience/public'], 
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'get', 'post','put','delete']
+        }
         
-        this.client.interceptors.request.use(jwtAuthRequestInterceptor, err => {
+        this.client.interceptors.request.use((config) => jwtAuthRequestInterceptor(config, interceptorConfig.ignoreEndpoints, interceptorConfig.methods), err => {
             return Promise.reject(err);
-        }, { runWhen: requestRequiresAuth });
+        }, { runWhen: (config) => requestRequiresAuth(config, interceptorConfig.ignoreEndpoints, interceptorConfig.methods) });
         this.client.interceptors.response.use(response => response, jwtAuthResponseInterceptor);
 
         const retryDelay = (retryNumber = 0) => {

@@ -5,8 +5,8 @@ import UserCachingService from '../UserCachingService';
 const userCachingService = new UserCachingService();
 const authService = new AuthenticationService();
 
-export const jwtAuthRequestInterceptor = async (config) => {
-    if (requestRequiresAuth(config)) {
+export const jwtAuthRequestInterceptor = async (config, ignoreEndpoints = [], methods = ['POST', 'PUT', 'DELETE', 'post','put','delete']) => {
+    if (requestRequiresAuth(config, ignoreEndpoints, methods)) {
         const authTokens = userCachingService.getAuthTokens();
         if (authTokens === undefined) {
             userCachingService.signOut();
@@ -49,8 +49,13 @@ export const jwtAuthResponseInterceptor = async (error) => {
     return Promise.reject(error);
 }
 
-export const requestRequiresAuth = (config) => {
+export const requestRequiresAuth = (config, ignoreEndpoints = [], methods = ['POST', 'PUT', 'DELETE', 'post','put','delete']) => {
     const method = config.method;
-    return method === 'POST' || method === 'PUT' || method === 'DELETE'
-        || method === 'post' || method === 'put' || method === 'delete';
+
+    if (ignoreEndpoints.length > 0 && ignoreEndpoints.includes(config.url)) {
+        return false;
+    } else { 
+        return methods.includes(method);
+    }
+    
 }

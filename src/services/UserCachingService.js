@@ -7,7 +7,7 @@ class UserCachingService {
     getUser() {
         const userInStorage = localStorage.getItem('user');
 
-        if (userInStorage === null) return undefined;
+        if (!userInStorage) return null;
 
         const user = JSON.parse(userInStorage);
         return user;

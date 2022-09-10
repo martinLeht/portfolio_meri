@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import AuthenticationService from "../services/AuthenticationService";
+import StorageService from "../services/StorageService";
 
 const useImageUploadHandler = () => {
 
@@ -11,7 +12,7 @@ const useImageUploadHandler = () => {
     const authenticatedUser = authenticationService.getCurrentUser();
     const storageService = new StorageService();
 
-    const uploadImage = useCallback(async (event, callback) => {
+    const uploadImage = async (event, callback) => {
         setIsUploading(true);
         event.preventDefault();
         const files = event.target.files;
@@ -33,21 +34,23 @@ const useImageUploadHandler = () => {
         setIsUploading(false);
         setError(null);
         if (callback) callback(data);
-    });
+    }
 
     const handleImageUpload = async (fileData) => {
         if (authenticatedUser) {
             const data = await storageService.uploadExperienceMedia(fileData);
-            return {
-                name: data.name,
-                src: data.src,
-                type: data.type
-            };
+            if (data && data.name && data.src) {
+                return {
+                    name: data.name,
+                    src: data.src,
+                    type: data.type
+                };
+            }
         }
         return null;
     }
 
-    const deleteImage = useCallback(async (fileName, callback) => {
+    const deleteImage = async (fileName, callback) => {
         setIsUploading(true);
         
         const success = await handleImageDelete(fileName);
@@ -57,7 +60,7 @@ const useImageUploadHandler = () => {
         setIsUploading(false);
         setError(null);
         if (callback && success) callback(null);
-    });
+    };
 
     const handleImageDelete = async (fileName) => {
         if (authenticatedUser) {
@@ -67,7 +70,7 @@ const useImageUploadHandler = () => {
         return false;
     }
 
-    const getImage = useCallback(async (fileName, callback) => {
+    const getImage = async (fileName, callback) => {
         setIsUploading(true);
         
         const data = await handleGetImage(fileName);
@@ -77,7 +80,7 @@ const useImageUploadHandler = () => {
         setIsUploading(false);
         setError(null);
         if (callback) callback(data);
-    });
+    };
 
     const handleGetImage = async (fileName) => {
         if (authenticatedUser) {

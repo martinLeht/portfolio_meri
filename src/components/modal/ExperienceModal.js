@@ -11,7 +11,6 @@ import DateRange from '../general/DateRange';
 import IconButton from '../general/IconButton';
 import LoadingSpinner from '../general/LoadingSpinner';
 import Image from '../general/Image';
-import PortfolioDataService from '../../services/PortfolioDataService';
 
 
 const ExperienceModal = (props) => {
@@ -42,7 +41,6 @@ const ExperienceModal = (props) => {
     const { t } = useTranslation();
     const { authenticatedUser } = useAuthentication();
     const { file, isUploading, uploadImage, deleteImage, getImage } = useImageUploadHandler();
-    const portfolioDataService = new PortfolioDataService();
 
     const experienceTypeOpts = [
         { value: 'WORK', label: 'Work' },
@@ -181,6 +179,7 @@ const ExperienceModal = (props) => {
 
 
     useEffect(() => {
+        console.log(experienceData);
         if (experienceData) {
             setTitle(experienceData.title);
             setPubliclyHidden(experienceData.hidden);
@@ -296,7 +295,7 @@ const ExperienceModal = (props) => {
                                     name='experiencePublicCheck' 
                                     id='experience-public-checkbox' 
                                     label={t('experience_modal.public_checkbox_field')} 
-                                    value={publiclyHidden}
+                                    checked={publiclyHidden}
                                     onChange={handlePublicCheckbox} 
                                 />
                             </MDBCol>

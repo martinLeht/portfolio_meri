@@ -11,9 +11,16 @@ class StorageService {
             timeout: 10000,
             headers: { 
                 'Access-Control-Allow-Origin': '*',
-                'content-type': 'multipart/form-data' 
             }
         });
+
+        this.jsonContentType = {
+            'content-type': 'application/json' 
+        }
+
+        this.multipartContentType = {
+            'content-type': 'multipard/form-data' 
+        }
 
         this.client.interceptors.request.use(jwtAuthRequestInterceptor, err => {
             return Promise.reject(err);
@@ -39,6 +46,8 @@ class StorageService {
             const res = await this.client.post('/get', {
                 fileName: fileName,
                 mediaCategory: 'BLOG'
+            },{
+                headers: this.jsonContentType
             });
             return res.data;
         } catch(err) {
@@ -51,6 +60,8 @@ class StorageService {
             const res = await this.client.post('/get', {
                 fileName: fileName,
                 mediaCategory: 'EXPERIENCE'
+            },{
+                headers: this.jsonContentType
             });
             return res.data;
         } catch(err) {
@@ -62,9 +73,16 @@ class StorageService {
         try {
             const formData = new FormData();
             formData.append("file", fileData);
-            formData.append("mediaCategory", "BLOG");
 
-            const res = await this.client.post('/upload', formData);
+            const json = JSON.stringify("BLOG");
+            const blob = new Blob([json], {
+                type: 'application/json'
+            });
+            formData.append("mediaCategory", blob);
+
+            const res = await this.client.post('/upload', formData, {
+                headers: this.multipartContentType
+            });
             return res.data;
         } catch(err) {
             console.error(err);
@@ -75,9 +93,16 @@ class StorageService {
         try {
             const formData = new FormData();
             formData.append("file", fileData);
-            formData.append("mediaCategory", "EXPERIENCE");
+        
+            const json = JSON.stringify("EXPERIENCE");
+            const blob = new Blob([json], {
+                type: 'application/json'
+            });
+            formData.append("mediaCategory", blob);
 
-            const res = await this.client.post('/upload', formData);
+            const res = await this.client.post('/upload', formData, {
+                headers: this.multipartContentType
+            });
             return res.data;
         } catch(err) {
             console.error(err);
@@ -89,6 +114,8 @@ class StorageService {
             const res = await this.client.post(`/delete`, {
                 fileName: fileName,
                 mediaCategory: 'BLOG'
+            },{
+                headers: this.jsonContentType
             });
             return res.data;
         } catch(err) {
@@ -101,6 +128,8 @@ class StorageService {
             const res = await this.client.post('/delete', {
                 fileName: fileName,
                 mediaCategory: 'EXPERIENCE'
+            },{
+                headers: this.jsonContentType
             });
             return res.data;
         } catch(err) {

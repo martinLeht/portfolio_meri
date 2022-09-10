@@ -230,6 +230,15 @@ input[type="search"].bg-dark:focus,
   }
 }
 
+/* Timeline */
+.timeline-card-content {
+    word-wrap: break-word;
+}
+
+.timeline-card-content.expanded {
+    overflow: auto;
+}
+
 /* Navbar */
 .nav-bar {
     position: fixed;

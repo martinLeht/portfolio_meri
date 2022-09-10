@@ -9,6 +9,7 @@ import useWindowDimensions from '../../hooks/window-dimensions';
 import ExperienceModal from '../../components/modal/ExperienceModal';
 import Loader from '../../components/general/Loader';
 import PortfolioDataService from '../../services/PortfolioDataService';
+import AuthenticationService from '../../services/AuthenticationService';
 import { useAuthentication } from '../../hooks/useAuthentication';
 
 
@@ -21,15 +22,16 @@ const Experience = (props, ref) => {
     const { authenticatedUser } = useAuthentication();
     const { isMobileSize } = useWindowDimensions(); 
     const portfolioDataService = new PortfolioDataService();
+    const authenticationService = new AuthenticationService();
     const queryClient = useQueryClient();
 
     const { data: experiencesData, isLoading: isLoading } = useQuery(
         ["experience"],
         () => {
-            if (authenticatedUser) {
-                portfolioDataService.getExperiences()
+            if (authenticationService.getCurrentUser()) {
+                return portfolioDataService.getExperiences();
             } else {
-                portfolioDataService.getPublicExperiences()
+                return portfolioDataService.getPublicExperiences();
             }
         }, {
             // time until stale data is garbage collected
@@ -39,7 +41,7 @@ const Experience = (props, ref) => {
             // and many more
         }
     );
-    const experiences = isLoading ? [] : experiencesData.data;
+    const experiences = isLoading ? [] : experiencesData ? experiencesData.data : [];
     const createExperience = useMutation(data => portfolioDataService.createExperience(data), {
         onSuccess: data => {
           console.log(data);
@@ -168,6 +170,7 @@ const Experience = (props, ref) => {
                                     titleColor: "#353535"
                                 }}
                             >
+                                
                                 <div className="chrono-icons">
                                 {
                                     authenticatedUser && (

@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Editor, Transforms } from 'slate';
 import AuthenticationService from "../services/AuthenticationService";
+import StorageService from "../services/StorageService";
 
 const handleImageUpload = (fileData, editor) => {
     const authenticationService = new AuthenticationService();
@@ -56,7 +57,7 @@ const useImageUploadHandler = (editor, previousSelection) => {
         }
         const fileData = files[0];
 
-        if (!isFileSizeInLimits(file.size)) {
+        if (!isFileSizeInLimits(fileData.size)) {
             return;
         }
 
