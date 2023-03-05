@@ -179,7 +179,6 @@ const ExperienceModal = (props) => {
 
 
     useEffect(() => {
-        console.log(experienceData);
         if (experienceData) {
             setTitle(experienceData.title);
             setPubliclyHidden(experienceData.hidden);
@@ -371,7 +370,7 @@ const ExperienceModal = (props) => {
             <SimpleDialog 
                 title={t('dialog.confirm_delete')}
                 icon={<MDBIcon fas icon="trash-alt" size="lg" color="danger" />} 
-                body={t('dialog.want_to_delete')} 
+                body={t('dialog.want_to_delete_experience')} 
                 open={confirmDeleteDialogOpen} 
                 onYes={handleConfirmDeleteDialogYesAction}
                 onCancel={handleConfirmDeleteDialogCancelAction}

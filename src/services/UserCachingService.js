@@ -18,9 +18,14 @@ class UserCachingService {
         localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
     }
 
+    setAccessToken(accessToken) {
+        localStorage.setItem('accessToken', JSON.stringify(accessToken));
+    }
+
     getAuthTokens() {
         const accessToken = JSON.parse(localStorage.getItem('accessToken'));
         const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+
         if (!accessToken || !refreshToken) return undefined;
         
         return {
@@ -30,7 +35,7 @@ class UserCachingService {
     }
 
     signOut() {
-        window.sessionStorage.clear();
+        sessionStorage.clear();
         localStorage.clear();
     }
 
@@ -39,6 +44,37 @@ class UserCachingService {
         return authTokens !== undefined 
             && authTokens.accessToken !== undefined && authTokens.accessToken !== ''
             && authTokens.refreshToken !== undefined && authTokens.refreshToken !== '';
+    }
+
+    setTemporaryAccessGrant(tempAccessToken, tempUserId, tempUsername, tempUserEmail) {
+        sessionStorage.setItem('tempAccessToken', JSON.stringify(tempAccessToken));
+        sessionStorage.setItem('tempUserId', JSON.stringify(tempUserId));
+        sessionStorage.setItem('tempUsername', JSON.stringify(tempUsername));
+        sessionStorage.setItem('tempUserEmail', JSON.stringify(tempUserEmail));
+    }
+
+    getTemporaryAccessGrant() {
+        const tempAccessTokenInStorage = JSON.parse(sessionStorage.getItem('tempAccessToken'));
+        const tempUserIdInStorage = JSON.parse(sessionStorage.getItem('tempUserId'));
+        const tempUsernameInStorage = JSON.parse(sessionStorage.getItem('tempUsername'));
+        const tempUserEmailInStorage = JSON.parse(sessionStorage.getItem('tempUserEmail'));
+
+        if (!tempAccessTokenInStorage || !tempUserIdInStorage || !tempUsernameInStorage) return null;
+
+        return {
+            tempAccessToken: tempAccessTokenInStorage,
+            tempUserId: tempUserIdInStorage,
+            tempUsername: tempUsernameInStorage,
+            tempUserEmail: tempUserEmailInStorage
+        }
+    }
+
+    hasTemporaryAccessGrant() {
+        const tempAccessGrant = this.getTemporaryAccessGrant();
+        return tempAccessGrant !== null 
+            && !!tempAccessGrant.tempAccessToken
+            && !!tempAccessGrant.tempUserId
+            && !!tempAccessGrant.tempUsername;
     }
 }
 

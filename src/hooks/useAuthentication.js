@@ -1,59 +1,72 @@
 import { useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
+import { useKeycloak } from "@react-keycloak/web";
 import moment from "moment";
-import AuthenticationService from "../services/AuthenticationService";
+import { useTemporaryAccessApi } from '../api/useTemporaryAccessApi';
 import UserCachingService from '../services/UserCachingService';
 
 export const useAuthentication = () => {
     const [authenticatedUser, setAuthenticatedUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const authenticationService = new AuthenticationService();
+    const { keycloak } = useKeycloak();
+    const { getCurrentTemporaryAccessGrant, logoutTemporaryUser } = useTemporaryAccessApi();
     const userCachingService = new UserCachingService();
 
     useEffect(() =>{
         setLoading(true);
         const getAuthenticatedUser = () => {
-            setAuthenticatedUser(authenticationService.getCurrentUser());
+            if (keycloak.authenticated) {
+                setAuthenticatedUser({
+                    user: {
+                        username: keycloak.tokenParsed.preferred_username,
+                        userId: keycloak.subject
+                    }
+                });
+            } else {
+                setAuthenticatedUser(null);
+            }
             setLoading(false);
         }
         getAuthenticatedUser();  
     }, []);
 
 
-    const login = async (userData) => {
-        const authRes = await authenticationService.loginUser(userData);
-        if (authRes === undefined) {
-            return {
-                error: "Something went wrong on login attempt!"
-            };
-        }
-
-        setAuthenticatedUser(authRes);
-        return authRes;
+    const login = (userData) => {
+        userCachingService.signOut();
+        keycloak.login({
+            redirectUri: process.env.REACT_APP_BASE_URL
+        });
     }
 
-    const logout = async () => {
-        authenticationService.logoutUser();
-        setAuthenticatedUser(null);
-        window.location.reload();
+    const logout = () => {
+        userCachingService.signOut();
+        keycloak.logout({
+            redirectUri: process.env.REACT_APP_BASE_URL
+        });
     }
 
     const setAndVerifyAuthenticatedUser = async () => {
-        if (userCachingService.hasAuthTokens()) {
-            const { accessToken } = userCachingService.getAuthTokens();
-            const hasTokenExpired = hasAuthTokenExpired(accessToken);
-            if (hasTokenExpired) {
-                const refreshedAuthTokens = await authenticationService.refreshAuthTokens();
-                if (refreshedAuthTokens) setAuthenticatedUser(authenticationService.getCurrentUser());
+        if (keycloak.authenticated) {
+            if (hasAuthTokenExpired(keycloak.tokenParsed)) {
+                try {
+                    await keycloak.updateToken(30);
+                } catch (err) {
+                    console.log("Error occurred when trying to refresh access token...");
+                }
+            } else {
+                userCachingService.setAccessToken(keycloak.token);
+                setAuthenticatedUser({
+                    user: {
+                        username: keycloak.tokenParsed.preferred_username,
+                        userId: keycloak.subject
+                    }
+                })
             }
-            console.log("User is verified!");
         } else {
             console.log("Not logged in and verified!");
         }
     }
 
-    const hasAuthTokenExpired = (accessToken) => {
-        const decodedToken = jwt_decode(accessToken);
+    const hasAuthTokenExpired = (decodedToken) => {
         const expiresEpochs = decodedToken.exp;
         const expiratationDateTime = moment.unix(expiresEpochs);
         const currentDateTime = moment();
@@ -63,6 +76,7 @@ export const useAuthentication = () => {
     return {
         authenticatedUser,
         loading,
+        isAuthenticated: keycloak.authenticated,
         login,
         logout,
         setAndVerifyAuthenticatedUser

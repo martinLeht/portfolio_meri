@@ -41,17 +41,14 @@ const SimpleDialog = (props) => {
     }, [open]);
 
     const onYesAction = () => {
-        console.log("Pressed YES");
         onYes();
     }
 
     const onNoAction = () => {
-        console.log("Pressed no...");
         onNo();
     }
 
     const onCancelAction = () => {
-        console.log("Pressed cancel...");
         onCancel();
     }
 

@@ -1,50 +1,62 @@
 import { useCallback } from 'react';
 import { Editor, Transforms } from 'slate';
-import AuthenticationService from "../services/AuthenticationService";
-import StorageService from "../services/StorageService";
+import { useKeycloak } from "@react-keycloak/web";
+import { useStorageApi } from '../api/useStorageApi';
 
-const handleImageUpload = (fileData, editor) => {
-    const authenticationService = new AuthenticationService();
-    const authenticatedUser = authenticationService.getCurrentUser();
-    const storageService = new StorageService();
+const useImageUpload = (fileData, editor) => {
     
-    if (authenticatedUser) {
-        storageService.uploadBlogMedia(fileData).then((data) => {
-            const newImage = Editor.nodes(editor, {
-                match: (node) => node.fileName === data.name
-            });
+    const { keycloak } = useKeycloak();
+    const { uploadBlogMedia } = useStorageApi();
 
-            if (newImage === null) return;
-
-            Transforms.setNodes(
-                editor,
-                { 
-                    isUploading: false,
-                    attachment: {
-                        name: data.name,
-                        link: data.src
+    const uploadImageFromEditor = (fileData, editor) => {
+        if (keycloak.authenticated) {
+            uploadBlogMedia(fileData).then((data) => {
+                const newImage = Editor.nodes(editor, {
+                    match: (node) => node.fileName === data.name
+                });
+    
+                if (newImage === null) return;
+    
+                Transforms.setNodes(
+                    editor,
+                    { 
+                        isUploading: false,
+                        attachment: {
+                            name: data.name,
+                            link: data.src
+                        }
+                    },
+                    { at: newImage[1] }
+                );
+                Transforms.insertNodes(
+                    editor,
+                    {
+                        type: "paragraph",
+                        children: [
+                            {
+                              text: '',
+                            },
+                        ]
                     }
-                },
-                { at: newImage[1] }
-            );
-            Transforms.insertNodes(
-                editor,
-                {
-                    type: "paragraph",
-                    children: [
-                        {
-                          text: '',
-                        },
-                    ]
-                }
-            );
-        }).catch((error) => {
-            console.log(error);     
-        });
+                );
+            }).catch((error) => {
+                console.log(error);     
+            });
+        } else {
+            console.log("Not authenticated for image uploading");
+        }
+    }
+
+    return {
+        uploadImageFromEditor
     }
 }
 
 const useImageUploadHandler = (editor, previousSelection) => {
+
+
+    const { uploadImageFromEditor } = useImageUpload();
+
     const isFileSizeInLimits = (size) => {
         return size < 1048576;
     }
@@ -79,7 +91,7 @@ const useImageUploadHandler = (editor, previousSelection) => {
                 ]
             },{ at: previousSelection, select: true }
         );
-        handleImageUpload(fileData, editor);
+        uploadImageFromEditor(fileData, editor);
 
     },[editor, previousSelection]);
 }

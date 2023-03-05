@@ -1,37 +1,29 @@
 
 import { useState, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import BlogPostService from '../../services/BlogPostService';
+import { useBlogApi } from '../../api/useBlogApi';
 import Loader from "../../components/general/Loader";
 import PostContent from "./PostContent";
 
-const PostView = (props) => {
-    const { deletePostHandler } = props;
-
+const PostView = () => {
     const [post, setPost] = useState({});
     const [isLoading, setLoading] = useState(true);
+
+    const { getPostById } = useBlogApi();
     
     const { postId } = useParams();
     
     useEffect(() => {
         window.scrollTo(0, 0);
-        const blogPostService = new BlogPostService();
         setLoading(true);
-        blogPostService.getPostById(postId).then(post => {
-            if (post) {
-                setLoading(false);
-                setPost(post);
-            }
+        getPostById(postId).then(post => {
+            setLoading(false);
+            setPost(post);
         }).catch(err => {
             console.log(err);
             setLoading(false);
         });
     }, [postId]);
-
-
-    const handleDeletePost = () => {
-        deletePostHandler(parseInt(postId));
-    }
 
     return (
         <>
@@ -39,9 +31,7 @@ const PostView = (props) => {
                 isLoading 
                 ? <Loader pulse/>
                 : (
-                    post !== undefined
-                    ? <PostContent post={ post } onDeletePostAction={handleDeletePost}/>
-                    : <Navigate to="/blog" />
+                    !!post ? <PostContent post={ post }/> : <Navigate to="/blog" />
                 )
             }
         </>

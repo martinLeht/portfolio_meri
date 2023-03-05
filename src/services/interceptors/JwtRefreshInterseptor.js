@@ -12,8 +12,11 @@ export const jwtAuthTokenRefreshResponseInterceptor = async (error) => {
              */
             case 400:
             case 403:
-                userCachingService.signOut();
-                History.push("/login", { state: {alertMsg: 'Authenticated user session has expired, login again.'}});
+                const origRequest = error.config;
+                if (origRequest && origRequest.headers.contains('Authorization')) {
+                    userCachingService.signOut();
+                    History.push("/login", { state: {alertMsg: 'Authenticated user session has expired, login again.'}});
+                }
                 break;
             default:
                 break;

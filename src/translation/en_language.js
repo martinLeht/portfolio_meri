@@ -9,6 +9,7 @@ export const enTranslations = {
         contact: "Contact",
         blog: "Blog",
         insta: "Insta feed",
+        login: "Login",
         logout: "logout",
         lang: "Lang:"
     },
@@ -34,7 +35,8 @@ export const enTranslations = {
         experience: {
             title: "Experience",
             add_experience: "Add experience",
-            edit_experience: "Edit"
+            edit_experience: "Edit",
+            load_more: "Load more"
         },
         gallery: {
             
@@ -80,6 +82,13 @@ export const enTranslations = {
         recent_posts: {
             title: "Recent posts",
             view_all: "View all"
+        },
+        comment: {
+            require_verification_checkbox: {
+                title: "Verify email on every comment submission",
+                tip: "When this box is checked, you will be required to verify your email on every comment submission. When this box is not checked, "
+                    + "you will be required to verify your email if it has been over 10 days from last verification on new comment submission."
+            }
         }
     },
     insta: {
@@ -107,7 +116,12 @@ export const enTranslations = {
         are_you_sure: "Are you sure?",
         want_to_save: "Do you want to save changes before closing?",
         confirm_delete: "Confirm deletion",
-        want_to_delete: "Do you want to delete this experience?"
+        want_to_delete_experience: "Do you want to delete this experience?",
+        want_to_delete_post: "Do you want to delete this post?",
+        send_email_verification: {
+            title: "Send email verification",
+            body: "Do you want to send a email verification to obtain temporary user access?"
+        }
     },
     general: {
         search: "Search",

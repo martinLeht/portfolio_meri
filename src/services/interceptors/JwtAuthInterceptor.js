@@ -5,12 +5,18 @@ import UserCachingService from '../UserCachingService';
 const userCachingService = new UserCachingService();
 const authService = new AuthenticationService();
 
-export const jwtAuthRequestInterceptor = async (config, ignoreEndpoints = [], methods = ['POST', 'PUT', 'DELETE', 'post','put','delete']) => {
-    if (requestRequiresAuth(config, ignoreEndpoints, methods)) {
+export const DEFAULT_CONFIG = {
+    ignoreEndpoints: [], 
+    methods: ['POST', 'PUT', 'DELETE', 'post','put','delete'],
+    temporaryAccessPaths: []
+}
+
+export const jwtAuthRequestInterceptor = async (config, interceptorConfig) => {
+    if (requestRequiresAuth(config, interceptorConfig)) {
+        // Perform JWT auth
         const authTokens = userCachingService.getAuthTokens();
-        if (authTokens === undefined) {
+        if (!authTokens) {
             userCachingService.signOut();
-            History.push("/login");
             throw new Error('No authentication tokens available! Login to make requests that require authentication.');
         }
         config.headers['Authorization']  = `Bearer ${authTokens.accessToken}`;        
@@ -18,7 +24,7 @@ export const jwtAuthRequestInterceptor = async (config, ignoreEndpoints = [], me
     return config;
 }
 
-export const jwtAuthResponseInterceptor = async (error) => {
+export const jwtAuthResponseInterceptor = async (error, interceptorConfig) => {
     if (error && error.response) {
         switch(error.response.status) {
             /**
@@ -26,11 +32,12 @@ export const jwtAuthResponseInterceptor = async (error) => {
              * - Unauthorized error (401 unauthorized)
              */
             case 401:
-                if (error.config) {
-                    const origRequest = error.config;
-                    if (!origRequest._retry) {
+                const origRequest = error.config;
+                
+                if (origRequest) {
+                    if (!origRequest._retry && origRequest.headers && origRequest.headers.hasOwnProperty('Authorization')) {
                         const authTokens = await authService.refreshAuthTokens();
-                        if (authTokens !== undefined) {
+                        if (authTokens) {
                             origRequest.headers['Authorization'] = `Bearer ${authTokens.accessToken}`;
                             return axios.request(origRequest);
                         }
@@ -49,8 +56,10 @@ export const jwtAuthResponseInterceptor = async (error) => {
     return Promise.reject(error);
 }
 
-export const requestRequiresAuth = (config, ignoreEndpoints = [], methods = ['POST', 'PUT', 'DELETE', 'post','put','delete']) => {
+export const requestRequiresAuth = (config, interceptorConfig) => {
     const method = config.method;
+    const ignoreEndpoints = interceptorConfig?.ignoreEndpoints ? interceptorConfig.ignoreEndpoints : DEFAULT_CONFIG.ignoreEndpoints;
+    const methods = interceptorConfig?.methods ? interceptorConfig.methods : DEFAULT_CONFIG.methods;
 
     if (ignoreEndpoints.length > 0 && ignoreEndpoints.includes(config.url)) {
         return false;

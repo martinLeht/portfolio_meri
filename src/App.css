@@ -28,8 +28,16 @@ blockquote {
 }
 
 /* General Styling */
+.bg-primary-burgundy {
+    background-color: #613B44;
+}
+
 .bg-dark-beige {
     background-color: #d0bba1;
+}
+
+.bg-white {
+    background-color: var(--off-white);
 }
 
 .bg-white-shade {
@@ -101,11 +109,11 @@ blockquote {
 
 /* Colors */
 .primary-color {
-    color: #804d59;
+    color: #613B44;
 }
 
 .primary-bg-color {
-    background-color: #804d59;
+    background-color: #613B44;
 }
 
 /* Fields, Buttons, etc... */
@@ -123,6 +131,13 @@ blockquote {
     top: 10px;
 }
 
+.custom-input-field {
+    color: red;
+    border: none !important;
+    border-bottom: solid !important;
+    border-radius: 0 !important;
+    outline: none !important;
+}
 
 .custom-input,
 .search {
@@ -131,6 +146,8 @@ blockquote {
     border-radius: 0;
     outline: none !important;
 }
+
+
 
 .custom-input:focus,
 .search:focus {

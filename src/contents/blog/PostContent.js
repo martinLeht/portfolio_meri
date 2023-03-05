@@ -1,23 +1,46 @@
 import { useState, useEffect } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { useTranslation } from "react-i18next";
-import { MDBRow, MDBCol, MDBIcon } from "mdb-react-ui-kit";
-import { NavLink } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
+import { MDBBtn, MDBRow, MDBCol, MDBIcon } from "mdb-react-ui-kit";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
-import { useAuthentication } from './../../hooks/useAuthentication';
 import useWindowDimensions from '../../hooks/window-dimensions';
 import HelmetMetaData from '../../components/general/HelmetMetaData';
+import SimpleDialog from "../../components/modal/dialog/SimpleDialog";
 import ImageViewer from '../../components/general/ImageViewer';
+import CommentSection from './comment/CommentSection';
+import { useBlogApi } from '../../api/useBlogApi';
 
 const PostContent = (props) => {
-    const { previewMode, post, onDeletePostAction } = props;
-    
-    const { t } = useTranslation();
-    const { isMobileSize } = useWindowDimensions();
-    const { authenticatedUser, loading } = useAuthentication();
+    const { previewMode, post } = props;
+
+    const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
     const [viewerOpen, setViewerOpen] = useState(false);
     const [imageViewerIndex, setImageViewerIndex] = useState(0);
     const [socialShareQuote, setSocialShareQuote] = useState(""); 
     const [ images, setImages ] = useState([]);
+
+        
+    const { t } = useTranslation();
+    const navigate = useNavigate();
+    const { isMobileSize } = useWindowDimensions();
+    const { keycloak } = useKeycloak();
+    const queryClient = useQueryClient();
+    const { deletePostById } = useBlogApi();
+
+
+    const deletePostHandler = useMutation(postId => deletePostById(postId), {
+        onSuccess: data => {
+          console.log("DATA SUCCESFULLY DELETED");
+        },
+        onError: () => {
+          alert("there was an error");
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries(['posts']);
+        }
+    });
 
 
     useEffect(() => {
@@ -26,6 +49,7 @@ const PostContent = (props) => {
             if (post.attachments) initImagesForViewer();
         } 
     }, [post]);
+
 
     const generateQuoteForSocialShare = () => {
         if (post.content) {
@@ -143,10 +167,6 @@ const PostContent = (props) => {
         return listContent;
     }
 
-    const handleDeletePost = () => {
-        onDeletePostAction();
-    }
-
     const openImageViewerAction = (imgIndex) => {
         setViewerOpen(true);
         setImageViewerIndex(imgIndex);
@@ -165,7 +185,24 @@ const PostContent = (props) => {
                 quote={socialShareQuote}
             />
         );
+    }
+
+    const onDeletePostHandler = () => {
+        setConfirmDeleteDialogOpen(true);
+    }
+
+    const handleConfirmDeleteDialogYesAction = () => {
+        setConfirmDeleteDialogOpen(false);
+        if (post && post.id) {
+            deletePostHandler.mutate(post.id);
+            navigate("/blog");
         }
+        
+    };
+
+    const handleConfirmDeleteDialogCancelAction = () => {
+        setConfirmDeleteDialogOpen(false);
+    };
 
     return (
         <>
@@ -174,36 +211,71 @@ const PostContent = (props) => {
                     <>
                         { initHelmetData() }
                         <MDBRow center className="mx-0 pt-4">
-                            <MDBCol size="9" className="blog-post-title">
+                            <MDBCol size="9" className="blog-post-title border-bottom border-dark border-2">
                                 <MDBRow className={ isMobileSize ? 'd-flex justify-content-center text-center' : 'd-flex justify-content-between text-start'}>
                                     <MDBCol size="8" md="5">
                                         <h1>{ post.title }</h1>
                                         <p>{ post.createdAt }</p>
                                     </MDBCol>
-                                    { 
-                                        authenticatedUser && !previewMode && !loading && (
-                                            <MDBCol center size="7" md="4" className="d-flex justify-content-center">
-                                                <NavLink
-                                                    className="text-dark nav-link"
-                                                    to={ `/blog/posts/${post.id}/edit` }
-                                                >
-                                                    <h6>
-                                                        {t('blog.post.edit')}{' '}<MDBIcon icon='edit' size='sm'/>
-                                                    </h6>
-                                                </NavLink>
-                                                <NavLink
-                                                    className="text-dark nav-link"
-                                                    onClick={ handleDeletePost }
-                                                    to={ `/blog` }
-                                                >
-                                                    <h6>
-                                                        {t('blog.post.delete')}{' '}<MDBIcon icon='trash-alt' size='sm'/>
-                                                    </h6>
-                                                </NavLink> 
-                                            </MDBCol>
-                                        )
+                                    <MDBCol size="7" md="4" center>
+                                        <MDBRow center middle>
+                                            { 
+                                                keycloak.authenticated && !previewMode && (
+                                                    <MDBCol center size="auto" className="d-flex justify-content-center p-2">
+                                                        <NavLink
+                                                            className="text-dark nav-link p-1 me-2"
+                                                            to={ `/blog/posts/${post.id}/edit` }
+                                                        >
+                                                            <h6 className="mb-0">
+                                                                {t('blog.post.edit')}{' '}<MDBIcon icon='edit' size='sm'/>
+                                                            </h6>
+                                                        </NavLink>
+                                                        <MDBBtn
+                                                            outline 
+                                                            color="dark" 
+                                                            size="sm"
+                                                            onClick={ onDeletePostHandler }
+                                                        >
+                                                            {t('blog.post.delete')}{' '}<MDBIcon icon='trash-alt' size='sm' color="danger"/>
+                                                        </MDBBtn>
+                                                    </MDBCol>
+                                                )
 
-                                    }
+                                            }
+                                        </MDBRow>
+                                        <MDBRow center>
+                                            <MDBCol size="auto">Share:</MDBCol>
+                                            <MDBCol size="auto" className="d-flex align-items-center">
+                                                    <FacebookShareButton 
+                                                        url={"https://www.merijohanna.com/blog/posts/" + post.id}
+                                                        quote={post.title + " - Meri Niemi"}
+                                                        className="socialMediaButton"
+                                                    >
+                                                        <MDBIcon size="lg" fab icon="facebook-square" color="primary" />
+                                                    </FacebookShareButton>
+                                            </MDBCol>
+                                            <MDBCol size="auto">
+                                                <TwitterShareButton
+                                                    url={"https://www.merijohanna.com/blog/posts/" + post.id}
+                                                    title={post.title + " - Meri Niemi"}
+                                                    className="socialMediaButton"
+                                                >
+                                                    <MDBIcon size="lg" fab icon="twitter-square" color="info" />
+                                                </TwitterShareButton>
+                                            </MDBCol>
+                                            <MDBCol size="auto">
+                                                <WhatsappShareButton
+                                                    url={"https://www.merijohanna.com/blog/posts/" + post.id}
+                                                    title={post.title + " - Meri Niemi"}
+                                                    separator=":: "
+                                                    className="socialMediaButton"
+                                                >
+                                                    <MDBIcon size="lg" fab icon="whatsapp-square" color="success" />
+                                                </WhatsappShareButton>
+                                            </MDBCol>
+                                        </MDBRow>
+                                        
+                                    </MDBCol>
                                 </MDBRow>
                             </MDBCol>
                         </MDBRow>
@@ -214,40 +286,9 @@ const PostContent = (props) => {
                                 </div>
                             </MDBCol>
                         </MDBRow>
-                        <MDBRow center middle className="mx-0">
-                            <MDBCol size="auto">
-                                <MDBRow className="p-2 text-center border border-dark rounded-pill">
-                                    <MDBCol size="auto" className="d-flex align-items-center">
-                                            <FacebookShareButton 
-                                                url={"https://www.merijohanna.com/blog/posts/" + post.id}
-                                                quote={post.title + " - Meri Niemi"}
-                                                className="socialMediaButton"
-                                            >
-                                                <MDBIcon size="2x" fab icon="facebook-square" color="primary" />
-                                            </FacebookShareButton>
-                                    </MDBCol>
-                                    <MDBCol size="auto">
-                                        <TwitterShareButton
-                                            url={"https://www.merijohanna.com/blog/posts/" + post.id}
-                                            title={post.title + " - Meri Niemi"}
-                                            className="socialMediaButton"
-                                        >
-                                            <MDBIcon size="2x" fab icon="twitter-square" color="info" />
-                                        </TwitterShareButton>
-                                    </MDBCol>
-                                    <MDBCol size="auto">
-                                        <WhatsappShareButton
-                                            url={"https://www.merijohanna.com/blog/posts/" + post.id}
-                                            title={post.title + " - Meri Niemi"}
-                                            separator=":: "
-                                            className="socialMediaButton"
-                                        >
-                                            <MDBIcon size="2x" fab icon="whatsapp-square" color="success" />
-                                        </WhatsappShareButton>
-                                    </MDBCol>
-                                </MDBRow>
-                            </MDBCol>
-                        </MDBRow>
+                        {
+                            !previewMode && post && <CommentSection postId={post.uuid} authorId={post.userId}/>
+                        }
                         {
                             !previewMode && viewerOpen && images.length > 0 && (
                                 <ImageViewer images={ images } 
@@ -255,6 +296,14 @@ const PostContent = (props) => {
                                             onCloseAction={ closeImageViewer } />
                             )
                         }
+                        <SimpleDialog 
+                            title={t('dialog.confirm_delete')}
+                            icon={<MDBIcon fas icon="trash-alt" size="lg" color="danger" />} 
+                            body={t('dialog.want_to_delete_post')} 
+                            open={confirmDeleteDialogOpen} 
+                            onYes={handleConfirmDeleteDialogYesAction}
+                            onCancel={handleConfirmDeleteDialogCancelAction}
+                        />
                     </>
                 )
             }

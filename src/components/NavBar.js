@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useKeycloak } from "@react-keycloak/web";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -14,7 +15,8 @@ const NavBar = () => {
     const [isOpen, setOpen] = useState(false);
     const [isTransparent, setTransparent] = useState(true);
     const [language, setLanguage] = useState();
-    const { authenticatedUser, logout } = useAuthentication();
+    const { keycloak, initialized } = useKeycloak();
+    const { authenticatedUser, logout, login } = useAuthentication();
     const { isMobileSize } = useWindowDimensions();
     const { t, i18n } = useTranslation();
     let navigate = useNavigate();
@@ -58,9 +60,21 @@ const NavBar = () => {
     }
 
     const handleLogout = () => {
+        /*
         logout().then(() => {
             navigate("/");
         });
+        */
+        logout();
+    };
+
+    const handleLogin = () => {
+        /*
+        logout().then(() => {
+            navigate("/");
+        });
+        */
+       login(null);
     };
 
     const changeLanguage = (langKey, langName) => {
@@ -105,16 +119,9 @@ const NavBar = () => {
                         </MDBDropdownMenu>
                     </MDBDropdown>
                     {
-                        authenticatedUser && (
-                            <MDBBtn
-                                className="ms-2"
-                                outline 
-                                color="white" 
-                                size="sm" 
-                                onClick={handleLogout}>
-                                { t("nav.logout") }
-                            </MDBBtn>
-                        )
+                        keycloak.authenticated
+                        ? <MDBBtn className="ms-2" outline color="white" size="sm" onClick={handleLogout}>{ t("nav.logout") }</MDBBtn>
+                        : <MDBBtn className="ms-2" outline color="white" size="sm" onClick={handleLogin}>{ t("nav.login") }</MDBBtn>
                     }
                 </MDBCol>
             </>
@@ -171,16 +178,9 @@ const NavBar = () => {
                                 </MDBDropdown>
                             </div>
                             {
-                                authenticatedUser && (
-                                    <MDBBtn
-                                        className="mt-2"
-                                        outline 
-                                        color="white" 
-                                        size="sm" 
-                                        onClick={handleLogout}>
-                                        { t("nav.logout") }
-                                    </MDBBtn>
-                                )
+                                keycloak.authenticated
+                                ? <MDBBtn className="mt-2" outline color="white" size="sm" onClick={handleLogout}>{ t("nav.logout") }</MDBBtn>
+                                : <MDBBtn className="mt-2" outline color="white" size="sm" onClick={handleLogin}>{ t("nav.login") }</MDBBtn>
                             }
                         </MDBCol>   
                     </MDBRow>

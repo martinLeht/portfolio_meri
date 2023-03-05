@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import AuthenticationService from "../services/AuthenticationService";
-import StorageService from "../services/StorageService";
+import { useKeycloak } from "@react-keycloak/web";
+
+import { useStorageApi } from '../api/useStorageApi';
 
 const useImageUploadHandler = () => {
 
     const [file, setFile] = useState();
     const [error, setError] = useState();
     const [isUploading, setIsUploading] = useState(false);
-
-    const authenticationService = new AuthenticationService();
-    const authenticatedUser = authenticationService.getCurrentUser();
-    const storageService = new StorageService();
+    const { keycloak } = useKeycloak();
+    
+    const { uploadExperienceMedia, deleteExperienceMedia, getExperienceMedia } = useStorageApi();
 
     const uploadImage = async (event, callback) => {
         setIsUploading(true);
@@ -37,8 +37,8 @@ const useImageUploadHandler = () => {
     }
 
     const handleImageUpload = async (fileData) => {
-        if (authenticatedUser) {
-            const data = await storageService.uploadExperienceMedia(fileData);
+        if (keycloak.authenticated) {
+            const data = await uploadExperienceMedia(fileData);
             if (data && data.name && data.src) {
                 return {
                     name: data.name,
@@ -54,7 +54,6 @@ const useImageUploadHandler = () => {
         setIsUploading(true);
         
         const success = await handleImageDelete(fileName);
-        console.log(success);
         
         if (success) setFile(null);
         setIsUploading(false);
@@ -63,8 +62,8 @@ const useImageUploadHandler = () => {
     };
 
     const handleImageDelete = async (fileName) => {
-        if (authenticatedUser) {
-            const data = await storageService.deleteExperienceMedia(fileName);
+        if (keycloak.authenticated) {
+            const data = await deleteExperienceMedia(fileName);
             return !!data;
         }
         return false;
@@ -74,7 +73,6 @@ const useImageUploadHandler = () => {
         setIsUploading(true);
         
         const data = await handleGetImage(fileName);
-        console.log(data);
 
         setFile(data);
         setIsUploading(false);
@@ -83,8 +81,8 @@ const useImageUploadHandler = () => {
     };
 
     const handleGetImage = async (fileName) => {
-        if (authenticatedUser) {
-            const data = await storageService.getExperienceMedia(fileName);
+        if (keycloak.authenticated) {
+            const data = await getExperienceMedia(fileName);
             if (data.name && data.src) {
                 return {
                     name: data.name,
