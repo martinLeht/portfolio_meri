@@ -88,6 +88,14 @@ export const fiTranslations = {
                 title: "Lähetä sähköpostin vahvistus aina kommentoitaessa",
                 tip: "Kun tämä on päällä, järjestelmä vaatii sähköpostin vahvistuksen aina kun lähetetään kommentti. Kun valinta ei ole päällä, " 
                     + "järjestelmä vaatii sähköpostin vahvistusta, jos on kulunut 10 päivää viimeisimmästä vahvistuksesta uuden kommentin lähetyksen hetkestä."
+            },
+            no_comments: "Ei kommentteja vielä",
+            leave_comment: "Jätä kommentti",
+            send_comment: "Lähetä kommentti",
+            author: "Julkaisija",
+            error: {
+                comment_needs_content: "Kommentissa täytyy olle sisältöä",
+                provide_valid_email: "Kommentin lähetys vaatii validin sähköpostiosoitteen!"
             }
         }
     },

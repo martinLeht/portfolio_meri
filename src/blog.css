@@ -176,7 +176,7 @@
     font-size: 0.875em; /* 14px/16=0.875em */
 }
 
-.comment-entry p span {
+.comment-entry p .time {
     float: right;
 }
 

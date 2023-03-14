@@ -88,6 +88,14 @@ export const enTranslations = {
                 title: "Verify email on every comment submission",
                 tip: "When this box is checked, you will be required to verify your email on every comment submission. When this box is not checked, "
                     + "you will be required to verify your email if it has been over 10 days from last verification on new comment submission."
+            },
+            no_comments: "No comments yet",
+            leave_comment: "Leave a comment",
+            send_comment: "Send comment",
+            author: "Author",
+            error: {
+                comment_needs_content: "Comment has to have content",
+                provide_valid_email: "You have to provide a valid email to send a comment!"
             }
         }
     },

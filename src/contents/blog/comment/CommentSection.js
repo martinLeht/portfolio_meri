@@ -57,7 +57,6 @@ const CommentSection = (props) => {
 
     const createCommentHandler = useMutation(data => createComment(data), {
         onSuccess: data => {
-          console.log("Comment SUCCESFULLY CREATED");
           setCommentContent('');
         },
         onError: () => {
@@ -70,10 +69,7 @@ const CommentSection = (props) => {
     });
 
     const updateCommentHandler = useMutation(data => updateComment(data.uuid, data), {
-        onSuccess: data => {
-            console.log(data);
-            console.log("Comment SUCCESFULLY UPDATED");
-        },
+        onSuccess: data => {},
         onError: () => {
             alert("there was an error")
         },
@@ -85,9 +81,7 @@ const CommentSection = (props) => {
     
 
     const deleteCommentHandler = useMutation(id => deleteCommentById(id), {
-        onSuccess: data => {
-            console.log("Comment SUCCESFULLY DELETED");
-        },
+        onSuccess: data => {},
         onError: () => {
             alert("there was an error");
         },
@@ -145,7 +139,7 @@ const CommentSection = (props) => {
             return (
                 <MDBRow className="text-center p-4">
                     <MDBCol>
-                        <h5>No comments yet</h5>
+                        <h5>{t('blog.comment.error.no_comments')}</h5>
                     </MDBCol>
                 </MDBRow>
             );
@@ -203,6 +197,16 @@ const CommentSection = (props) => {
         deleteCommentHandler.mutate(commentId);
     }
 
+    const handleUpdateComment = (commentId) => {
+        const commentDto = {
+            userId: authenticatedUser.user.userId,
+            username: authenticatedUser.user.username,
+            postId: postId,
+            content: commentContent
+        }
+        updateCommentHandler.mutate(commentId);
+    }
+
     const handleSendComment = () => {
         setErrors([]);
         setIsCommentSendLoading(true);
@@ -216,7 +220,7 @@ const CommentSection = (props) => {
                 }
                 createCommentHandler.mutate(commentDto);
             } else {
-                setErrors(['Comment has to have content']);
+                setErrors([t('blog.comment.error.comment_needs_content')]);
             }
             setIsCommentSendLoading(false);            
         } else {
@@ -224,7 +228,7 @@ const CommentSection = (props) => {
             validateEmail(emailToValidate);
             if (!emailToValidate && !validEmail) {
                 setIsCommentSendLoading(false);
-                setErrors(["You have to provide a valid email to send a comment!"]);
+                setErrors([t('blog.comment.error.provide_valid_email')]);
             } else {
                 const tempUserAccessRequest = {
                     email: emailToValidate,
@@ -248,7 +252,7 @@ const CommentSection = (props) => {
                             }
                             createCommentHandler.mutate(commentDto);
                         } else {
-                            setErrors(['Comment has to have content']);
+                            setErrors([t('blog.comment.error.comment_needs_content')]);
                         }
                     }
                 }, err => {
@@ -268,7 +272,7 @@ const CommentSection = (props) => {
         validateEmail(emailToValidate);
         if (!emailToValidate && !validEmail) {
             setIsCommentSendLoading(false);
-            setErrors(["You have to provide a valid email to send a comment!"]);
+            setErrors([t('blog.comment.error.provide_valid_email')]);
         } else {
             const tempUserAccessRequest = {
                 email: emailToValidate,
@@ -290,7 +294,7 @@ const CommentSection = (props) => {
                         }
                         createCommentHandler.mutate(commentDto);
                     } else {
-                        setErrors(['Comment has to have content']);
+                        setErrors([t('blog.comment.error.comment_needs_content')]);
                     }
                 }
             }, err => {
@@ -310,7 +314,7 @@ const CommentSection = (props) => {
         if (keycloak.authenticated) {
             return (
                 <div className="comment-form form-group text-white rounded-4 m-1 p-3 primary-bg-color">
-                    <h4>Leave a comment</h4>   
+                    <h4>{t('blog.comment.leave_comment')}</h4>   
                     {
                         errors.length > 0 && (
                             errors.map(err => <AlertMsg text={err} />)
@@ -342,7 +346,7 @@ const CommentSection = (props) => {
                                 block
                                 disabled={authenticatedUser && (!!commentContent && !!commentContent.trim()) ? false : true}
                                 onClick={handleSendComment}>
-                                Send comment
+                                {t('blog.comment.send_comment')}
                             </MDBBtn>
                         )
                     }
@@ -353,7 +357,7 @@ const CommentSection = (props) => {
             
             return (
                 <div className="comment-form form-group text-white rounded-4 m-1 p-3 primary-bg-color">
-                    <h4>Leave a comment</h4>
+                    <h4>{t('blog.comment.leave_comment')}</h4>
                     {
                         errors.length > 0 && (
                             errors.map(err => <AlertMsg text={err} />)
@@ -416,7 +420,7 @@ const CommentSection = (props) => {
                                 block 
                                 disabled={(temporaryUser || validEmail) && (!!commentContent && !!commentContent.trim()) ? false : true}
                                 onClick={handleSendComment}>
-                                Send comment
+                                {t('blog.comment.send_comment')}
                             </MDBBtn>
                         )
                     }
@@ -425,7 +429,7 @@ const CommentSection = (props) => {
         } else {
             return (
                 <div className="comment-form form-group text-white rounded-4 m-1 p-3 primary-bg-color">
-                    <h4>Leave a comment</h4>
+                    <h4>{t('blog.comment.leave_comment')}</h4>
                     {
                         errors.length > 0 && (
                             errors.map(err => <AlertMsg text={err} />)
@@ -487,7 +491,7 @@ const CommentSection = (props) => {
                                 block 
                                 disabled={(temporaryUser || validEmail) && (!!commentContent && !!commentContent.trim()) ? false : true}
                                 onClick={handleSendComment}>
-                                Send comment
+                                {t('blog.comment.send_comment')}
                             </MDBBtn>
                         )
                     }
