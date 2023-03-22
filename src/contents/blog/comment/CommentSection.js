@@ -175,6 +175,10 @@ const CommentSection = (props) => {
         setUsername(e.target.value);
     }
 
+    const handleUsernameBlur = (e) => {
+        e.target.value === '' ? e.target.classList.remove('active') : e.target.classList.add('active');
+    }
+
     const handleRequireVerificationEverytimeCheckbox = (e) => {
         setRequireVerificationEverytime(!requireVerificationEverytime);
     }
@@ -452,8 +456,10 @@ const CommentSection = (props) => {
                         id='comment-username' 
                         wrapperClass='mb-3' 
                         label='Username'
-                        value={username} 
-                        onChange={handleUsernameChange} />
+                        value={username}
+                        onChange={handleUsernameChange} 
+                        onBlur={handleUsernameBlur}
+                    />
 
                     <MDBRow className="mb-3">
                         <MDBCol size='auto'>

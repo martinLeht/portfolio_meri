@@ -10,6 +10,10 @@ const CommentEntry = (props) => {
     const { keycloak, initialized } = useKeycloak();
     const { t } = useTranslation();
 
+    const handleDelete = () => {
+        onDelete(commentId);
+    }
+
     return (
         <MDBRow center>
             <MDBCol sm="10" lg="9" className="comment-entry border border-1 bg-white rounded my-2 pt-2">
@@ -19,7 +23,7 @@ const CommentEntry = (props) => {
                     <span className="time">
                         {moment(createdAt).fromNow(true)} ago
                         {
-                            keycloak.authenticated && !!onDelete && <MDBIcon far icon="trash-alt" color="danger" className="ms-2" onClick={onDelete}/>
+                            keycloak.authenticated && !!onDelete && <MDBIcon far icon="trash-alt" color="danger" className="ms-2" onClick={handleDelete}/>
                         }
                     </span>
                 </p>
