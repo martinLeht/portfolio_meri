@@ -6,6 +6,7 @@ import { MDBBtn, MDBRow, MDBCol, MDBIcon } from "mdb-react-ui-kit";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
 import useWindowDimensions from '../../hooks/window-dimensions';
+import { useDateFormatter } from '../../hooks/useDateFormatter';
 import HelmetMetaData from '../../components/general/HelmetMetaData';
 import SimpleDialog from "../../components/modal/dialog/SimpleDialog";
 import ImageViewer from '../../components/general/ImageViewer';
@@ -20,9 +21,10 @@ const PostContent = (props) => {
     const [imageViewerIndex, setImageViewerIndex] = useState(0);
     const [socialShareQuote, setSocialShareQuote] = useState(""); 
     const [ images, setImages ] = useState([]);
+    const { formatDateTime } = useDateFormatter();
 
         
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { isMobileSize } = useWindowDimensions();
     const { keycloak } = useKeycloak();
@@ -211,39 +213,44 @@ const PostContent = (props) => {
                     <>
                         { initHelmetData() }
                         <MDBRow center className="mx-0 pt-4">
-                            <MDBCol size="9" className="blog-post-title border-bottom border-dark border-2">
+                            <MDBCol size="9" className="blog-post-title border-bottom border-dark border-1">
                                 <MDBRow className={ isMobileSize ? 'd-flex justify-content-center text-center' : 'd-flex justify-content-between text-start'}>
                                     <MDBCol size="8" md="5">
                                         <h1>{ post.title }</h1>
-                                        <p>{ post.createdAt }</p>
                                     </MDBCol>
-                                    <MDBCol size="7" md="4" center>
-                                        <MDBRow center middle>
-                                            { 
-                                                keycloak.authenticated && !previewMode && (
-                                                    <MDBCol center size="auto" className="d-flex justify-content-center p-2">
-                                                        <NavLink
-                                                            className="text-dark nav-link p-1 me-2"
-                                                            to={ `/blog/posts/${post.id}/edit` }
-                                                        >
-                                                            <h6 className="mb-0">
-                                                                {t('blog.post.edit')}{' '}<MDBIcon icon='edit' size='sm'/>
-                                                            </h6>
-                                                        </NavLink>
-                                                        <MDBBtn
-                                                            outline 
-                                                            color="dark" 
-                                                            size="sm"
-                                                            onClick={ onDeletePostHandler }
-                                                        >
-                                                            {t('blog.post.delete')}{' '}<MDBIcon icon='trash-alt' size='sm' color="danger"/>
-                                                        </MDBBtn>
-                                                    </MDBCol>
-                                                )
+                                        { 
+                                            keycloak.authenticated && !previewMode && (
+                                                <MDBCol center size="auto" className="d-flex justify-content-center p-2">
+                                                    <NavLink
+                                                        className="text-dark nav-link p-1 me-2"
+                                                        to={ `/blog/posts/${post.id}/edit` }
+                                                    >
+                                                        <h6 className="mb-0">
+                                                            {t('blog.post.edit')}{' '}<MDBIcon icon='edit' size='sm'/>
+                                                        </h6>
+                                                    </NavLink>
+                                                    <MDBBtn
+                                                        outline 
+                                                        color="dark" 
+                                                        size="sm"
+                                                        onClick={ onDeletePostHandler }
+                                                    >
+                                                        {t('blog.post.delete')}{' '}<MDBIcon icon='trash-alt' size='sm' color="danger"/>
+                                                    </MDBBtn>
+                                                </MDBCol>
+                                            )
 
-                                            }
-                                        </MDBRow>
-                                        <MDBRow center>
+                                        }   
+                                </MDBRow>
+                            </MDBCol>
+
+                            <MDBCol size="9" className="py-2 border-bottom border-dark border-1">
+                                <MDBRow middle className={ isMobileSize ? 'd-flex justify-content-center text-center' : 'd-flex justify-content-between text-start'}>
+                                    <MDBCol size="auto">
+                                        { post.createdAt }
+                                    </MDBCol>
+                                    <MDBCol size="auto">
+                                        <MDBRow>
                                             <MDBCol size="auto">Share:</MDBCol>
                                             <MDBCol size="auto" className="d-flex align-items-center">
                                                     <FacebookShareButton 
@@ -274,8 +281,8 @@ const PostContent = (props) => {
                                                 </WhatsappShareButton>
                                             </MDBCol>
                                         </MDBRow>
-                                        
                                     </MDBCol>
+                                    
                                 </MDBRow>
                             </MDBCol>
                         </MDBRow>
@@ -287,7 +294,12 @@ const PostContent = (props) => {
                             </MDBCol>
                         </MDBRow>
                         {
-                            !previewMode && post && <CommentSection postId={post.uuid} authorId={post.userId}/>
+
+                            !previewMode && post && (
+                                <MDBRow center className="mx-0">
+                                    <CommentSection postId={post.id} authorId={post.userId}/>
+                                </MDBRow>
+                            )
                         }
                         {
                             !previewMode && viewerOpen && images.length > 0 && (

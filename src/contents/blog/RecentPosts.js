@@ -65,14 +65,14 @@ const RecentPosts = () => {
                     ? (
                         postTags[0].data.slice(0, 3).map((tag) => {
                             return (
-                                <MDBCol className="d-flex justify-content-center my-2" size="auto" key={ tag.postId }>           
+                                <MDBCol className="d-flex justify-content-center my-2" size="auto" key={ tag.id }>           
                                     <BlogPostCard 
                                         className="recent-posts"
                                         img={ tag.thumbnail.link }
                                         title={ tag.postTitle }
                                         postIntro={ tag.postIntro }
                                         createdAt={ tag.createdAt }
-                                        id={ tag.postId }
+                                        id={ tag.id }
                                     />
                                 </MDBCol>   
                             );

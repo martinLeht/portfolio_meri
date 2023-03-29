@@ -103,10 +103,10 @@ const WritePost = (props) => {
         const postContent = JSON.parse(localStorage.getItem('content'));
         if (isInEditMode()) {
             const postDto = convertBlogDataToDto(post.id, title, postContent, authenticatedUser.user.userId);
-            updatePost(Number(postDto.id), postDto).then(newPost => {
+            updatePost(postDto.id, postDto).then(newPost => {
                 if (!newPost) return;
                 queryClient.invalidateQueries(['posts']);
-                navigate("/blog/posts/" + newPost.tag.postId);
+                navigate("/blog/posts/" + newPost.tag.id);
             });
         } else {
             const postDto = convertBlogDataToDto(undefined, title, postContent, authenticatedUser.user.userId);

@@ -1,7 +1,7 @@
-
 import { useTranslation } from "react-i18next";
 import { MDBCard, MDBCardTitle, MDBIcon } from 'mdb-react-ui-kit';
 import { NavLink } from "react-router-dom";
+import { useDateFormatter } from '../../hooks/useDateFormatter';
 
 
 
@@ -11,6 +11,7 @@ const BlogPostCard = (props) => {
     const { t } = useTranslation();    
     const trimmedPostIntro = postIntro.substr(0, 100) + '...';
     const imgPath = "url('" + img + "')";
+    const { formatDateTime } = useDateFormatter();
 
     return(
         <MDBCard

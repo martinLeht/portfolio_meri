@@ -126,6 +126,7 @@ export const enTranslations = {
         confirm_delete: "Confirm deletion",
         want_to_delete_experience: "Do you want to delete this experience?",
         want_to_delete_post: "Do you want to delete this post?",
+        want_to_delete_comment: "Do you want to delete this comment?",
         send_email_verification: {
             title: "Send email verification",
             body: "Do you want to send a email verification to obtain temporary user access?"

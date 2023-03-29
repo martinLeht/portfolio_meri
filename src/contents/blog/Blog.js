@@ -214,7 +214,7 @@ const Blog = () => {
                         title={ latestPostTag.postTitle }
                         postIntro={ latestPostTag.postIntro } 
                         createdAt={ latestPostTag.createdAt } 
-                        id={ latestPostTag.postId } />
+                        id={ latestPostTag.id } />
                 </MDBCol>
             );
         } else {
@@ -231,7 +231,7 @@ const Blog = () => {
                             <HelmetMetaData title={t('blog.title')}/>
                             { renderTopSection() }
                             <SectionSeparator title={t('blog.feed.title')} className="bg-white-shade">
-                                <SearchField disabled={postTags.length < 1 || postTags[0].data.length > 0} onChange={ searchChangeHandler } />
+                                <SearchField disabled={postTags.length < 1 || postTags[0].data.length < 0} onChange={ searchChangeHandler } />
                             </SectionSeparator>
                             { 
                                 isTagsLoading || isTagsSearchLoading
@@ -246,13 +246,13 @@ const Blog = () => {
                                                     postTagsSearch.map(tagsPage => 
                                                         tagsPage.data.map(tag => {
                                                             return (
-                                                                <MDBCol md="4" key={ tag.postId } className="blog-feed-col py-2">                
+                                                                <MDBCol md="4" key={ tag.id } className="blog-feed-col py-2">                
                                                                     <BlogPostCard 
                                                                         img={tag.thumbnail.link}
                                                                         title={ tag.postTitle }
                                                                         postIntro={ tag.postIntro }
                                                                         createdAt={ tag.createdAt }
-                                                                        id={ tag.postId }
+                                                                        id={ tag.id }
                                                                     />
                                                                 </MDBCol>
                                                             );
@@ -275,13 +275,13 @@ const Blog = () => {
                                                     postTags.map(tagsPage => 
                                                         tagsPage.data.map(tag => {
                                                             return (
-                                                                <MDBCol md="12" key={ tag.postId } className="blog-feed-col py-2">                
+                                                                <MDBCol md="12" key={ tag.id } className="blog-feed-col py-2">                
                                                                     <BlogPostCard 
                                                                         img={tag.thumbnail.link}
                                                                         title={ tag.postTitle }
                                                                         postIntro={ tag.postIntro }
                                                                         createdAt={ tag.createdAt }
-                                                                        id={ tag.postId }
+                                                                        id={ tag.id }
                                                                     />
                                                                 </MDBCol>
                                                             );

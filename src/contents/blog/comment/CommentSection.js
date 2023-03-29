@@ -24,7 +24,9 @@ const CommentSection = (props) => {
     const [validEmail, setIsValidEmail] = useState(false);
     const [sendVerificationDialogOpen, setSendVerificationDialogOpen] = useState(false);
     const [commentSendLoading, setIsCommentSendLoading] = useState(false);
+    const [tempUserLoading, setIsTempUserLoading] = useState(false);
     const [errors, setErrors] = useState([]);
+    const [info, setInfo] = useState([]);
     const emailValidationRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const { getPaginatedCommentsByPostId, createComment, updateComment, deleteCommentById } = useCommentApi();
 
@@ -164,11 +166,13 @@ const CommentSection = (props) => {
     }
 
     const handleChangeTemporaryUser = () => {
+        setIsTempUserLoading(true);
         logoutTemporaryUserWithoutReload().then(() => {
             setEmail();
             setIsValidEmail(false);
             setUsername();
-        });
+            
+        }).finally(() => setIsTempUserLoading(false));
     }
 
     const handleUsernameChange = (e) => {
@@ -339,7 +343,7 @@ const CommentSection = (props) => {
                         onChange={handleCommentContentChange} />
 
                     {
-                        commentSendLoading 
+                        commentSendLoading
                         ? <MDBRow center><LoadingSpinner pulse color="white" /></MDBRow>
                         : (
                             <MDBBtn 
@@ -370,7 +374,7 @@ const CommentSection = (props) => {
                     
                     <MDBRow className="mb-3">
                         <MDBCol className="pe-0" center size="1">
-                            <MDBIcon className="text-white" fas icon="edit" onClick={handleChangeTemporaryUser}/>
+                            <MDBIcon className="text-white hover-pointer" fas icon="edit" onClick={handleChangeTemporaryUser}/>
                         </MDBCol>
                         <MDBCol center size="11" className="text-truncate">
                             <h6 className="text-white text-truncate mb-0 p-2 border border-1 border-success rounded">
@@ -413,7 +417,7 @@ const CommentSection = (props) => {
                         value={commentContent} 
                         onChange={handleCommentContentChange} />
                     {
-                        commentSendLoading 
+                        commentSendLoading  || tempUserLoading
                         ? <MDBRow center><LoadingSpinner pulse color="white" /></MDBRow>
                         : (
                             <MDBBtn 
@@ -486,7 +490,7 @@ const CommentSection = (props) => {
                         value={commentContent}
                         onChange={handleCommentContentChange} />
                     {
-                        commentSendLoading 
+                        commentSendLoading  || tempUserLoading
                         ? <MDBRow center><LoadingSpinner pulse color="white" /></MDBRow>
                         : (
                             <MDBBtn 

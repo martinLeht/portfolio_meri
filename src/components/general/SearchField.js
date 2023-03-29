@@ -7,7 +7,7 @@ const SearchField = (props) => {
         <MDBInputGroup noBorder textBefore={<MDBIcon fas icon='search' />}>
             <input
                 disabled={disabled} 
-                className="search bg-shade rounded-pill p-2"
+                className="form-control bg-shade rounded-pill p-2"
                 type='text' 
                 placeholder='Search' 
                 onChange={ onChange }

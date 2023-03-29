@@ -126,6 +126,7 @@ export const fiTranslations = {
         confirm_delete: "Vahvista poistaminen",
         want_to_delete_experience: "Haluatko poistaa kokemuksen?",
         want_to_delete_post: "Haluatko poistaa tämän julkaisun?",
+        want_to_delete_comment: "Haluatko poistaa tämän kommentin?",
         send_email_verification: {
             title: "Sähköposti vahvistus",
             body: "Haluatko lähettää sähköposti vahvistuksen, jotta voit kommentoida julkaisuihin?"
