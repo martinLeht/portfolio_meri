@@ -69,6 +69,7 @@ const ImageCarouselHeader = () => {
 
     return (
         <MDBCarousel
+            className="h-100"
             showControls
             showIndicators
             fade

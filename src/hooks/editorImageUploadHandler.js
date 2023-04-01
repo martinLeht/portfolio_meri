@@ -1,63 +1,62 @@
-import axios from 'axios';
 import { useCallback } from 'react';
 import { Editor, Transforms } from 'slate';
-import AuthenticationService from "../services/AuthenticationService";
-import { jwtAuthRequestInterceptor, jwtAuthResponseInterceptor } from '../services/interceptors/JwtAuthInterceptor';
+import { useKeycloak } from "@react-keycloak/web";
+import { useStorageApi } from '../api/useStorageApi';
 
-const handleImageUpload = (formData, editor) => {
-    const authenticationService = new AuthenticationService();
-    const authenticatedUser = authenticationService.getCurrentUser();
-    let client = axios.create({
-        baseURL: process.env.REACT_APP_IMAGE_STORAGE_API_ENDPOINT,
-        timeout: 10000,
-        headers: { 
-            'Access-Control-Allow-Origin': '*',
-            'content-type': 'multipart/form-data' 
-        }
-    });
-
-    client.interceptors.request.use(jwtAuthRequestInterceptor, err => {
-        Promise.reject(err);
-    });
-    client.interceptors.response.use(response => response, err => jwtAuthResponseInterceptor(err));
+const useImageUpload = (fileData, editor) => {
     
-    if (authenticatedUser) {
-        client.post("/upload", formData).then((res) => {
-            const newImage = Editor.nodes(editor, {
-                match: (node) => node.fileName === res.data.name
-            });
+    const { keycloak } = useKeycloak();
+    const { uploadBlogMedia } = useStorageApi();
 
-            if (newImage === null) return;
-
-            Transforms.setNodes(
-                editor,
-                { 
-                    isUploading: false,
-                    attachment: {
-                        name: res.data.name,
-                        link: res.data.url,
+    const uploadImageFromEditor = (fileData, editor) => {
+        if (keycloak.authenticated) {
+            uploadBlogMedia(fileData).then((data) => {
+                const newImage = Editor.nodes(editor, {
+                    match: (node) => node.fileName === data.name
+                });
+    
+                if (newImage === null) return;
+    
+                Transforms.setNodes(
+                    editor,
+                    { 
+                        isUploading: false,
+                        attachment: {
+                            name: data.name,
+                            link: data.src
+                        }
+                    },
+                    { at: newImage[1] }
+                );
+                Transforms.insertNodes(
+                    editor,
+                    {
+                        type: "paragraph",
+                        children: [
+                            {
+                              text: '',
+                            },
+                        ]
                     }
-                },
-                { at: newImage[1] }
-            );
-            Transforms.insertNodes(
-                editor,
-                {
-                    type: "paragraph",
-                    children: [
-                        {
-                          text: '',
-                        },
-                    ]
-                }
-            );
-        }).catch((error) => {
-            console.log(error);     
-        });
+                );
+            }).catch((error) => {
+                console.log(error);     
+            });
+        } else {
+            console.log("Not authenticated for image uploading");
+        }
+    }
+
+    return {
+        uploadImageFromEditor
     }
 }
 
 const useImageUploadHandler = (editor, previousSelection) => {
+
+
+    const { uploadImageFromEditor } = useImageUpload();
+
     const isFileSizeInLimits = (size) => {
         return size < 1048576;
     }
@@ -68,15 +67,13 @@ const useImageUploadHandler = (editor, previousSelection) => {
         if (files.length === 0) {
             return;
         }
-        const file = files[0];
+        const fileData = files[0];
 
-        if (!isFileSizeInLimits(file.size)) {
+        if (!isFileSizeInLimits(fileData.size)) {
             return;
         }
 
-        const fileName = file.name;
-        const formData = new FormData();
-        formData.append("file", file);
+        const fileName = fileData.name;
 
         Transforms.insertNodes(
             editor,
@@ -94,7 +91,7 @@ const useImageUploadHandler = (editor, previousSelection) => {
                 ]
             },{ at: previousSelection, select: true }
         );
-        handleImageUpload(formData, editor);
+        uploadImageFromEditor(fileData, editor);
 
     },[editor, previousSelection]);
 }

@@ -11,7 +11,6 @@ const DateRange = (props) => {
 
 
     const handleDateRangeChange = useCallback((startDate, endDate) => {
-        console.log("Date range changed");
         onDateRangeChange(startDate, endDate);
     });
 

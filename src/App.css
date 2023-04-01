@@ -28,8 +28,16 @@ blockquote {
 }
 
 /* General Styling */
+.bg-primary-burgundy {
+    background-color: #613B44;
+}
+
 .bg-dark-beige {
     background-color: #d0bba1;
+}
+
+.bg-white {
+    background-color: var(--off-white);
 }
 
 .bg-white-shade {
@@ -101,11 +109,16 @@ blockquote {
 
 /* Colors */
 .primary-color {
-    color: #804d59;
+    color: #613B44;
 }
 
 .primary-bg-color {
-    background-color: #804d59;
+    background-color: #613B44;
+}
+
+/* Cursor */
+.hover-pointer {
+    cursor: pointer;
 }
 
 /* Fields, Buttons, etc... */
@@ -123,8 +136,6 @@ blockquote {
     top: 10px;
 }
 
-
-.custom-input,
 .search {
     border: none;
     border-bottom: solid;
@@ -132,7 +143,7 @@ blockquote {
     outline: none !important;
 }
 
-.custom-input:focus,
+
 .search:focus {
     border-color: #804d59 !important;
     outline: none !important;
@@ -143,7 +154,6 @@ input[type="text"].bg-shade,
 input[type="password"].bg-shade,
 input[type="email"].bg-shade,
 input[type="search"].bg-shade,
-.custom-input.bg-shade,
 .search.bg-shade {
   border: none;
   border-radius: 50px;
@@ -154,7 +164,6 @@ input[type="text"].bg-shade:focus,
 input[type="password"].bg-shade:focus,
 input[type="email"].bg-shade:focus,
 input[type="search"].bg-shade:focus,
-.custom-input.bg-shade:focus,
 .search.bg-shade:focus {
     background-color: var(--off-white);
     border-color: #804d59 !important;
@@ -166,7 +175,6 @@ input[type="text"].bg-dark,
 input[type="password"].bg-dark,
 input[type="email"].bg-dark,
 input[type="search"].bg-dark,
-.custom-input.bg-dark,
 .search.bg-dark {
     color: white;
     background-color: var(--off-dark);
@@ -178,7 +186,6 @@ input[type="text"].bg-dark:focus,
 input[type="password"].bg-dark:focus,
 input[type="email"].bg-dark:focus,
 input[type="search"].bg-dark:focus,
-.custom-input.bg-dark:focus,
 .search.bg-dark:focus {
     color: white;
     background-color: var(--off-dark);
@@ -228,6 +235,15 @@ input[type="search"].bg-dark:focus,
     margin-left: 35px;
     margin-right: 35px;
   }
+}
+
+/* Timeline */
+.timeline-card-content {
+    word-wrap: break-word;
+}
+
+.timeline-card-content.expanded {
+    overflow: auto;
 }
 
 /* Navbar */

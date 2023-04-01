@@ -124,7 +124,7 @@
 }
 
 .blog-post-title {
-    border-bottom: solid 3px #804d59;
+    /*border-bottom: solid 3px black;*/
     min-width: 300px;
 }
 
@@ -157,6 +157,34 @@
     max-width: 350px;
     max-height: 300px;
 }
+
+.comment-section {
+    min-height: 400px;
+}
+
+.comment-entry-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.comment-entry {
+    
+}
+
+.comment-entry p {
+    text-align: left;
+    font-size: 0.875em; /* 14px/16=0.875em */
+}
+
+.comment-entry p .time {
+    float: right;
+}
+
+.comment-form h6 span{
+    float: right;
+}
+
+
 
 
 

@@ -11,7 +11,6 @@ import DateRange from '../general/DateRange';
 import IconButton from '../general/IconButton';
 import LoadingSpinner from '../general/LoadingSpinner';
 import Image from '../general/Image';
-import PortfolioDataService from '../../services/PortfolioDataService';
 
 
 const ExperienceModal = (props) => {
@@ -42,7 +41,6 @@ const ExperienceModal = (props) => {
     const { t } = useTranslation();
     const { authenticatedUser } = useAuthentication();
     const { file, isUploading, uploadImage, deleteImage, getImage } = useImageUploadHandler();
-    const portfolioDataService = new PortfolioDataService();
 
     const experienceTypeOpts = [
         { value: 'WORK', label: 'Work' },
@@ -82,7 +80,7 @@ const ExperienceModal = (props) => {
         if (media && media.name) {
             getImage(media.name, (img) => {
                 let data;
-                if (img && img.name && img.url) {
+                if (img && img.name && img.src) {
                     data = {
                         uuid: experienceData && experienceData.uuid ? experienceData.uuid : null,
                         title: title,
@@ -296,7 +294,7 @@ const ExperienceModal = (props) => {
                                     name='experiencePublicCheck' 
                                     id='experience-public-checkbox' 
                                     label={t('experience_modal.public_checkbox_field')} 
-                                    value={publiclyHidden}
+                                    checked={publiclyHidden}
                                     onChange={handlePublicCheckbox} 
                                 />
                             </MDBCol>
@@ -342,7 +340,7 @@ const ExperienceModal = (props) => {
                                     isUploading 
                                     ? <LoadingSpinner pulse />
                                     : media && (
-                                        <Image src={media.url} name={media.name} onDelete={handleDeleteImage} />
+                                        <Image src={media.src} name={media.name} onDelete={handleDeleteImage} />
                                     )
                                 }
                             </MDBCol>
@@ -372,7 +370,7 @@ const ExperienceModal = (props) => {
             <SimpleDialog 
                 title={t('dialog.confirm_delete')}
                 icon={<MDBIcon fas icon="trash-alt" size="lg" color="danger" />} 
-                body={t('dialog.want_to_delete')} 
+                body={t('dialog.want_to_delete_experience')} 
                 open={confirmDeleteDialogOpen} 
                 onYes={handleConfirmDeleteDialogYesAction}
                 onCancel={handleConfirmDeleteDialogCancelAction}

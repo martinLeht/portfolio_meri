@@ -24,7 +24,7 @@ const About = (props, ref) => {
                     <p>{ t("front_page.about.caption")}</p>
                     <div className="about-content">
                         <MDBRow className={"d-flex justify-content-start about-content-row text-white pt-3" + (isMobileSize ? " rounded border border-2 border-white": "")} >
-                            <MDBCol className={"d-flex flex-column" + (!isMobileSize ? " border-right border-2 border-white" : "")}> 
+                            <MDBCol className={"d-flex flex-column" + (!isMobileSize ? " border-end border-2 border-white" : "")}> 
                                 <h5><b>{ t("front_page.about.values.title")}</b></h5>
                                 <ul>
                                     <li>{ t("front_page.about.values.equality")}</li>

@@ -1,60 +1,39 @@
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
+import { useInfiniteQuery, useQueryClient } from "react-query";
 import { useTranslation } from "react-i18next";
 import { MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { NavLink } from "react-router-dom";
 import useWindowDimensions from '../../hooks/window-dimensions';
 import Loader from '../../components/general/Loader';
-import BlogPostService from '../../services/BlogPostService';
+import { useBlogApi } from '../../api/useBlogApi';
 import BlogPostCard from './BlogPostCard';
+
 
 const RecentPosts = () => {
 
     const [latestPosts, setLatestPosts] = useState([]);
     const { isMobileSize } = useWindowDimensions();
     const { t } = useTranslation();
+    const { getPaginatedTags } = useBlogApi();
 
-    useEffect(() => {
-        const blogPostService = new BlogPostService();
-        blogPostService.getTags().then(postTags => {
-            setLatestPosts(postTags.data.slice(0, 3));
-        }).catch(e => console.error(e.message));
-    }, [setLatestPosts]);
-
-    const renderPosts = () => {
-
-        let content;
-        const hasPosts = (latestPosts !== undefined && latestPosts.length > 0);
-        if (hasPosts) {
-            content = latestPosts.map((tag) => {
-                return (
-                    <MDBCol className="d-flex justify-content-center my-2" size="auto" key={ tag.postId }>           
-                        <BlogPostCard 
-                            className="recent-posts"
-                            img={ tag.thumbnail.link }
-                            title={ tag.postTitle }
-                            postIntro={ tag.postIntro }
-                            createdAt={ tag.createdAt }
-                            id={ tag.postId }
-                        />
-                    </MDBCol>   
-                );
-            })
-        } else {
-            content = (
-                <MDBCol className="text-center p-4">
-                    <h4>{t('blog.feed.no_posts')}</h4>
-                </MDBCol>
-            );
+    const {
+        data: postTagsData, 
+        isLoading, 
+        isError, 
+        error,
+        hasNextPage,
+        fetchNextPage,
+        isFetching,
+        isFetchingNextPage
+    } = useInfiniteQuery(['posts'], (pageConfig) => getPaginatedTags(pageConfig), {
+        getNextPageParam: (lastPage, pages) => {
+            if (lastPage.page === Math.floor(lastPage.totalSize / lastPage.pageSize)) return undefined;
+            else return lastPage.page + 1;
         }
-        
+    })
 
-        return (
-            <MDBRow center>
-                { content }
-            </MDBRow>
-        );
-    }
+    const postTags = isLoading ? [] : postTagsData ? postTagsData.pages : [];
 
     return (
         <>
@@ -78,10 +57,36 @@ const RecentPosts = () => {
                     </MDBRow>
                 </MDBCol>
             </MDBRow>
-            
-            <Suspense fallback={ <Loader pulse /> } >
-                { renderPosts() }
-            </Suspense>
+            { 
+                isLoading
+                ? <Loader pulse />
+                : (
+                    postTags.length > 0 && postTags[0].data.length > 0 
+                    ? (
+                        postTags[0].data.slice(0, 3).map((tag) => {
+                            return (
+                                <MDBCol className="d-flex justify-content-center my-2" size="auto" key={ tag.id }>           
+                                    <BlogPostCard 
+                                        className="recent-posts"
+                                        img={ tag.thumbnail.link }
+                                        title={ tag.postTitle }
+                                        postIntro={ tag.postIntro }
+                                        createdAt={ tag.createdAt }
+                                        id={ tag.id }
+                                    />
+                                </MDBCol>   
+                            );
+                        })
+                    )
+                    : (
+                        <MDBRow center>
+                            <MDBCol className="text-center p-4">
+                                <h4>{t('blog.feed.no_posts')}</h4>
+                            </MDBCol>
+                        </MDBRow>
+                    )
+                )
+            }
         </>
     );
 }

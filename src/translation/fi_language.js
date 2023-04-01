@@ -9,6 +9,7 @@ export const fiTranslations = {
         contact: "Ota Yhteyttä",
         blog: "Blogi",
         insta: "Insta feed",
+        login: "Kirjaudu sisään",
         logout: "Kirjaudu ulos",
         lang: "Kieli:"
     },
@@ -34,7 +35,8 @@ export const fiTranslations = {
         experience: {
             title: "Kokemus",
             add_experience: "Lisää kokemus",
-            edit_experience: "Muokkaa"
+            edit_experience: "Muokkaa",
+            load_more: "Lataa lisää"
         },
         gallery: {
             
@@ -80,6 +82,21 @@ export const fiTranslations = {
         recent_posts: {
             title: "Viimesimmät julkaisut",
             view_all: "Katso kaikki"
+        },
+        comment: {
+            require_verification_checkbox: {
+                title: "Lähetä sähköpostin vahvistus aina kommentoitaessa",
+                tip: "Kun tämä on päällä, järjestelmä vaatii sähköpostin vahvistuksen aina kun lähetetään kommentti. Kun valinta ei ole päällä, " 
+                    + "järjestelmä vaatii sähköpostin vahvistusta, jos on kulunut 10 päivää viimeisimmästä vahvistuksesta uuden kommentin lähetyksen hetkestä."
+            },
+            no_comments: "Ei kommentteja vielä",
+            leave_comment: "Jätä kommentti",
+            send_comment: "Lähetä kommentti",
+            author: "Julkaisija",
+            error: {
+                comment_needs_content: "Kommentissa täytyy olle sisältöä",
+                provide_valid_email: "Kommentin lähetys vaatii validin sähköpostiosoitteen!"
+            }
         }
     },
     insta: {
@@ -107,7 +124,13 @@ export const fiTranslations = {
         are_you_sure: "Oletko varma?",
         want_to_save: "Haluatko tallentaa muutokset ennen sulkemista?",
         confirm_delete: "Vahvista poistaminen",
-        want_to_delete: "Haluatko poistaa kokemuksen?"
+        want_to_delete_experience: "Haluatko poistaa kokemuksen?",
+        want_to_delete_post: "Haluatko poistaa tämän julkaisun?",
+        want_to_delete_comment: "Haluatko poistaa tämän kommentin?",
+        send_email_verification: {
+            title: "Sähköposti vahvistus",
+            body: "Haluatko lähettää sähköposti vahvistuksen, jotta voit kommentoida julkaisuihin?"
+        }
     },
     general: {
         search: "Etsi",

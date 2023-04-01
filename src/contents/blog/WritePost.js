@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
+import { useMutation, useInfiniteQuery, useQueryClient } from "react-query";
 import moment from 'moment'
 import { useParams, useNavigate } from "react-router-dom";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
@@ -8,7 +9,7 @@ import useWindowDimensions from '../../hooks/window-dimensions';
 import { useAuthentication } from './../../hooks/useAuthentication';
 import BlogEditor from "./editor/BlogEditor";
 import ModalWindow from "../../components/modal/ModalWindow";
-import BlogPostService from '../../services/BlogPostService';
+import { useBlogApi } from '../../api/useBlogApi';
 import { convertBlogDataToDto, formatPostContentForEditor } from '../../utils/BlogPostFormatter';
 import PostContent from './PostContent';
 
@@ -24,14 +25,14 @@ const WritePost = (props) => {
     const { t } = useTranslation();
     const { isMobileSize } = useWindowDimensions();    
     const { authenticatedUser } = useAuthentication();
+    const queryClient = useQueryClient();
 
-    const blogPostService = new BlogPostService();
+    const { getPostById, createPost, updatePost } = useBlogApi();
 
     useEffect(() => {
         setLoading(true);
         if (postId !== undefined) {
-            const blogPostService = new BlogPostService();
-            blogPostService.getPostById(postId).then(post => {
+            getPostById(postId).then(post => {
                 setTitle(post.title);
                 setPost(post);
                 setLoading(false);
@@ -102,16 +103,16 @@ const WritePost = (props) => {
         const postContent = JSON.parse(localStorage.getItem('content'));
         if (isInEditMode()) {
             const postDto = convertBlogDataToDto(post.id, title, postContent, authenticatedUser.user.userId);
-            blogPostService.updatePost(Number(postDto.id), postDto).then(newPost => {
+            updatePost(postDto.id, postDto).then(newPost => {
                 if (!newPost) return;
-                newPostHandler(newPost.tag);
-                navigate("/blog/posts/" + newPost.tag.postId);
+                queryClient.invalidateQueries(['posts']);
+                navigate("/blog/posts/" + newPost.tag.id);
             });
         } else {
             const postDto = convertBlogDataToDto(undefined, title, postContent, authenticatedUser.user.userId);
-            blogPostService.createPost(postDto).then(newPost => {
+            createPost(postDto).then(newPost => {
                 if (!newPost) return;
-                newPostHandler(newPost.tag);
+                queryClient.invalidateQueries(['posts']);
                 navigate("/blog");
             });
         }
@@ -121,7 +122,7 @@ const WritePost = (props) => {
         <>
             <MDBRow middle center className="dark-text">
                 <MDBCol size={ isMobileSize ? 'auto' : '8'} lg="3" className="d-inline justify-content-top m-1">
-                    <div className="form-group text-white rounded-4 m-1 p-3 editor-action-panel">
+                    <div className="form-group text-white rounded-4 m-1 p-3 primary-bg-color">
                         <h2>{t('blog.post.write_post.title')}</h2>
                         <MDBInput className="text-white border-1 m-2" value={ initTitle() } size="lg" onChange={ handleTitle } />
                         { renderTimestamps() }

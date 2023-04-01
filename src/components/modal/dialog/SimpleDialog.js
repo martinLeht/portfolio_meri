@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useTranslation } from "react-i18next";
 import ModalWindow from "../ModalWindow";
@@ -40,20 +40,17 @@ const SimpleDialog = (props) => {
 
     }, [open]);
 
-    const onYesAction = useCallback(() => {
-        console.log("Pressed YES");
+    const onYesAction = () => {
         onYes();
-    })
+    }
 
-    const onNoAction = useCallback(() => {
-        console.log("Pressed no...");
+    const onNoAction = () => {
         onNo();
-    })
+    }
 
-    const onCancelAction = useCallback(() => {
-        console.log("Pressed cancel...");
+    const onCancelAction = () => {
         onCancel();
-    })
+    }
 
     return (
         <ModalWindow 
